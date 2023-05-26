@@ -8,7 +8,7 @@
 import Foundation
 
 public final class Test {
-    static func add(a: Int, b: Int) -> Int {
+    public static func add(a: Int, b: Int) -> Int {
         return a + b
     }
 }
