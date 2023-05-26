@@ -11,6 +11,12 @@
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */; };
 		DC501F2E2A1F5DEF004AD49D /* paytrail_ios_sdk.h in Headers */ = {isa = PBXBuildFile; fileRef = DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		DC501F392A1FA2DF004AD49D /* NetworkMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */; };
+		DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */; };
+		DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */; };
+		DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */; };
+		DC501F402A20B5C4004AD49D /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* Test.swift */; };
+		DC501F412A20B5C4004AD49D /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* Test.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -29,6 +35,9 @@
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
 		DC501F272A1F5DEF004AD49D /* paytrail-ios-sdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "paytrail-ios-sdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paytrail_ios_sdkTests.swift; sourceTree = "<group>"; };
+		DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethods.swift; sourceTree = "<group>"; };
+		DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		DC501F3F2A20B5C4004AD49D /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +80,8 @@
 		DC501F1F2A1F5DEF004AD49D /* paytrail-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
+				DC501F372A1FA152004AD49D /* Networking */,
+				DC501F3E2A20AB54004AD49D /* PaytrailAPIs */,
 				DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */,
 				DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */,
 			);
@@ -83,6 +94,23 @@
 				DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */,
 			);
 			path = "paytrail-ios-sdkTests";
+			sourceTree = "<group>";
+		};
+		DC501F372A1FA152004AD49D /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */,
+				DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		DC501F3E2A20AB54004AD49D /* PaytrailAPIs */ = {
+			isa = PBXGroup;
+			children = (
+				DC501F3F2A20B5C4004AD49D /* Test.swift */,
+			);
+			path = PaytrailAPIs;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -195,6 +223,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */,
+				DC501F402A20B5C4004AD49D /* Test.swift in Sources */,
+				DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC501F392A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -203,6 +234,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC501F2D2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift in Sources */,
+				DC501F412A20B5C4004AD49D /* Test.swift in Sources */,
+				DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -359,6 +393,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "qvik.paytrail-ios-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -387,6 +424,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "qvik.paytrail-ios-sdk";
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -396,6 +436,7 @@
 		DC501F352A1F5DEF004AD49D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2RLYKMD3U8;
@@ -412,6 +453,7 @@
 		DC501F362A1F5DEF004AD49D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2RLYKMD3U8;
