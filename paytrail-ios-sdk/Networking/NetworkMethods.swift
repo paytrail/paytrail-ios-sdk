@@ -18,9 +18,11 @@ enum HTTPMethod: String {
 protocol DataRequest {
     associatedtype Response
     var url: String { get }
+    var path: String { get }
     var method: HTTPMethod { get }
     var headers: [String : String] { get }
     var queryItems: [String : String] { get }
+    var body: [String: Any] { get }
     
     func decode(_ data: Data) throws -> Response
 }
@@ -33,11 +35,24 @@ extension DataRequest where Response: Decodable {
 }
 
 extension DataRequest {
+    
+    var url: String {
+        "https://services.paytrail.com" + path
+    }
+    
+    var path: String {
+        ""
+    }
+    
     var headers: [String : String] {
-        [:]
+        ["content-type" : "application/json; charset=utf-8"]
     }
     
     var queryItems: [String : String] {
+        [:]
+    }
+    
+    var body: [String : Any] {
         [:]
     }
 }
