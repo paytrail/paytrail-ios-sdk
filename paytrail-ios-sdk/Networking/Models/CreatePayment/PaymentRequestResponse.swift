@@ -26,7 +26,7 @@ public struct PaymentRequestResponse : Codable {
         case customProviders = "customProviders"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         transactionId = try values.decodeIfPresent(String.self, forKey: .transactionId)
         href = try values.decodeIfPresent(String.self, forKey: .href)

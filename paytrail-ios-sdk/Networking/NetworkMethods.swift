@@ -20,9 +20,9 @@ protocol DataRequest {
     var url: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
-    var headers: [String : String] { get }
-    var queryItems: [String : String] { get }
-    var body: [String: Any] { get }
+    var headers: [String : String] { get set}
+    var queryItems: [String : String] { get set }
+    var body: [String: Any] { get set }
     
     func decode(_ data: Data) throws -> Response
 }

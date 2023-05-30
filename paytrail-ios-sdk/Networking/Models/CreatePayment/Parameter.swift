@@ -17,7 +17,7 @@ public struct Parameter : Codable {
         case value = "value"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         name = try values.decodeIfPresent(String.self, forKey: .name)
         value = try values.decodeIfPresent(String.self, forKey: .value)

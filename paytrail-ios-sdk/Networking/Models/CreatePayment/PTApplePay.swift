@@ -15,7 +15,7 @@ public struct PTApplePay : Codable {
         case parameters = "parameters"
     }
 
-    init(from decoder: Decoder) throws {
+    public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         parameters = try values.decodeIfPresent([Parameter].self, forKey: .parameters)
     }

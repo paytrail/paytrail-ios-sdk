@@ -15,8 +15,8 @@
 		DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */; };
 		DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */; };
 		DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */; };
-		DC501F402A20B5C4004AD49D /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* Test.swift */; };
-		DC501F412A20B5C4004AD49D /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* Test.swift */; };
+		DC501F402A20B5C4004AD49D /* PaytrailAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* PaytrailAPIs.swift */; };
+		DC501F412A20B5C4004AD49D /* PaytrailAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F3F2A20B5C4004AD49D /* PaytrailAPIs.swift */; };
 		DC501F7B2A24B272004AD49D /* PaymentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F7A2A24B272004AD49D /* PaymentRequestBody.swift */; };
 		DC501F7C2A24B272004AD49D /* PaymentRequestBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F7A2A24B272004AD49D /* PaymentRequestBody.swift */; };
 		DC501F8A2A24D652004AD49D /* PaymentRequestResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F892A24D652004AD49D /* PaymentRequestResponse.swift */; };
@@ -31,6 +31,12 @@
 		DC501F972A24D858004AD49D /* PTApplePay.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F952A24D858004AD49D /* PTApplePay.swift */; };
 		DC501F992A24D92D004AD49D /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F982A24D92D004AD49D /* Parameter.swift */; };
 		DC501F9A2A24D92D004AD49D /* Parameter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F982A24D92D004AD49D /* Parameter.swift */; };
+		DC501F9C2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F9B2A24E01B004AD49D /* CreatePaymentAPI.swift */; };
+		DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F9B2A24E01B004AD49D /* CreatePaymentAPI.swift */; };
+		DC501FA02A24E333004AD49D /* CreatePaymentDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F9F2A24E333004AD49D /* CreatePaymentDataRequest.swift */; };
+		DC501FA12A24E333004AD49D /* CreatePaymentDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F9F2A24E333004AD49D /* CreatePaymentDataRequest.swift */; };
+		DC501FA42A25EDD1004AD49D /* JSONHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FA32A25EDD1004AD49D /* JSONHandler.swift */; };
+		DC501FA52A25EDD1004AD49D /* JSONHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FA32A25EDD1004AD49D /* JSONHandler.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,7 +57,7 @@
 		DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paytrail_ios_sdkTests.swift; sourceTree = "<group>"; };
 		DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethods.swift; sourceTree = "<group>"; };
 		DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
-		DC501F3F2A20B5C4004AD49D /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
+		DC501F3F2A20B5C4004AD49D /* PaytrailAPIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaytrailAPIs.swift; sourceTree = "<group>"; };
 		DC501F7A2A24B272004AD49D /* PaymentRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestBody.swift; sourceTree = "<group>"; };
 		DC501F892A24D652004AD49D /* PaymentRequestResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestResponse.swift; sourceTree = "<group>"; };
 		DC501F8C2A24D6C6004AD49D /* Provider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Provider.swift; sourceTree = "<group>"; };
@@ -59,6 +65,9 @@
 		DC501F922A24D7E0004AD49D /* PaymentGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentGroup.swift; sourceTree = "<group>"; };
 		DC501F952A24D858004AD49D /* PTApplePay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PTApplePay.swift; sourceTree = "<group>"; };
 		DC501F982A24D92D004AD49D /* Parameter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parameter.swift; sourceTree = "<group>"; };
+		DC501F9B2A24E01B004AD49D /* CreatePaymentAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentAPI.swift; sourceTree = "<group>"; };
+		DC501F9F2A24E333004AD49D /* CreatePaymentDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentDataRequest.swift; sourceTree = "<group>"; };
+		DC501FA32A25EDD1004AD49D /* JSONHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONHandler.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +110,7 @@
 		DC501F1F2A1F5DEF004AD49D /* paytrail-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
+				DC501FA22A25EDA7004AD49D /* Utils */,
 				DC501F372A1FA152004AD49D /* Networking */,
 				DC501F3E2A20AB54004AD49D /* PaytrailAPIs */,
 				DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */,
@@ -130,7 +140,8 @@
 		DC501F3E2A20AB54004AD49D /* PaytrailAPIs */ = {
 			isa = PBXGroup;
 			children = (
-				DC501F3F2A20B5C4004AD49D /* Test.swift */,
+				DC501F9E2A24E2EA004AD49D /* PaymentsAPIs */,
+				DC501F3F2A20B5C4004AD49D /* PaytrailAPIs.swift */,
 			);
 			path = PaytrailAPIs;
 			sourceTree = "<group>";
@@ -155,6 +166,23 @@
 				DC501F982A24D92D004AD49D /* Parameter.swift */,
 			);
 			path = CreatePayment;
+			sourceTree = "<group>";
+		};
+		DC501F9E2A24E2EA004AD49D /* PaymentsAPIs */ = {
+			isa = PBXGroup;
+			children = (
+				DC501F9B2A24E01B004AD49D /* CreatePaymentAPI.swift */,
+				DC501F9F2A24E333004AD49D /* CreatePaymentDataRequest.swift */,
+			);
+			path = PaymentsAPIs;
+			sourceTree = "<group>";
+		};
+		DC501FA22A25EDA7004AD49D /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				DC501FA32A25EDD1004AD49D /* JSONHandler.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -266,10 +294,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC501F9C2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
 				DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */,
-				DC501F402A20B5C4004AD49D /* Test.swift in Sources */,
+				DC501F402A20B5C4004AD49D /* PaytrailAPIs.swift in Sources */,
 				DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC501FA02A24E333004AD49D /* CreatePaymentDataRequest.swift in Sources */,
 				DC501F8A2A24D652004AD49D /* PaymentRequestResponse.swift in Sources */,
+				DC501FA42A25EDD1004AD49D /* JSONHandler.swift in Sources */,
 				DC501F902A24D750004AD49D /* CustomProvider.swift in Sources */,
 				DC501F992A24D92D004AD49D /* Parameter.swift in Sources */,
 				DC501F8D2A24D6C6004AD49D /* Provider.swift in Sources */,
@@ -284,10 +315,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
 				DC501F2D2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift in Sources */,
-				DC501F412A20B5C4004AD49D /* Test.swift in Sources */,
+				DC501F412A20B5C4004AD49D /* PaytrailAPIs.swift in Sources */,
 				DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC501FA12A24E333004AD49D /* CreatePaymentDataRequest.swift in Sources */,
 				DC501F8B2A24D652004AD49D /* PaymentRequestResponse.swift in Sources */,
+				DC501FA52A25EDD1004AD49D /* JSONHandler.swift in Sources */,
 				DC501F912A24D750004AD49D /* CustomProvider.swift in Sources */,
 				DC501F9A2A24D92D004AD49D /* Parameter.swift in Sources */,
 				DC501F8E2A24D6C6004AD49D /* Provider.swift in Sources */,
