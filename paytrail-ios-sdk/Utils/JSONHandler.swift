@@ -14,3 +14,8 @@ func jsonEncode<T>(of encodable: T) -> [String: Any] where T: Encodable {
     let dict = try? JSONSerialization.jsonObject(with: encoded, options: .mutableContainers) as? [String: Any]
     return dict ?? [:]
 }
+
+func jsonDecode<T>(of type: T.Type, data: Data) throws -> T where T: Decodable {
+    let decoder = JSONDecoder()
+    return try decoder.decode(T.self, from: data)
+}

@@ -6,10 +6,9 @@
 //
 
 import Foundation
-import Combine
 
-public extension PaytrailAPIs {
-    func createPayment(of merchantId: String, secret: String, headers: [String: String], payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+public class PaytrailPaymentAPIs: PaytrailAPIs {    
+    public func createPayment(of merchantId: String, secret: String, headers: [String: String], payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
         let networkService: NetworkService = DefaultNetworkService()
         let body = jsonEncode(of: payload)
         let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body)

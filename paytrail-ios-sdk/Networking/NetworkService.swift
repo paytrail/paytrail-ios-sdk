@@ -56,11 +56,21 @@ final class DefaultNetworkService: NetworkService {
             }
             
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
-                return completion(.failure(NSError()))
+                
+                guard let error = data else {
+                    return completion(.failure(NSError(domain: "Payment Error", code: (response as? HTTPURLResponse)?.statusCode ?? 401, userInfo: nil)))
+                }
+            
+                do {
+                    let decodedError = try jsonDecode(of: PaymentError.self, data: error)
+                    return completion(.failure(NSError(domain: "Payment Error", code: (response as? HTTPURLResponse)?.statusCode ?? 401, userInfo: ["info": decodedError])))
+                } catch let error as NSError {
+                    return completion(.failure(NSError(domain: "Payment Error", code: (response as? HTTPURLResponse)?.statusCode ?? 401, userInfo: ["info": error])))
+                }
             }
             
             guard let data = data else {
-                return completion(.failure(NSError()))
+                return completion(.failure(NSError(domain: "Payment Error", code: response.statusCode, userInfo: nil)))
             }
             
             do {
