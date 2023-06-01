@@ -52,13 +52,13 @@ public struct Item : Codable {
     let units : Int?
     let vatPercentage : Int?
     let productCode : String?
-    let stamp : String?
+    let deliveryDate : String?
     init(unitPrice: Int?, units: Int?, vatPercentage: Int?, productCode: String?, stamp: String?) {
         self.unitPrice = unitPrice
         self.units = units
         self.vatPercentage = vatPercentage
         self.productCode = productCode
-        self.stamp = stamp
+        self.deliveryDate = stamp
     }
 }
 

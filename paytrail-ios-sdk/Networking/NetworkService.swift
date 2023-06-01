@@ -48,7 +48,12 @@ final class DefaultNetworkService: NetworkService {
         var urlRequest = URLRequest(url: url)
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.allHTTPHeaderFields = request.headers
-        urlRequest.httpBody = try? JSONSerialization.data(withJSONObject: request.body)
+        let body = try? JSONSerialization.data(withJSONObject: request.body, options: .prettyPrinted)
+        urlRequest.httpBody = body
+        print(String(data: body!, encoding: .utf8))
+        let hmac = hmacSignature(secret: "SAIPPUAKAUPPIAS", headers: request.headers, body: body)
+        urlRequest.allHTTPHeaderFields!["content-type"] = "application/json; charset=utf-8"
+        urlRequest.allHTTPHeaderFields!["signature"] = hmac
         
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {

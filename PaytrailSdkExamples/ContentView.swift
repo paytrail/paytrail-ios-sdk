@@ -20,21 +20,21 @@ struct ContentView: View {
         .onAppear {
             
             let headers = [
+                "checkout-account": "375917",
                 "checkout-algorithm": "sha256",
                 "checkout-method": "POST",
                 "checkout-nonce": "564635208570151",
-                "checkout-timestamp": "2018-07-06T10:01:31.904Z",
-                "checkout-account": "375917"
+                "checkout-timestamp": "2018-07-06T10:01:31.904Z"
                 ]
             
-            let payload = PaymentRequestBody(stamp: "unique-identifier-for-merchant",
+            let payload = PaymentRequestBody(stamp: "29858472952",
                                              reference: "3759170",
                                              amount: 1525,
                                              currency: "EUR",
                                              language: "FI",
                                              items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-01")],
                                              customer: Customer(email: "test.customer@example.com"),
-                                             redirectUrls: nil,
+                                             redirectUrls: RedirectUrls(success: "google.com", cancel: "google.com"),
                                              callbackUrls: nil)
             PaytrailPaymentAPIs().createPayment(of: "375917", secret: "SAIPPUAKAUPPIAS", headers: headers, payload: payload, completion: { result in
                                                 print(result)

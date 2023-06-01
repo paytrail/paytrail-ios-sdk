@@ -9,20 +9,25 @@ import Foundation
 import CryptoKit
 import CommonCrypto
 
-public func hmacSignature(secret: String, headers: [String: String], body: [String: Any]) -> String {
+public func hmacSignature(secret: String, headers: [String: String], body: Data?) -> String {
     var headerArray: Array<String> = []
     headerArray = headers.filter { (key, value) in
         key.starts(with: "checkout-")
     }.map { (key, value) in
         key + ":" + String(value)
-    }
+    }.sorted { $0 < $1 }
     
-    do {
-        let data = try JSONSerialization.data(withJSONObject: body)
+//    do {
+//        let data = try JSONSerialization.data(withJSONObject: body)
+//        let bodyString = String(data: data , encoding: .utf8)
+//        headerArray.append(bodyString ?? "")
+//    } catch {
+//        print("Invalid request body")
+//    }
+    
+    if let data = body {
         let bodyString = String(data: data , encoding: .utf8)
         headerArray.append(bodyString ?? "")
-    } catch {
-        print("Invalid request body")
     }
     
     let message = headerArray.joined(separator: "\n")
