@@ -27,12 +27,12 @@ struct ContentView: View {
                 "checkout-timestamp": "2018-07-06T10:01:31.904Z"
                 ]
             
-            let payload = PaymentRequestBody(stamp: "29858472952",
+            let payload = PaymentRequestBody(stamp: "29858472969",
                                              reference: "3759170",
                                              amount: 1525,
                                              currency: "EUR",
                                              language: "FI",
-                                             items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-01")],
+                                             items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: RedirectUrls(success: "google.com", cancel: "google.com"),
                                              callbackUrls: nil)

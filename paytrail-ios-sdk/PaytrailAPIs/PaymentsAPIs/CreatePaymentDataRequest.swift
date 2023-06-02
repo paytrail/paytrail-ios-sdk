@@ -10,10 +10,12 @@ import Foundation
 struct CreatePaymentDataRequest: DataRequest {
     
     typealias Response = PaymentRequestResponse
-    
     var headers: [String : String]
-    var body: [String: Any]
+   
+    var body: Data?
     var queryItems: [String : String] = [:]
+    
+    var specialHeader: [String : String]
     
     var path: String {
         "/payments"

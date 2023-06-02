@@ -17,14 +17,6 @@ public func hmacSignature(secret: String, headers: [String: String], body: Data?
         key + ":" + String(value)
     }.sorted { $0 < $1 }
     
-//    do {
-//        let data = try JSONSerialization.data(withJSONObject: body)
-//        let bodyString = String(data: data , encoding: .utf8)
-//        headerArray.append(bodyString ?? "")
-//    } catch {
-//        print("Invalid request body")
-//    }
-    
     if let data = body {
         let bodyString = String(data: data , encoding: .utf8)
         headerArray.append(bodyString ?? "")

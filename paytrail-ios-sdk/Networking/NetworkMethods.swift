@@ -20,9 +20,10 @@ protocol DataRequest {
     var url: String { get }
     var path: String { get }
     var method: HTTPMethod { get }
+    var specialHeader: [String: String] { get set }
     var headers: [String : String] { get set}
     var queryItems: [String : String] { get set }
-    var body: [String: Any] { get set }
+    var body: Data? { get set }
     
     func decode(_ data: Data) throws -> Response
 }
@@ -35,7 +36,6 @@ extension DataRequest where Response: Decodable {
 }
 
 extension DataRequest {
-    
     var url: String {
         "https://services.paytrail.com" + path
     }
@@ -44,15 +44,18 @@ extension DataRequest {
         ""
     }
     
-    var headers: [String : String] {
-        ["content-type" : "application/json; charset=utf-8"]
-    }
-    
     var queryItems: [String : String] {
         [:]
     }
     
-    var body: [String : Any] {
-        [:]
+    var body: Data? {
+        nil
+    }
+    
+    var combinedHeaders: [String: String] {
+        let defaultHeader = ["content-type": "application/json; charset=utf-8"]
+        let combinedHeaders = headers.merging(defaultHeader, uniquingKeysWith: { (first, _) in first }).merging(specialHeader, uniquingKeysWith: { (first, _) in first })
+        return combinedHeaders
     }
 }
+
