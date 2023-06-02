@@ -8,10 +8,20 @@
 import Foundation
 
 public class PaytrailPaymentAPIs: PaytrailAPIs {    
-    public func createPayment(of merchantId: String, secret: String, headers: [String: String], payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+    public func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
         let networkService: NetworkService = DefaultNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
+        
+        let headers = [
+            "checkout-algorithm": "sha256",
+            "checkout-method": "POST",
+            "checkout-nonce": UUID().uuidString,
+            "checkout-timestamp": dataIsoString,
+            "checkout-account": merchantId
+        ]
+        
         let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        
         let speicalHeader = ["signature": signature]
         let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
@@ -22,5 +32,11 @@ public class PaytrailPaymentAPIs: PaytrailAPIs {
                 completion(.failure(error))
             }
         }
+    }
+    
+    var dataIsoString: String {
+        let iso8601DateFormatter = ISO8601DateFormatter()
+        iso8601DateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
+        return iso8601DateFormatter.string(from: Date())
     }
 }

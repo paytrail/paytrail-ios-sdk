@@ -19,15 +19,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             
-            let headers = [
-                "checkout-account": "375917",
-                "checkout-algorithm": "sha256",
-                "checkout-method": "POST",
-                "checkout-nonce": "564635208570151",
-                "checkout-timestamp": "2018-07-06T10:01:31.904Z"
-                ]
-            
-            let payload = PaymentRequestBody(stamp: "29858472969",
+            let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
                                              amount: 1525,
                                              currency: "EUR",
@@ -36,7 +28,7 @@ struct ContentView: View {
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: RedirectUrls(success: "google.com", cancel: "google.com"),
                                              callbackUrls: nil)
-            PaytrailPaymentAPIs().createPayment(of: "375917", secret: "SAIPPUAKAUPPIAS", headers: headers, payload: payload, completion: { result in
+            PaytrailPaymentAPIs().createPayment(of: "375917", secret: "SAIPPUAKAUPPIAS", payload: payload, completion: { result in
                                                 print(result)
                                            })
         }
