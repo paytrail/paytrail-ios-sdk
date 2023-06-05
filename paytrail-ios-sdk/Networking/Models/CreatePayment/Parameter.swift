@@ -7,6 +7,15 @@
 
 import Foundation
 
+
+/// Parameter
+///
+/// Parameter of a PaymentMethodProvider
+///
+/// - Properties:
+///  - name: String? // Name of the form input, e.g. VALUUTTALAJI
+///  - value: String? // Value of the form input, e.g. EUR
+///
 public struct Parameter : Codable {
     let name : String?
     let value : String?

@@ -7,13 +7,25 @@
 
 import Foundation
 
+
+/// PaymentRequestResponse
+///
+/// Response for a successful payment request. Mechant ecom site can then either redirectthe user to the URL given in href, or render the payment provider forms onsite. For each payment method an HTML form needs to be rendered using the parameters returned for each payment method provider.
+///
+///- Properties:
+/// - transactionId: String? // Checkout assigned transaction ID for the payment.
+/// - href: String? // Unique URL to hosted payment gateway
+/// - terms: String? // Text containing a link to the terms of payment
+/// - groups: [PaymentMethodGroup]? // Contains data about the payment method groups. Contains only the groups found in the response's providers. See PaymentGroup
+/// - providers: [PaymentMethodProvider]? // See PaymentMethodProvider
+///
 public struct PaymentRequestResponse : Codable {
     let transactionId : String?
     let href : String?
     let reference : String?
     let terms : String?
-    let groups : [PaymentGroup]?
-    let providers : [Provider]?
+    let groups : [PaymentMethodGroup]?
+    let providers : [PaymentMethodProvider]?
     let customProviders : CustomProvider?
 
     enum CodingKeys: String, CodingKey {
@@ -32,8 +44,8 @@ public struct PaymentRequestResponse : Codable {
         href = try values.decodeIfPresent(String.self, forKey: .href)
         reference = try values.decodeIfPresent(String.self, forKey: .reference)
         terms = try values.decodeIfPresent(String.self, forKey: .terms)
-        groups = try values.decodeIfPresent([PaymentGroup].self, forKey: .groups)
-        providers = try values.decodeIfPresent([Provider].self, forKey: .providers)
+        groups = try values.decodeIfPresent([PaymentMethodGroup].self, forKey: .groups)
+        providers = try values.decodeIfPresent([PaymentMethodProvider].self, forKey: .providers)
         customProviders = try values.decodeIfPresent(CustomProvider.self, forKey: .customProviders)
     }
 

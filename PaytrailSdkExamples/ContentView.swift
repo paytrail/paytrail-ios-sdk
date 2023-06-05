@@ -12,11 +12,13 @@ struct ContentView: View {
     
     @State private var contentText: String = ""
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundColor(.accentColor)
-            Text(contentText)
+        ScrollView {
+            VStack {
+                Image(systemName: "globe")
+                    .imageScale(.large)
+                    .foregroundColor(.accentColor)
+                Text(contentText)
+            }
         }
         .padding()
         .onAppear {
@@ -33,8 +35,14 @@ struct ContentView: View {
             PaytrailPaymentAPIs().createPayment(of: "375917", secret: "SAIPPUAKAUPPIAS", payload: payload, completion: { result in
                 switch result {
                 case .success(let data):
-                    //                    print(data)
-                    contentText = "SUCCESS: \((data as PaymentRequestResponse).transactionId ?? "Unknown transactionId but success")"
+                    contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
+                    "\nhref: \(data.href ?? "")" +
+                    "\nreference: \(data.reference ?? "")" +
+                    "\n\nterms: \(data.terms ?? "")" +
+                    "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
+                    "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")" +
+                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
+                    print(contentText)
                 case .failure(let error as NSError):
                     print(error)
                     contentText = error.userInfo.description

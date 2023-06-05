@@ -1,5 +1,5 @@
 //
-//  PaymentGroup.swift
+//  PaymentMethodGroup.swift
 //  paytrail-ios-sdk
 //
 //  Created by shiyuan on 29.5.2023.
@@ -7,14 +7,21 @@
 
 import Foundation
 
-public struct PaymentGroup : Codable {
+/// PaymentMethodGroup
+///
+/// - Properties:
+///  - id: String? // ID of the group, see PaymentType
+///  - name: String? // Localized name of the group
+///  - icon: String? // URL to the group PNG icon
+///  - svg: String? // URL to the group SVG icon (recommended to be used instead if PNG)
+///
+public struct PaymentMethodGroup : Codable {
     let id : String?
     let name : String?
     let icon : String?
     let svg : String?
 
     enum CodingKeys: String, CodingKey {
-
         case id = "id"
         case name = "name"
         case icon = "icon"
