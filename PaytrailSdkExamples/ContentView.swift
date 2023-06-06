@@ -23,6 +23,8 @@ struct ContentView: View {
         .padding()
         .onAppear {
             
+            let merchant = PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+        
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
                                              amount: 1525,
@@ -32,7 +34,7 @@ struct ContentView: View {
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                              callbackUrls: nil)
-            PaytrailPaymentAPIs().createPayment(of: "375917", secret: "SAIPPUAKAUPPIAS", payload: payload, completion: { result in
+            PaytrailPaymentAPIs().createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
                 switch result {
                 case .success(let data):
                     contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
