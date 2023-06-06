@@ -7,7 +7,14 @@
 
 import Foundation
 
-public class PaytrailPaymentAPIs: PaytrailAPIs {    
+public class PaytrailPaymentAPIs: PaytrailAPIs {
+    
+    /// createPayment method to get payments
+    /// - Parameters:
+    ///   - merchantId: merchant ID, or aggregate merchant ID in shop-in-shops
+    ///   - secret: merchant secret key, or aggregate merchant serect key in shop-in-shops
+    ///   - payload: paylaod data,see PaymentRequestBody
+    ///   - completion: Result<PaymentRequestResponse, Error>
     public func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
         let networkService: NetworkService = DefaultNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
