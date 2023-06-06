@@ -7,7 +7,7 @@
 
 import Foundation
 
-public class PaytrailPaymentAPIs: PaytrailAPIs {
+open class PaytrailPaymentAPIs: PaytrailAPIs {
     
     /// createPayment method to get payments
     /// - Parameters:
