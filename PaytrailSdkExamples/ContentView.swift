@@ -23,7 +23,7 @@ struct ContentView: View {
         .padding()
         .onAppear {
             
-            let merchant = PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+            let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
