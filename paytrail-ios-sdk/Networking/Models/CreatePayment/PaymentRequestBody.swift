@@ -138,7 +138,7 @@ public struct Item: Codable {
         self.units = units
         self.vatPercentage = vatPercentage
         self.productCode = productCode
-        self.deliveryDate = stamp
+        self.deliveryDate = deliveryDate
         self.description = description
         self.category = category
         self.merchant = merchant

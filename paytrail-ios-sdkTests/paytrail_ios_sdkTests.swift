@@ -37,7 +37,7 @@ final class paytrail_ios_sdkTests: XCTestCase {
                                             amount: 1525,
                                             currency: "EUR",
                                             language: "FI",
-                                        items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", merchant: "695874", stamp: "2020-01-12", reference: "3759170")],
+                                        items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", merchant: "695874", stamp: UUID().uuidString, reference: "3759170")],
                                             customer: Customer(email: "test.customer@example.com"),
                                             redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                             callbackUrls: nil)

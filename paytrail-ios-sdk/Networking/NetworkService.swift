@@ -50,7 +50,7 @@ final class DefaultNetworkService: NetworkService {
         urlRequest.httpBody = request.body
         urlRequest.allHTTPHeaderFields = request.combinedHeaders
         //        print(request.combinedHeaders)
-
+        
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
                 return completion(.failure(error))
