@@ -16,6 +16,9 @@ final class paytrail_ios_sdkTests: XCTestCase {
     var payload: PaymentRequestBody!
     var payloadInvalid: PaymentRequestBody!
     var payloadSIS: PaymentRequestBody!
+    var providerImageUrl: String!
+    var providerImageUrlInvalid: String!
+    var providerImageUrlNotFound: String!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -47,10 +50,14 @@ final class paytrail_ios_sdkTests: XCTestCase {
                                             amount: 1525,
                                             currency: "EUR",
                                             language: "FI",
-                                            items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-012")], // invalid
+                                            items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", deliveryDate: "2018-09-012")], // invalid
                                             customer: Customer(email: "test.customer@example.com"),
                                             redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                             callbackUrls: nil)
+        
+        providerImageUrl = "https://resources.paytrail.com/images/payment-method-logos/alandsbanken.png"
+        providerImageUrlInvalid = "payment-method-logos/aldsbanken.png"
+        providerImageUrlNotFound = "https://resources.paytrail.com/images/payment-method-logos/asbanken.png"
         
         
     }
@@ -110,9 +117,53 @@ final class paytrail_ios_sdkTests: XCTestCase {
         }
     }
     
+    
+    /// Test renderPaymentProviderImage API success with a valid url
+    func testRenderPaymentProviderImageSuccess() async {
+        let result = await renderPaymentProviderImageAsync(providerImageUrl)
+        switch result {
+        case .success(let success):
+            XCTAssertFalse(success.size.equalTo(CGSize.zero))
+        case .failure(let failure):
+            XCTFail("Render provider image failed: \(failure.localizedDescription)")
+        }
+    }
+    
+    /// Test renderPaymentProviderImage API with an invalid url
+    func testRenderPaymentProviderImageFailure() async {
+        let result = await renderPaymentProviderImageAsync(providerImageUrlInvalid)
+        switch result {
+        case .success(let success):
+            XCTAssertTrue(success.size.equalTo(CGSize.zero))
+        case .failure(let failure as NSError):
+            print(failure)
+            XCTAssert(failure.code == -1002, "Unsupported URL")
+        }
+    }
+    
+    /// Test renderPaymentProviderImage API with an inaccessible url
+    func testRenderPaymentProviderImageDecodeFailure() async {
+        let result = await renderPaymentProviderImageAsync(providerImageUrlNotFound)
+        switch result {
+        case .success(let success):
+            XCTAssertTrue(success.size.equalTo(CGSize.zero))
+        case .failure(let failure as NSError):
+            print(failure)
+            XCTAssert(failure.code == 403, "Invalid image json")
+        }
+    }
+    
     private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
             paymentsAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
+                continuation.resume(returning: result)
+            }
+        })
+    }
+    
+    private func renderPaymentProviderImageAsync(_ url: String) async -> Result<UIImage, Error> {
+        await withCheckedContinuation({ continuation in
+            paymentsAPIs.renderPaymentProviderImage(by: url) { result in
                 continuation.resume(returning: result)
             }
         })

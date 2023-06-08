@@ -6,10 +6,11 @@
 //
 
 import Foundation
+import UIKit
 
 open class PaytrailPaymentAPIs: PaytrailAPIs {
     
-    /// createPayment method to get payments
+    /// createPayment API to get payments
     /// - Parameters:
     ///   - merchantId: merchant ID, or aggregate merchant ID in shop-in-shops
     ///   - secret: merchant secret key, or aggregate merchant serect key in shop-in-shops
@@ -32,6 +33,23 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         let speicalHeader = ["signature": signature]
         let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    /// renderPaymentProviderImage API to render a provider icon to UIImage
+    /// - Parameters:
+    ///   - url: Payment provider image url
+    ///   - completion: Result<UIImage, Error>) -> Void
+    public func renderPaymentProviderImage(by url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+        let imageRequest = PaymentImageDataRequest(url: url)
+        let networkService: NetworkService = DefaultNetworkService()
+        networkService.request(imageRequest) { result in
             switch result {
             case .success(let success):
                 completion(.success(success))

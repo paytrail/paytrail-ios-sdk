@@ -120,7 +120,7 @@ public struct Customer: Codable {
 ///  - reference: String? // Submerchant reference for the item. Required for shop-in-shop payments, leave out from normal payments, maxLength: 200
 ///  - orderId: String? // Order ID. Used for eg. Collector payments order ID. If not given, merchant reference is used instead, maxLength: 60
 /// - commission: Commission? // See Commission
-public struct Item: Codable {
+public struct Item: Codable, Equatable {
     let unitPrice: Int64
     let units: Int64
     let vatPercentage: Int
@@ -146,6 +146,10 @@ public struct Item: Codable {
         self.reference = reference
         self.orderId = orderId
         self.commission = commission
+    }
+    
+    public static func == (lhs: Item, rhs: Item) -> Bool {
+        lhs.productCode == rhs.productCode
     }
 }
 

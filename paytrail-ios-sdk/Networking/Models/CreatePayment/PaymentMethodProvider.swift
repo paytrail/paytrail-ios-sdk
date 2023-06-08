@@ -21,14 +21,14 @@ import Foundation
 ///  - id: String? // ID of the provider
 ///  - parameters: [Parameter]? // See Parameter
 /// 
-public struct PaymentMethodProvider : Codable {
-    let url : String?
-    let icon : String?
-    let svg : String?
-    let name : String?
-    let group : String?
-    let id : String?
-    let parameters : [Parameter]?
+public struct PaymentMethodProvider: Codable, Equatable, Identifiable {
+    public let url : String?
+    public let icon : String?
+    public let svg : String?
+    public let name : String?
+    public let group : String?
+    public let id : String?
+    public let parameters : [Parameter]?
 
     enum CodingKeys: String, CodingKey {
         case url = "url"
@@ -49,5 +49,9 @@ public struct PaymentMethodProvider : Codable {
         group = try values.decodeIfPresent(String.self, forKey: .group)
         id = try values.decodeIfPresent(String.self, forKey: .id)
         parameters = try values.decodeIfPresent([Parameter].self, forKey: .parameters)
+    }
+    
+    public static func == (lhs: PaymentMethodProvider, rhs: PaymentMethodProvider) -> Bool {
+        lhs.id == rhs.id
     }
 }
