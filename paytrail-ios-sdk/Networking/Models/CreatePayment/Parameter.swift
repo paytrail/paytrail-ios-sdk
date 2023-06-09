@@ -16,12 +16,11 @@ import Foundation
 ///  - name: String? // Name of the form input, e.g. VALUUTTALAJI
 ///  - value: String? // Value of the form input, e.g. EUR
 ///
-public struct Parameter : Codable {
+public struct Parameter: Codable {
     let name : String?
     let value : String?
 
     enum CodingKeys: String, CodingKey {
-
         case name = "name"
         case value = "value"
     }

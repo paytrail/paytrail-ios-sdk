@@ -10,6 +10,7 @@ import paytrail_ios_sdk
 
 struct ContentView: View {
     
+    @Environment(\.openURL) var openURL
     @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var providerImages: [UIImage] = []
@@ -24,7 +25,15 @@ struct ContentView: View {
                 Text("Bloody Providers:")
                     .bold()
                 ForEach(0..<providerImages.count, id: \.self) { index in
-                    Image(uiImage: providerImages[index])
+                    Button {
+                        guard let urlString = providers[index].url, let params = providers[index].parameters, let url = makeUrl(of: urlString, params: params)  else { return }
+                        //                        guard let url = URL(string: providers[index].url ?? "") else  { return }
+                        openURL(url)
+                        
+                    } label: {
+                        Image(uiImage: providerImages[index])
+                    }
+                    
                 }
             }
         }
@@ -72,6 +81,27 @@ struct ContentView: View {
                 }
             })
         }
+    }
+    
+    func makeUrl(of urlString: String, params: [Parameter]) -> URL? {
+        guard var urlComponent = URLComponents(string: urlString) else { return nil }
+        
+        var queryItems: [URLQueryItem] = []
+        
+        params.forEach {
+            let urlQueryItem = URLQueryItem(name: $0.name ?? "", value: $0.value)
+            urlComponent.queryItems?.append(urlQueryItem)
+            queryItems.append(urlQueryItem)
+        }
+        
+        urlComponent.queryItems = queryItems
+        
+        guard let url = urlComponent.url else {
+            return nil
+        }
+        
+        print(url)
+        return url
     }
 }
 
