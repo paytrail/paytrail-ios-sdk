@@ -14,26 +14,44 @@ struct ContentView: View {
     @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var providerImages: [UIImage] = []
+    @State private var currentPaymentUrl: URL?
+    @State private var showingAlert: Bool = false
+    @StateObject private var viewModel = ViewModel()
     private let paymentApis = PaytrailPaymentAPIs()
     var body: some View {
         ScrollView {
             VStack {
-                //                Image(systemName: "globe")
-                //                    .imageScale(.large)
-                //                    .foregroundColor(.accentColor)
-                //                Text(contentText)
                 Text("Bloody Providers:")
                     .bold()
                 ForEach(0..<providerImages.count, id: \.self) { index in
                     Button {
                         guard let urlString = providers[index].url, let params = providers[index].parameters, let url = makeUrl(of: urlString, params: params)  else { return }
-                        //                        guard let url = URL(string: providers[index].url ?? "") else  { return }
-                        openURL(url)
+                        currentPaymentUrl = url
                         
                     } label: {
                         Image(uiImage: providerImages[index])
                     }
                     
+                }
+                .alert("Payment \(viewModel.paymentStatus)", isPresented: $showingAlert) {
+                    Button("Dismiss", role: .cancel) { }
+                }
+            }
+            .fullScreenCover(isPresented: Binding(get: { currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
+                currentPaymentUrl = nil
+            }) {
+                if let url = currentPaymentUrl {
+                    NavigationView {
+                        PaymentWebView(url: url, delegate: viewModel)
+                            .ignoresSafeArea()
+                            .navigationBarTitleDisplayMode(.inline)
+                            .toolbar {
+                                ToolbarItem(placement: .navigationBarLeading) {
+                                    BackButton {                                    currentPaymentUrl = nil
+                                    }
+                                }
+                            }
+                    }
                 }
             }
         }
@@ -50,15 +68,37 @@ struct ContentView: View {
                 }
             }
         })
+        .onChange(of: viewModel.paymentStatus, perform: { newValue in
+            switch PaymentStatus(rawValue: newValue) {
+            case .ok:
+                print("payment ok!")
+                showingAlert = true
+                currentPaymentUrl = nil
+            case .pending:
+                print("payment pending!")
+                currentPaymentUrl = nil
+                showingAlert = true
+            case .delayed:
+                print("payment delayed!")
+                currentPaymentUrl = nil
+                showingAlert = true
+            case .fail:
+                print("payment failed!")
+                currentPaymentUrl = nil
+                showingAlert = true
+            default:
+                print(newValue)
+            }
+        })
         .onAppear {
             let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
-                                             amount: 1525,
+                                             amount: 1025,
                                              currency: "EUR",
                                              language: "FI",
-                                             items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                             items: [Item(unitPrice: 1025, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                              callbackUrls: nil)
@@ -102,6 +142,16 @@ struct ContentView: View {
         
         print(url)
         return url
+    }
+}
+
+extension ContentView {
+    class ViewModel: ObservableObject, PaymentDelegate {
+        @Published var paymentStatus: String = ""
+        func onPaymentStatusChanged(_ status: String) {
+            print("payment status changed: \(status)")
+            paymentStatus = status
+        }
     }
 }
 

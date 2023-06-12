@@ -10,6 +10,8 @@ import UIKit
 
 open class PaytrailPaymentAPIs: PaytrailAPIs {
     
+    var delegate: PaymentDelegate?
+    
     /// createPayment API to get payments
     /// - Parameters:
     ///   - merchantId: merchant ID, or aggregate merchant ID in shop-in-shops
@@ -59,10 +61,33 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         }
     }
     
+    public func initiatePayment(by urlString: String, with parameters: [Parameter]) -> URL? {
+        guard var urlComponent = URLComponents(string: urlString) else { return nil }
+        var queryItems: [URLQueryItem] = []
+        parameters.forEach {
+            let urlQueryItem = URLQueryItem(name: $0.name ?? "", value: $0.value)
+            urlComponent.queryItems?.append(urlQueryItem)
+            queryItems.append(urlQueryItem)
+        }
+        
+        urlComponent.queryItems = queryItems
+        
+        guard let url = urlComponent.url else {
+            return nil
+        }
+        print(url)
+        return url
+    }
+    
     var dateIsoString: String {
         let iso8601DateFormatter = ISO8601DateFormatter()
         iso8601DateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
         return iso8601DateFormatter.string(from: Date())
     }
 
+}
+
+public protocol PaymentDelegate {
+    
+    func onPaymentStatusChanged(_ status: String)
 }
