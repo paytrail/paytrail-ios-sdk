@@ -24,23 +24,6 @@ struct PaymentWebView: UIViewRepresentable {
     }
     
     func updateUIView(_ webView: WKWebView, context: Context) {
-
-//        guard var urlComponent = URLComponents(string: url.absoluteString) else { return }
-//
-//        var queryItems: [URLQueryItem] = []
-//
-//        query.forEach {
-//            let urlQueryItem = URLQueryItem(name: $0.name ?? "", value: $0.value)
-//            urlComponent.queryItems?.append(urlQueryItem)
-//            queryItems.append(urlQueryItem)
-//        }
-//
-//        urlComponent.queryItems = queryItems
-//
-//        guard let url = urlComponent.url else {
-//            return
-//        }
-        print(url)
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
@@ -59,14 +42,21 @@ struct PaymentWebView: UIViewRepresentable {
             self.delegate = delegate
         }
         
-        func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-            //            print(navigationAction.request.url)
-            //            print(navigationAction.request.url?.pathComponents)
-            if let urlString = navigationAction.request.url?.absoluteString {
+        func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+
+            if let urlString = navigationResponse.response.url?.absoluteString {
                 let items = getQueryItems(urlString)
-                print(items)
-    
-                delegate?.onPaymentStatusChanged(items["checkout-status"] ?? "")
+                //                print(items)
+                //                print(navigationResponse.response)
+                guard let status = items["checkout-status"], let signature = items["signature"], signature == hmacSignature(secret: "SAIPPUAKAUPPIAS", headers: items, body: nil) else {
+                    if let _ = items["checkout-status"] {
+                        print("signature dismatch, failing payment")
+                        delegate?.onPaymentStatusChanged(PaymentStatus.fail.rawValue)
+                    }
+                    decisionHandler(.allow)
+                    return
+                }
+                delegate?.onPaymentStatusChanged(status)
             }
             decisionHandler(.allow)
         }

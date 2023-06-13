@@ -25,7 +25,8 @@ struct ContentView: View {
                     .bold()
                 ForEach(0..<providerImages.count, id: \.self) { index in
                     Button {
-                        guard let urlString = providers[index].url, let params = providers[index].parameters, let url = makeUrl(of: urlString, params: params)  else { return }
+                        // 1) Initiate payment provider URL
+                        guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
                         currentPaymentUrl = url
                         
                     } label: {
@@ -33,15 +34,16 @@ struct ContentView: View {
                     }
                     
                 }
-                .alert("Payment \(viewModel.paymentStatus)", isPresented: $showingAlert) {
-                    Button("Dismiss", role: .cancel) { }
-                }
+                //                .alert("Payment \(viewModel.paymentStatus)", isPresented: $showingAlert) {
+                //                    Button("Dismiss", role: .cancel) { }
+                //                }
             }
             .fullScreenCover(isPresented: Binding(get: { currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
                 currentPaymentUrl = nil
             }) {
                 if let url = currentPaymentUrl {
                     NavigationView {
+                        // 2) Load PaymentWebView by the URL and pass a PaymentDelegate for handling payment callbacks
                         PaymentWebView(url: url, delegate: viewModel)
                             .ignoresSafeArea()
                             .navigationBarTitleDisplayMode(.inline)
@@ -100,7 +102,7 @@ struct ContentView: View {
                                              language: "FI",
                                              items: [Item(unitPrice: 1025, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
-                                             redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
+                                             redirectUrls: CallbackUrls(success: "https://www.paytrail.com", cancel: "https://www.paytrail.com"),
                                              callbackUrls: nil)
             paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
                 switch result {
@@ -122,32 +124,12 @@ struct ContentView: View {
             })
         }
     }
-    
-    func makeUrl(of urlString: String, params: [Parameter]) -> URL? {
-        guard var urlComponent = URLComponents(string: urlString) else { return nil }
-        
-        var queryItems: [URLQueryItem] = []
-        
-        params.forEach {
-            let urlQueryItem = URLQueryItem(name: $0.name ?? "", value: $0.value)
-            urlComponent.queryItems?.append(urlQueryItem)
-            queryItems.append(urlQueryItem)
-        }
-        
-        urlComponent.queryItems = queryItems
-        
-        guard let url = urlComponent.url else {
-            return nil
-        }
-        
-        print(url)
-        return url
-    }
 }
 
 extension ContentView {
     class ViewModel: ObservableObject, PaymentDelegate {
         @Published var paymentStatus: String = ""
+        // 3) Handle payment callbacks
         func onPaymentStatusChanged(_ status: String) {
             print("payment status changed: \(status)")
             paymentStatus = status

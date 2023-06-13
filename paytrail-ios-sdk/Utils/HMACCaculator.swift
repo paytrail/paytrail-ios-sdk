@@ -20,6 +20,8 @@ public func hmacSignature(secret: String, headers: [String: String], body: Data?
     if let data = body {
         let bodyString = String(data: data , encoding: .utf8)
         headerArray.append(bodyString ?? "")
+    } else {
+        headerArray.append("")
     }
     
     let message = headerArray.joined(separator: "\n")

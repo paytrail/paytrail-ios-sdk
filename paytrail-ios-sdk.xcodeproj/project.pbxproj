@@ -158,10 +158,17 @@
 		DC3689202A3330A300FB2D71 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				DC3689212A33312300FB2D71 /* PaymentWebView.swift */,
 				DC3689232A37266600FB2D71 /* BackButton.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		DC36892D2A374B6D00FB2D71 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DC3689212A33312300FB2D71 /* PaymentWebView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		DC501F132A1F5DEF004AD49D = {
@@ -187,6 +194,7 @@
 		DC501F1F2A1F5DEF004AD49D /* paytrail-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
+				DC36892D2A374B6D00FB2D71 /* Views */,
 				DC501FA22A25EDA7004AD49D /* Utils */,
 				DC501F372A1FA152004AD49D /* Networking */,
 				DC501F3E2A20AB54004AD49D /* PaytrailAPIs */,

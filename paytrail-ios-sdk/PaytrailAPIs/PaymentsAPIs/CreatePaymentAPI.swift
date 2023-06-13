@@ -61,10 +61,11 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         }
     }
     
-    public func initiatePayment(by urlString: String, with parameters: [Parameter]) -> URL? {
+    public func initiatePaymentUrl(of provider: PaymentMethodProvider) -> URL? {
+        guard let urlString = provider.url, let params = provider.parameters else { return nil }
         guard var urlComponent = URLComponents(string: urlString) else { return nil }
         var queryItems: [URLQueryItem] = []
-        parameters.forEach {
+        params.forEach {
             let urlQueryItem = URLQueryItem(name: $0.name ?? "", value: $0.value)
             urlComponent.queryItems?.append(urlQueryItem)
             queryItems.append(urlQueryItem)
