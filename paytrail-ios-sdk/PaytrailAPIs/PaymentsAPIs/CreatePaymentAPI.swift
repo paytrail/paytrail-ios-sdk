@@ -63,6 +63,8 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
     
     
     /// initiatePaymentUrl API to create a payment provider URL
+    ///
+    /// To be called to start a payment flow
     /// - Parameter provider:PaymentMethodProvider of the URL
     /// - Returns: URL for the given PaymentMethodProvider
     public func initiatePaymentUrl(of provider: PaymentMethodProvider) -> URL? {

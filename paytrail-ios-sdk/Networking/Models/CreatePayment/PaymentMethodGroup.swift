@@ -15,7 +15,7 @@ import Foundation
 ///  - icon: String? // URL to the group PNG icon
 ///  - svg: String? // URL to the group SVG icon (recommended to be used instead if PNG)
 ///
-public struct PaymentMethodGroup : Codable {
+public struct PaymentMethodGroup: Codable, Hashable {
     let id : String?
     let name : String?
     let icon : String?

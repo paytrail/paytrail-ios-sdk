@@ -12,32 +12,47 @@ struct ContentView: View {
     
     @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
+    @State private var groups: [PaymentMethodGroup] = []
     @State private var providerImages: [UIImage] = []
     @State private var currentPaymentUrl: URL?
-    @State private var showingAlert: Bool = false
     @StateObject private var viewModel = ViewModel()
     private let paymentApis = PaytrailPaymentAPIs()
     var body: some View {
-        ScrollView {
-            VStack {
-                Text("Bloody Providers:")
+        ScrollView(showsIndicators: false) {
+            VStack(alignment: .leading) {
+                Text("<Payment Status: \(viewModel.paymentStatus)>\n")
                     .bold()
-                ForEach(0..<providerImages.count, id: \.self) { index in
-                    Button {
-                        // Start the Payment flow:
-                        // 1) Initiate payment provider URL
-                        guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
-                        currentPaymentUrl = url
-                        
-                    } label: {
-                        Image(uiImage: providerImages[index])
+                    .foregroundColor(viewModel.paymentStatus == PaymentStatus.ok.rawValue ? Color.green : Color.red)
+                    .visible(!viewModel.paymentStatus.isEmpty)
+                
+                ForEach(groups, id: \.self) { group in
+                    GroupedGridItem(headerTitle: group.name ?? "") {
+                        ForEach(0..<providerImages.count, id: \.self) { index in
+                            if providers[index].group == group.id {
+                                Button {
+                                    // Start the Payment flow:
+                                    // 1) Initiate payment provider URL
+                                    guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
+                                    currentPaymentUrl = url
+                                    
+                                } label: {
+                                    Image(uiImage: providerImages[index])
+                                }
+                            }
+                            
+                        }
                     }
                     
                 }
-                //                .alert("Payment \(viewModel.paymentStatus)", isPresented: $showingAlert) {
-                //                    Button("Dismiss", role: .cancel) { }
-                //                }
             }
+            .frame(
+              minWidth: 0,
+              maxWidth: .infinity,
+              minHeight: 0,
+              maxHeight: .infinity,
+              alignment: .topLeading
+            )
+            .padding()
             .fullScreenCover(isPresented: Binding(get: { currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
                 currentPaymentUrl = nil
             }) {
@@ -57,7 +72,6 @@ struct ContentView: View {
                 }
             }
         }
-        .padding()
         .onChange(of: providers, perform: { newValue in
             for provider in newValue {
                 paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { result in
@@ -74,20 +88,16 @@ struct ContentView: View {
             switch PaymentStatus(rawValue: newValue) {
             case .ok:
                 print("payment ok!")
-                showingAlert = true
                 currentPaymentUrl = nil
             case .pending:
                 print("payment pending!")
                 currentPaymentUrl = nil
-                showingAlert = true
             case .delayed:
                 print("payment delayed!")
                 currentPaymentUrl = nil
-                showingAlert = true
             case .fail:
                 print("payment failed!")
                 currentPaymentUrl = nil
-                showingAlert = true
             default:
                 print(newValue)
             }
@@ -108,6 +118,7 @@ struct ContentView: View {
                 switch result {
                 case .success(let data):
                     providers = data.providers ?? []
+                    groups = data.groups ?? []
                     contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
                     "\nhref: \(data.href ?? "")" +
                     "\nreference: \(data.reference ?? "")" +
