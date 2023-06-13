@@ -1,6 +1,6 @@
 //
-//  WebView.swift
-//  PaytrailSdkExamples
+//  PaymentWebView.swift
+//  paytrail-ios-sdk
 //
 //  Created by shiyuan on 9.6.2023.
 //
@@ -10,39 +10,49 @@ import Foundation
 import SwiftUI
 import WebKit
 
-struct PaymentWebView: UIViewRepresentable {
-    var url: URL
+
+/// PaymentWebView
+///
+/// A customised WebView for SwiftUI For handling web view responses
+///
+/// **Properties:**
+/// - url: URL - the URL of a request
+/// - method: HTTPMethod - default .get
+/// - headers: [String: String] - request headers, default: ["content-type": "application/json; charset=utf-8"]
+/// - delegate: PaymentDelegate? - PaymentDelegate for handling payment reponses
+///
+public struct PaymentWebView: UIViewRepresentable {
+    let url: URL
     var method: HTTPMethod = .get
     var headers: [String: String] = ["content-type": "application/json; charset=utf-8"]
-    var query: [Parameter] = []
-    var delegate: PaymentDelegate?
+    let delegate: PaymentDelegate?
     
-    func makeUIView(context: Context) -> WKWebView {
+    public func makeUIView(context: Context) -> WKWebView {
         let wKWebView = WKWebView()
         wKWebView.navigationDelegate = context.coordinator
         return wKWebView
     }
     
-    func updateUIView(_ webView: WKWebView, context: Context) {
+    public func updateUIView(_ webView: WKWebView, context: Context) {
         var request = URLRequest(url: url)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
         webView.load(request)
     }
     
-    func makeCoordinator() -> WebViewCoordinator {
+    public func makeCoordinator() -> WebViewCoordinator {
         WebViewCoordinator(self, delegate: delegate)
     }
     
-    class WebViewCoordinator: NSObject, WKNavigationDelegate {
-        var parent: PaymentWebView
-        var delegate: PaymentDelegate?
+    public class WebViewCoordinator: NSObject, WKNavigationDelegate {
+        let parent: PaymentWebView
+        let delegate: PaymentDelegate?
         init(_ parent: PaymentWebView, delegate: PaymentDelegate?) {
             self.parent = parent
             self.delegate = delegate
         }
         
-        func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
+        public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
 
             if let urlString = navigationResponse.response.url?.absoluteString {
                 let items = getQueryItems(urlString)
@@ -60,6 +70,5 @@ struct PaymentWebView: UIViewRepresentable {
             }
             decisionHandler(.allow)
         }
-        
     }
 }

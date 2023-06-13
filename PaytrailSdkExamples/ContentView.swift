@@ -10,7 +10,6 @@ import paytrail_ios_sdk
 
 struct ContentView: View {
     
-    @Environment(\.openURL) var openURL
     @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var providerImages: [UIImage] = []
@@ -25,6 +24,7 @@ struct ContentView: View {
                     .bold()
                 ForEach(0..<providerImages.count, id: \.self) { index in
                     Button {
+                        // Start the Payment flow:
                         // 1) Initiate payment provider URL
                         guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
                         currentPaymentUrl = url

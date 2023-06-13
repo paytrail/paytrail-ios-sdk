@@ -61,6 +61,10 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         }
     }
     
+    
+    /// initiatePaymentUrl API to create a payment provider URL
+    /// - Parameter provider:PaymentMethodProvider of the URL
+    /// - Returns: URL for the given PaymentMethodProvider
     public func initiatePaymentUrl(of provider: PaymentMethodProvider) -> URL? {
         guard let urlString = provider.url, let params = provider.parameters else { return nil }
         guard var urlComponent = URLComponents(string: urlString) else { return nil }
@@ -88,7 +92,14 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
 
 }
 
+
+/// PaymentDelegate
+///
+/// Protocol for handling Payment responses
 public protocol PaymentDelegate {
     
+    /// Handle payment status change
+    /// - Parameter status: status string of a payment flow, see PaymentStatus
+    ///
     func onPaymentStatusChanged(_ status: String)
 }
