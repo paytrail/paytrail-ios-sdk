@@ -32,7 +32,7 @@ struct ContentView: View {
                             if providers[index].group == group.id {
                                 Button {
                                     // Start the Payment flow:
-                                    // 1) Initiate payment provider URL
+                                    // 1) Initiate payment provider URLRequest
                                     guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
                                     viewModel.currentPaymentRequest = request
                                     
@@ -63,7 +63,7 @@ struct ContentView: View {
             }) {
                 if let request = viewModel.currentPaymentRequest {
                     NavigationView {
-                        // 2) Load PaymentWebView by the URL and pass a PaymentDelegate for handling payment callbacks
+                        // 2) Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
                         PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
                             .ignoresSafeArea()
                             .navigationBarTitleDisplayMode(.inline)
