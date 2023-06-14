@@ -83,6 +83,7 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
             return nil
         }
         print(url)
+        print(url.query())
         return url
     }
     

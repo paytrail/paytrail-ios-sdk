@@ -17,15 +17,16 @@ import WebKit
 ///
 /// **Properties:**
 /// - url: URL - the URL of a request
-/// - method: HTTPMethod - default .get
-/// - headers: [String: String] - request headers, default: ["content-type": "application/json; charset=utf-8"]
+/// - method: HTTPMethod - default .post
+/// - headers: [String: String] - request headers, default: ["content-type": "application/x-www-form-urlencoded"]
 /// - delegate: PaymentDelegate? - PaymentDelegate for handling payment reponses
 ///
 public struct PaymentWebView: UIViewRepresentable {
     let url: URL
-    var method: HTTPMethod = .get
-    var headers: [String: String] = ["content-type": "application/json; charset=utf-8"]
+    var method: HTTPMethod = .post
+    var headers: [String: String] = ["content-type": "application/x-www-form-urlencoded"]
     let delegate: PaymentDelegate?
+    private let emptyUrlString: String = "about:blank"
     
     public func makeUIView(context: Context) -> WKWebView {
         let wKWebView = WKWebView()
@@ -34,9 +35,13 @@ public struct PaymentWebView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        var request = URLRequest(url: url)
+        var comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
+        comps?.query = nil
+        guard let shortUrl = URL(string: comps?.string ?? "") else {return}
+        var request = URLRequest(url: shortUrl)
         request.httpMethod = method.rawValue
         request.allHTTPHeaderFields = headers
+        request.httpBody = url.query()?.data(using: .utf8)
         webView.load(request)
     }
     
@@ -55,6 +60,7 @@ public struct PaymentWebView: UIViewRepresentable {
         public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
 
             if let urlString = navigationResponse.response.url?.absoluteString {
+                print("Response url: \(urlString)")
                 let items = getQueryItems(urlString)
                 //                print(items)
                 //                print(navigationResponse.response)
@@ -70,5 +76,15 @@ public struct PaymentWebView: UIViewRepresentable {
             }
             decisionHandler(.allow)
         }
+        
+        public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+            guard let urlString = navigationAction.request.url?.absoluteString, urlString != "about:blank" else {
+                decisionHandler(.cancel)
+                return
+            }
+            decisionHandler(.allow)
+        }
     }
+    
+    
 }

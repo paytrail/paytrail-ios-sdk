@@ -17,6 +17,7 @@ struct ContentView: View {
     @State private var currentPaymentUrl: URL?
     @StateObject private var viewModel = ViewModel()
     private let paymentApis = PaytrailPaymentAPIs()
+
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
@@ -26,18 +27,22 @@ struct ContentView: View {
                     .visible(!viewModel.paymentStatus.isEmpty)
                 
                 ForEach(groups, id: \.self) { group in
-                    GroupedGridItem(headerTitle: group.name ?? "") {
+                    GroupedGrid(headerTitle: group.name ?? "") {
                         ForEach(0..<providerImages.count, id: \.self) { index in
                             if providers[index].group == group.id {
                                 Button {
                                     // Start the Payment flow:
                                     // 1) Initiate payment provider URL
                                     guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
-                                    currentPaymentUrl = url
+                                    viewModel.currentPaymentUrl = url
                                     
                                 } label: {
                                     Image(uiImage: providerImages[index])
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
                                 }
+                                .frame(width: 100, height: 100)
+                                .background(Color.gray.opacity(0.1))
                             }
                             
                         }
@@ -53,10 +58,10 @@ struct ContentView: View {
               alignment: .topLeading
             )
             .padding()
-            .fullScreenCover(isPresented: Binding(get: { currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
-                currentPaymentUrl = nil
+            .fullScreenCover(isPresented: Binding(get: { viewModel.currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
+                viewModel.currentPaymentUrl = nil
             }) {
-                if let url = currentPaymentUrl {
+                if let url = viewModel.currentPaymentUrl {
                     NavigationView {
                         // 2) Load PaymentWebView by the URL and pass a PaymentDelegate for handling payment callbacks
                         PaymentWebView(url: url, delegate: viewModel)
@@ -64,7 +69,8 @@ struct ContentView: View {
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 ToolbarItem(placement: .navigationBarLeading) {
-                                    BackButton {                                    currentPaymentUrl = nil
+                                    BackButton {                                    viewModel.currentPaymentUrl = nil
+                                        viewModel.paymentStatus = ""
                                     }
                                 }
                             }
@@ -88,18 +94,14 @@ struct ContentView: View {
             switch PaymentStatus(rawValue: newValue) {
             case .ok:
                 print("payment ok!")
-                currentPaymentUrl = nil
             case .pending:
                 print("payment pending!")
-                currentPaymentUrl = nil
             case .delayed:
                 print("payment delayed!")
-                currentPaymentUrl = nil
             case .fail:
                 print("payment failed!")
-                currentPaymentUrl = nil
             default:
-                print(newValue)
+                print("Payment none")
             }
         })
         .onAppear {
@@ -107,13 +109,13 @@ struct ContentView: View {
         
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
-                                             amount: 1025,
+                                             amount: 999,
                                              currency: "EUR",
                                              language: "FI",
-                                             items: [Item(unitPrice: 1025, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                             items: [Item(unitPrice: 999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: CallbackUrls(success: "https://www.paytrail.com", cancel: "https://www.paytrail.com"),
-                                             callbackUrls: nil)
+                                             callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"))
             paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
                 switch result {
                 case .success(let data):
@@ -140,10 +142,12 @@ struct ContentView: View {
 extension ContentView {
     class ViewModel: ObservableObject, PaymentDelegate {
         @Published var paymentStatus: String = ""
+        @Published var currentPaymentUrl: URL?
         // 3) Handle payment callbacks
         func onPaymentStatusChanged(_ status: String) {
             print("payment status changed: \(status)")
             paymentStatus = status
+            currentPaymentUrl = nil // Exit payment
         }
     }
 }

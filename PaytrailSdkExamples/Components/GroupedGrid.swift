@@ -8,10 +8,13 @@
 import Foundation
 import SwiftUI
 
-struct GroupedGridItem<Content>: View where Content: View {
+struct GroupedGrid<Content>: View where Content: View {
 
     @State var headerTitle: String = ""
     @ViewBuilder var content: () -> Content
+    private let columns = [
+        GridItem(.adaptive(minimum: 100))
+    ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -19,7 +22,7 @@ struct GroupedGridItem<Content>: View where Content: View {
                 Text(headerTitle)
                     .bold()
             }
-            VStack(alignment: .center) {
+            LazyVGrid(columns: columns, spacing: 20) {
                 content()
             }
         }
@@ -28,7 +31,7 @@ struct GroupedGridItem<Content>: View where Content: View {
 
 struct GroupedListRow_Previews: PreviewProvider {
     static var previews: some View {
-        GroupedGridItem(headerTitle: "header!") {
+        GroupedGrid(headerTitle: "header!") {
             Text("haha")
         }
     }

@@ -13,4 +13,5 @@ public enum PaymentStatus: String {
     case fail
     case pending
     case delayed
+    case none
 }
