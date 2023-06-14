@@ -14,9 +14,9 @@ struct ContentView: View {
     @State private var providers: [PaymentMethodProvider] = []
     @State private var groups: [PaymentMethodGroup] = []
     @State private var providerImages: [UIImage] = []
-    @State private var currentPaymentUrl: URL?
     @StateObject private var viewModel = ViewModel()
     private let paymentApis = PaytrailPaymentAPIs()
+    private let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
 
     var body: some View {
         ScrollView(showsIndicators: false) {
@@ -33,8 +33,8 @@ struct ContentView: View {
                                 Button {
                                     // Start the Payment flow:
                                     // 1) Initiate payment provider URL
-                                    guard let url = paymentApis.initiatePaymentUrl(of: providers[index]) else { return }
-                                    viewModel.currentPaymentUrl = url
+                                    guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
+                                    viewModel.currentPaymentRequest = request
                                     
                                 } label: {
                                     Image(uiImage: providerImages[index])
@@ -58,18 +58,18 @@ struct ContentView: View {
               alignment: .topLeading
             )
             .padding()
-            .fullScreenCover(isPresented: Binding(get: { viewModel.currentPaymentUrl != nil }, set: { _, _ in }), onDismiss: {
-                viewModel.currentPaymentUrl = nil
+            .fullScreenCover(isPresented: Binding(get: { viewModel.currentPaymentRequest != nil }, set: { _, _ in }), onDismiss: {
+                viewModel.currentPaymentRequest = nil
             }) {
-                if let url = viewModel.currentPaymentUrl {
+                if let request = viewModel.currentPaymentRequest {
                     NavigationView {
                         // 2) Load PaymentWebView by the URL and pass a PaymentDelegate for handling payment callbacks
-                        PaymentWebView(url: url, delegate: viewModel)
+                        PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
                             .ignoresSafeArea()
                             .navigationBarTitleDisplayMode(.inline)
                             .toolbar {
                                 ToolbarItem(placement: .navigationBarLeading) {
-                                    BackButton {                                    viewModel.currentPaymentUrl = nil
+                                    BackButton {                                    viewModel.currentPaymentRequest = nil
                                         viewModel.paymentStatus = ""
                                     }
                                 }
@@ -105,8 +105,6 @@ struct ContentView: View {
             }
         })
         .onAppear {
-            let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
-        
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
                                              amount: 999,
@@ -142,12 +140,12 @@ struct ContentView: View {
 extension ContentView {
     class ViewModel: ObservableObject, PaymentDelegate {
         @Published var paymentStatus: String = ""
-        @Published var currentPaymentUrl: URL?
+        @Published var currentPaymentRequest: URLRequest?
         // 3) Handle payment callbacks
         func onPaymentStatusChanged(_ status: String) {
             print("payment status changed: \(status)")
             paymentStatus = status
-            currentPaymentUrl = nil // Exit payment
+            currentPaymentRequest = nil // Exit payment
         }
     }
 }

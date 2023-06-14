@@ -13,20 +13,18 @@ import WebKit
 
 /// PaymentWebView
 ///
-/// A customised WebView for SwiftUI For handling web view responses
+/// A customised WebView for SwiftUI For handling payment web view responses
 ///
 /// **Properties:**
-/// - url: URL - the URL of a request
-/// - method: HTTPMethod - default .post
-/// - headers: [String: String] - request headers, default: ["content-type": "application/x-www-form-urlencoded"]
+/// - request: URLRequest - the URLRequest of the payment provider
 /// - delegate: PaymentDelegate? - PaymentDelegate for handling payment reponses
+/// - merchant: PaytrailMerchant - Current merchant needed for signature validation
 ///
 public struct PaymentWebView: UIViewRepresentable {
-    let url: URL
-    var method: HTTPMethod = .post
-    var headers: [String: String] = ["content-type": "application/x-www-form-urlencoded"]
+    
+    let request: URLRequest
     let delegate: PaymentDelegate?
-    private let emptyUrlString: String = "about:blank"
+    let merchant: PaytrailMerchant
     
     public func makeUIView(context: Context) -> WKWebView {
         let wKWebView = WKWebView()
@@ -35,26 +33,21 @@ public struct PaymentWebView: UIViewRepresentable {
     }
     
     public func updateUIView(_ webView: WKWebView, context: Context) {
-        var comps = URLComponents(url: url, resolvingAgainstBaseURL: false)
-        comps?.query = nil
-        guard let shortUrl = URL(string: comps?.string ?? "") else {return}
-        var request = URLRequest(url: shortUrl)
-        request.httpMethod = method.rawValue
-        request.allHTTPHeaderFields = headers
-        request.httpBody = url.query()?.data(using: .utf8)
         webView.load(request)
     }
     
     public func makeCoordinator() -> WebViewCoordinator {
-        WebViewCoordinator(self, delegate: delegate)
+        WebViewCoordinator(self, delegate: delegate, merchant: merchant)
     }
     
     public class WebViewCoordinator: NSObject, WKNavigationDelegate {
         let parent: PaymentWebView
         let delegate: PaymentDelegate?
-        init(_ parent: PaymentWebView, delegate: PaymentDelegate?) {
+        let merchant: PaytrailMerchant
+        init(_ parent: PaymentWebView, delegate: PaymentDelegate?, merchant: PaytrailMerchant) {
             self.parent = parent
             self.delegate = delegate
+            self.merchant = merchant
         }
         
         public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
@@ -62,11 +55,11 @@ public struct PaymentWebView: UIViewRepresentable {
             if let urlString = navigationResponse.response.url?.absoluteString {
                 print("Response url: \(urlString)")
                 let items = getQueryItems(urlString)
-                //                print(items)
-                //                print(navigationResponse.response)
-                guard let status = items["checkout-status"], let signature = items["signature"], signature == hmacSignature(secret: "SAIPPUAKAUPPIAS", headers: items, body: nil) else {
+                // Validate reponse signature
+                guard let status = items["checkout-status"], let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
                     if let _ = items["checkout-status"] {
-                        print("signature dismatch, failing payment")
+                        print("signature mismatch, failing payment")
+                        // Return payment status fail when signatures mismatch
                         delegate?.onPaymentStatusChanged(PaymentStatus.fail.rawValue)
                     }
                     decisionHandler(.allow)

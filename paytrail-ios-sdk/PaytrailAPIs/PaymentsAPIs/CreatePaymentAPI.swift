@@ -61,14 +61,14 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         }
     }
     
-    
-    /// initiatePaymentUrl API to create a payment provider URL
+    /// initiatePaymentRequest API to create a payment provider URLRequest
     ///
     /// To be called to start a payment flow
-    /// - Parameter provider:PaymentMethodProvider of the URL
-    /// - Returns: URL for the given PaymentMethodProvider
-    public func initiatePaymentUrl(of provider: PaymentMethodProvider) -> URL? {
-        guard let urlString = provider.url, let params = provider.parameters else { return nil }
+    /// - Parameter provider: PaymentMethodProvider of the request
+    /// - Returns: URLRequest for the given PaymentMethodProvider
+    public func initiatePaymentRequest(from provider: PaymentMethodProvider) -> URLRequest? {
+        
+        guard let urlString = provider.url, let params = provider.parameters, let url = URL(string: urlString) else { return nil }
         guard var urlComponent = URLComponents(string: urlString) else { return nil }
         var queryItems: [URLQueryItem] = []
         params.forEach {
@@ -76,15 +76,13 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
             urlComponent.queryItems?.append(urlQueryItem)
             queryItems.append(urlQueryItem)
         }
-        
         urlComponent.queryItems = queryItems
         
-        guard let url = urlComponent.url else {
-            return nil
-        }
-        print(url)
-        print(url.query())
-        return url
+        var request = URLRequest(url: url)
+        request.httpMethod = HTTPMethod.post.rawValue
+        request.allHTTPHeaderFields = ["content-type": "application/x-www-form-urlencoded"]
+        request.httpBody = urlComponent.query?.data(using: .utf8)
+        return request
     }
     
     var dateIsoString: String {
