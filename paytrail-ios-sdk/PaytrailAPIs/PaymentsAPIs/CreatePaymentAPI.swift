@@ -67,8 +67,15 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
     /// - Parameter provider: PaymentMethodProvider of the request
     /// - Returns: URLRequest for the given PaymentMethodProvider
     public func initiatePaymentRequest(from provider: PaymentMethodProvider) -> URLRequest? {
+        guard let urlString = provider.url, let url = URL(string: urlString) else {
+            print("Error,failed initiate payment request, reason: invalid Provider url")
+            return nil
+        }
         
-        guard let urlString = provider.url, let params = provider.parameters, let url = URL(string: urlString) else { return nil }
+        guard let params = provider.parameters, !params.isEmpty else {
+            print("Error,failed initiate payment request, reason: invalid Provider parameters")
+            return nil
+        }
         guard var urlComponent = URLComponents(string: urlString) else { return nil }
         var queryItems: [URLQueryItem] = []
         params.forEach {
@@ -81,7 +88,11 @@ open class PaytrailPaymentAPIs: PaytrailAPIs {
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.allHTTPHeaderFields = ["content-type": "application/x-www-form-urlencoded"]
-        request.httpBody = urlComponent.query?.data(using: .utf8)
+        guard let body = urlComponent.query?.data(using: .utf8), !body.isEmpty else {
+            print("Error,failed initiate payment request, reason: Empty request body")
+            return nil
+        }
+        request.httpBody = body
         return request
     }
     

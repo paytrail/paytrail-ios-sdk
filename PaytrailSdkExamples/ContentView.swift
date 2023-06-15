@@ -117,6 +117,10 @@ struct ContentView: View {
             paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
                 switch result {
                 case .success(let data):
+                    
+                    //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
+                    //                        print(String(data: body, encoding: .utf8)!)
+                    //                    }
                     providers = data.providers ?? []
                     groups = data.groups ?? []
                     contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +

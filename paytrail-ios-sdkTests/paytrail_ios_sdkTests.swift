@@ -19,6 +19,8 @@ final class paytrail_ios_sdkTests: XCTestCase {
     var providerImageUrl: String!
     var providerImageUrlInvalid: String!
     var providerImageUrlNotFound: String!
+    var provider: PaymentMethodProvider!
+    var providerInvalid: PaymentMethodProvider!
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
@@ -59,6 +61,13 @@ final class paytrail_ios_sdkTests: XCTestCase {
         providerImageUrlInvalid = "payment-method-logos/aldsbanken.png"
         providerImageUrlNotFound = "https://resources.paytrail.com/images/payment-method-logos/asbanken.png"
         
+        if let providerData = try? loadProviderJSONData(from: "Provider") {
+            provider = try? jsonDecode(of: PaymentMethodProvider.self, data: providerData)
+        }
+        
+        if let providerData = try? loadProviderJSONData(from: "ProviderInvalid") {
+            providerInvalid = try? jsonDecode(of: PaymentMethodProvider.self, data: providerData)
+        }
         
     }
 
@@ -153,6 +162,28 @@ final class paytrail_ios_sdkTests: XCTestCase {
         }
     }
     
+    /// Test initiatePaymentRequest API with a valid URLRequest return
+    func testInitiatePaymentRequestValid() {
+        guard let provider = provider else {
+            XCTFail("Provider is nil")
+            return
+        }
+
+        let request = paymentsAPIs.initiatePaymentRequest(from: provider)
+        XCTAssert(request?.url != nil && request?.httpBody != nil, "Valid payment request")
+    }
+    
+    /// Test initiatePaymentRequest API with an invalid URLRequest return when provider data is invalid
+    func testInitiatePaymentRequestInvalid() {
+        guard let provider = providerInvalid else {
+            XCTFail("Provider is nil")
+            return
+        }
+        
+        let request = paymentsAPIs.initiatePaymentRequest(from: provider)
+        XCTAssert(request == nil, "Request is nil due to invalid provider data")
+    }
+    
     private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
             paymentsAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
@@ -167,6 +198,13 @@ final class paytrail_ios_sdkTests: XCTestCase {
                 continuation.resume(returning: result)
             }
         })
+    }
+    
+    private func loadProviderJSONData(from file: String) throws -> Data {
+        let filePath = Bundle(for: paytrail_ios_sdkTests.self).path(forResource: file,
+                                                                     ofType: "json")!
+        let fileURL = URL(fileURLWithPath: filePath)
+        return try Data(contentsOf: fileURL)
     }
 
 }

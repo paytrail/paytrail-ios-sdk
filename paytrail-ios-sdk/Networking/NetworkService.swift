@@ -73,7 +73,7 @@ final class DefaultNetworkService: NetworkService {
             guard let data = data else {
                 return completion(.failure(NSError(domain: "Payment Error", code: response.statusCode, userInfo: nil)))
             }
-            
+        
             do {
                 try completion(.success(request.decode(data)))
             } catch let error as NSError {

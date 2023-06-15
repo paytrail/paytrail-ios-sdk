@@ -1,0 +1,82 @@
+{
+  "icon" : "https:\/\/resources.paytrail.com\/images\/payment-method-logos\/alandsbanken.png",
+  "parameters" : [
+    {
+      "name" : "AAB_VERSION",
+      "value" : "0002"
+    },
+    {
+      "name" : "AAB_DATE",
+      "value" : "EXPRESS"
+    },
+    {
+      "name" : "AAB_CONFIRM",
+      "value" : "YES"
+    },
+    {
+      "name" : "AAB_ALG",
+      "value" : "01"
+    },
+    {
+      "name" : "AAB_RCV_NAME",
+      "value" : "Checkout Finland Oy"
+    },
+    {
+      "name" : "AAB_STAMP",
+      "value" : "618535636"
+    },
+    {
+      "name" : "AAB_RCV_ID",
+      "value" : "AABESHOPID"
+    },
+    {
+      "name" : "AAB_RCV_ACCOUNT",
+      "value" : "FI7766010001130855"
+    },
+    {
+      "name" : "AAB_KEYVERS",
+      "value" : "0001"
+    },
+    {
+      "name" : "AAB_LANGUAGE",
+      "value" : "1"
+    },
+    {
+      "name" : "AAB_AMOUNT",
+      "value" : "9,99"
+    },
+    {
+      "name" : "AAB_REF",
+      "value" : "6188609246"
+    },
+    {
+      "name" : "AAB_MSG",
+      "value" : "Markkinointinimi \/ 3759170"
+    },
+    {
+      "name" : "AAB_RETURN",
+      "value" : "https:\/\/services.paytrail.com\/payments\/830aa576-0b65-11ee-8e00-1bbc5195b012\/alandsbanken\/success"
+    },
+    {
+      "name" : "AAB_CANCEL",
+      "value" : "https:\/\/services.paytrail.com\/payments\/830aa576-0b65-11ee-8e00-1bbc5195b012\/alandsbanken\/cancel"
+    },
+    {
+      "name" : "AAB_REJECT",
+      "value" : "https:\/\/services.paytrail.com\/payments\/830aa576-0b65-11ee-8e00-1bbc5195b012\/alandsbanken\/cancel"
+    },
+    {
+      "name" : "AAB_CUR",
+      "value" : "EUR"
+    },
+    {
+      "name" : "AAB_MAC",
+      "value" : "CE36439284985B0589FCF89CF67F831C"
+    }
+  ],
+  "id" : "alandsbanken",
+  "group" : "bank",
+  "svg" : "https:\/\/resources.paytrail.com\/images\/payment-method-logos\/alandsbanken.svg",
+  "name" : "Ålandsbanken",
+  "url" : "https:\/\/online.alandsbanken.fi\/service\/paybutton"
+}

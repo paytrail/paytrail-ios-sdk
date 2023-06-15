@@ -1,0 +1,9 @@
+{
+  "icon" : "https:\/\/resources.paytrail.com\/images\/payment-method-logos\/alandsbanken.png",
+  "parameters" : [],
+  "id" : "alandsbanken",
+  "group" : "bank",
+  "svg" : "https:\/\/resources.paytrail.com\/images\/payment-method-logos\/alandsbanken.svg",
+  "name" : "Ålandsbanken",
+  "url" : "https:\/\/online.alandsbanken.fi\/service\/paybutton"
+}
