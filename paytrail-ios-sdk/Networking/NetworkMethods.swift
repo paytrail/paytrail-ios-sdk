@@ -18,7 +18,7 @@ enum HTTPMethod: String {
 protocol DataRequest {
     associatedtype Response
     var url: String { get }
-    var path: String { get }
+    var path: String { get set }
     var method: HTTPMethod { get }
     var specialHeader: [String: String] { get set }
     var headers: [String : String] { get set}

@@ -8,7 +8,8 @@
 import Foundation
 import UIKit
 
-struct PaymentImageDataRequest: DataRequest {
+public struct PaymentImageDataRequest: DataRequest {
+    var path: String = ""
     var body: Data? = nil
     var queryItems: [String : String] = [:]
     var specialHeader: [String : String] = [:]

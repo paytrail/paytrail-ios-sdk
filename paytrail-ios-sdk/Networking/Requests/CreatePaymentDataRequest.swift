@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct CreatePaymentDataRequest: DataRequest {
+public struct CreatePaymentDataRequest: DataRequest {
     
     typealias Response = PaymentRequestResponse
     var headers: [String : String]
@@ -17,9 +17,7 @@ struct CreatePaymentDataRequest: DataRequest {
     
     var specialHeader: [String : String]
     
-    var path: String {
-        "/payments"
-    }
+    var path: String = "/payments"
     
     var method: HTTPMethod {
         HTTPMethod.post
