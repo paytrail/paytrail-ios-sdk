@@ -9,7 +9,6 @@ import Foundation
 
 public extension PaytrailPaymentAPIs {
     
-    
     /// getPayment API for retrieving an existing payment
     /// - Parameters:
     ///   - merchantId: merchantId, i.e. account
