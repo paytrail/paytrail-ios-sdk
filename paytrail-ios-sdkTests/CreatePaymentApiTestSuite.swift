@@ -1,5 +1,5 @@
 //
-//  paytrail_ios_sdkTests.swift
+//  CreatePaymentApiTestSuite.swift
 //  paytrail-ios-sdkTests
 //
 //  Created by shiyuan on 25.5.2023.
@@ -8,7 +8,7 @@
 import XCTest
 @testable import paytrail_ios_sdk
 
-final class paytrail_ios_sdkTests: XCTestCase {
+final class CreatePaymentApiTestSuite: XCTestCase {
     
     var paymentsAPIs: PaytrailPaymentAPIs!
     var merchant: PaytrailMerchant! // Normal merchant
@@ -201,7 +201,7 @@ final class paytrail_ios_sdkTests: XCTestCase {
     }
     
     private func loadProviderJSONData(from file: String) throws -> Data {
-        let filePath = Bundle(for: paytrail_ios_sdkTests.self).path(forResource: file,
+        let filePath = Bundle(for: CreatePaymentApiTestSuite.self).path(forResource: file,
                                                                      ofType: "json")!
         let fileURL = URL(fileURLWithPath: filePath)
         return try Data(contentsOf: fileURL)

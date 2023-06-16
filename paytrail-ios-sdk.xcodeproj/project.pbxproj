@@ -45,9 +45,10 @@
 		DC36894E2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36894D2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift */; };
 		DC36894F2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36894D2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift */; };
 		DC3689502A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36894D2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift */; };
+		DC3689532A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689512A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
-		DC501F2D2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */; };
+		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
 		DC501F2E2A1F5DEF004AD49D /* paytrail_ios_sdk.h in Headers */ = {isa = PBXBuildFile; fileRef = DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		DC501F392A1FA2DF004AD49D /* NetworkMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */; };
 		DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */; };
@@ -122,11 +123,12 @@
 		DC3689452A3C96B300FB2D71 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
 		DC3689492A3C9AE600FB2D71 /* Currency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Currency.swift; sourceTree = "<group>"; };
 		DC36894D2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaymentDataRequest.swift; sourceTree = "<group>"; };
+		DC3689512A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetPaymentApiTestSuite.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
 		DC501F272A1F5DEF004AD49D /* paytrail-ios-sdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "paytrail-ios-sdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = paytrail_ios_sdkTests.swift; sourceTree = "<group>"; };
+		DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentApiTestSuite.swift; sourceTree = "<group>"; };
 		DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethods.swift; sourceTree = "<group>"; };
 		DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		DC501F7A2A24B272004AD49D /* PaymentRequestBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentRequestBody.swift; sourceTree = "<group>"; };
@@ -263,7 +265,8 @@
 			isa = PBXGroup;
 			children = (
 				DC3689372A3B125500FB2D71 /* Mocks */,
-				DC501F2C2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift */,
+				DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */,
+				DC3689512A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift */,
 			);
 			path = "paytrail-ios-sdkTests";
 			sourceTree = "<group>";
@@ -533,7 +536,7 @@
 			files = (
 				DC501FC72A263249004AD49D /* PaymentError.swift in Sources */,
 				DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
-				DC501F2D2A1F5DEF004AD49D /* paytrail_ios_sdkTests.swift in Sources */,
+				DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */,
 				DC36894F2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */,
 				DC3689352A38709D00FB2D71 /* GroupedGrid.swift in Sources */,
 				DC3689272A373D0900FB2D71 /* UrlStringHandler.swift in Sources */,
@@ -544,6 +547,7 @@
 				DC36892B2A37440100FB2D71 /* PaymentStatus.swift in Sources */,
 				DC501FA12A24E333004AD49D /* CreatePaymentDataRequest.swift in Sources */,
 				DC501F8B2A24D652004AD49D /* PaymentRequestResponse.swift in Sources */,
+				DC3689532A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift in Sources */,
 				DC501FA52A25EDD1004AD49D /* JSONHandler.swift in Sources */,
 				DC501F912A24D750004AD49D /* CustomProvider.swift in Sources */,
 				DC501F9A2A24D92D004AD49D /* Parameter.swift in Sources */,
