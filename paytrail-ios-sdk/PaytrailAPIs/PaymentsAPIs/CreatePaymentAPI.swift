@@ -97,15 +97,3 @@ open class PaytrailPaymentAPIs {
     }
 
 }
-
-
-/// PaymentDelegate
-///
-/// Protocol for handling Payment responses
-public protocol PaymentDelegate {
-    
-    /// Handle payment status change
-    /// - Parameter status: status string of a payment flow, see PaymentStatus
-    ///
-    func onPaymentStatusChanged(_ status: String)
-}

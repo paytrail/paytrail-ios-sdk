@@ -46,12 +46,19 @@ extension DataRequest {
         ""
     }
     
+    var headers: [String: String] {
+        get { [:] }
+        set { headers = [:] }
+    }
+    
     var queryItems: [String : String] {
-        [:]
+        get { [:] }
+        set { queryItems = [:] }
     }
     
     var body: Data? {
-        nil
+        get { nil }
+        set { body = nil }
     }
     
     var combinedHeaders: [String: String] {

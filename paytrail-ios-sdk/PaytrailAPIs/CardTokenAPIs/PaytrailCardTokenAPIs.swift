@@ -11,6 +11,15 @@ open class PaytrailCardTokenAPIs {
     
     let addCardTokenEndpoint: String = "/tokenization/addcard-form"
         
+    
+    /// initiateCardTokenizationRequest API to create an add-card-form request
+    /// - Parameters:
+    ///   - merchantId: merchant id, i.e. account
+    ///   - secret: merchant secret
+    ///   - redirectUrls: Redirect Urls after add-card succeeded or failed
+    ///   - callbackUrls: Callback Urls (optional) after add-card succeeded or failed
+    ///   - language: The preferred language to load the add-card form, default EN
+    /// - Returns: add-card-form URLRequest
     public func initiateCardTokenizationRequest(of merchantId: String,
                                                 secret: String,
                                                 redirectUrls: CallbackUrls,
@@ -62,4 +71,32 @@ open class PaytrailCardTokenAPIs {
         return request
     }
     
+    func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
+        
+        let networkService: NetworkService = DefaultNetworkService()
+        
+        let headers = [
+            "checkout-algorithm": "sha256",
+            "checkout-method": "POST",
+            "checkout-nonce": UUID().uuidString,
+            "checkout-timestamp": getCurrentDateIsoString(),
+            "checkout-account": merchantId,
+            "checkout-tokenization-id": tokenizedId
+        ]
+        
+        let signature = hmacSignature(secret: secret, headers: headers, body: nil)
+        let path = "/tokenization/\(tokenizedId)"
+        let speicalHeader = ["signature": signature]
+        let dataRequest: CardTokenizationRequest = CardTokenizationRequest(path: path, headers: headers, specialHeader: speicalHeader)
+        networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+    }
+     
 }
