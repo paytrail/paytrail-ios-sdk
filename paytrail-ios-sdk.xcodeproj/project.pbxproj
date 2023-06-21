@@ -70,6 +70,8 @@
 		DC3689742A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */; };
 		DC3689752A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */; };
 		DC3689762A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */; };
+		DC3689792A432E6700FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689782A432E6700FB2D71 /* RealmSwift */; };
+		DC36897C2A43305500FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -156,6 +158,7 @@
 		DC36896B2A4319D300FB2D71 /* Card.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Card.swift; sourceTree = "<group>"; };
 		DC36896F2A431B5F00FB2D71 /* TokenCustomerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCustomerDetails.swift; sourceTree = "<group>"; };
 		DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTokenizationRequest.swift; sourceTree = "<group>"; };
+		DC36897B2A43305500FB2D71 /* TokenizedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizedCard.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
@@ -202,6 +205,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC3689792A432E6700FB2D71 /* RealmSwift in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -277,6 +281,14 @@
 				DC36896F2A431B5F00FB2D71 /* TokenCustomerDetails.swift */,
 			);
 			path = AddCard;
+			sourceTree = "<group>";
+		};
+		DC36897A2A43300700FB2D71 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				DC36897B2A43305500FB2D71 /* TokenizedCard.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		DC501F132A1F5DEF004AD49D = {
@@ -394,6 +406,7 @@
 		DC501FAB2A25FEDF004AD49D /* PaytrailSdkExamples */ = {
 			isa = PBXGroup;
 			children = (
+				DC36897A2A43300700FB2D71 /* Models */,
 				DC36892E2A386BCC00FB2D71 /* Extensions */,
 				DC3689202A3330A300FB2D71 /* Components */,
 				DC501FAC2A25FEDF004AD49D /* PaytrailSdkExamplesApp.swift */,
@@ -476,6 +489,9 @@
 			dependencies = (
 			);
 			name = PaytrailSdkExamples;
+			packageProductDependencies = (
+				DC3689782A432E6700FB2D71 /* RealmSwift */,
+			);
 			productName = PaytrailSdkExamples;
 			productReference = DC501FAA2A25FEDF004AD49D /* PaytrailSdkExamples.app */;
 			productType = "com.apple.product-type.application";
@@ -510,6 +526,9 @@
 				Base,
 			);
 			mainGroup = DC501F132A1F5DEF004AD49D;
+			packageReferences = (
+				DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = DC501F1E2A1F5DEF004AD49D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -662,6 +681,7 @@
 				DC3689612A42FC2800FB2D71 /* DateHandler.swift in Sources */,
 				DC501FAF2A25FEDF004AD49D /* ContentView.swift in Sources */,
 				DC501FC32A2606F1004AD49D /* NetworkService.swift in Sources */,
+				DC36897C2A43305500FB2D71 /* TokenizedCard.swift in Sources */,
 				DC3689502A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */,
 				DC36896E2A4319D300FB2D71 /* Card.swift in Sources */,
 				DC3689362A38709D00FB2D71 /* GroupedGrid.swift in Sources */,
@@ -1003,6 +1023,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DC3689782A432E6700FB2D71 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = DC501F142A1F5DEF004AD49D /* Project object */;
 }
