@@ -111,11 +111,11 @@ struct ContentView: View {
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
                                              amount: 999,
-                                             currency: "EUR",
-                                             language: "FI",
+                                             currency: .eur,
+                                             language: .fi,
                                              items: [Item(unitPrice: 999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
-                                             redirectUrls: CallbackUrls(success: "https://www.paytrail.com", cancel: "https://www.paytrail.com"),
+                                             redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
                                              callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"))
             paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
                 switch result {

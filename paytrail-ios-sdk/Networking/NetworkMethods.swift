@@ -7,6 +7,8 @@
 
 import Foundation
 
+let baseUrl: String = "https://services.paytrail.com"
+
 enum HTTPMethod: String {
     case get = "GET"
     case post = "POST"
@@ -37,7 +39,7 @@ extension DataRequest where Response: Decodable {
 
 extension DataRequest {
     var url: String {
-        "https://services.paytrail.com" + path
+        baseUrl + path
     }
     
     var path: String {

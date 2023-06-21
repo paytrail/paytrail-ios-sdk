@@ -23,7 +23,7 @@ public extension PaytrailPaymentAPIs {
             "checkout-account": merchantId,
             "checkout-algorithm": "sha256",
             "checkout-method": "GET",
-            "checkout-timestamp": dateIsoString,
+            "checkout-timestamp": getCurrentDateIsoString(),
             "checkout-transaction-id": transactionId,
             "checkout-nonce": UUID().uuidString
         ]

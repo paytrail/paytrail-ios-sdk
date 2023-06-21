@@ -13,8 +13,8 @@ import Foundation
 ///  - stamp : String // Merchant specific unique stamp, e.g. an UUID. Max length: 200
 ///  - reference : String // Merchant reference for the payment. Max length: 200
 ///  - amount : Int // Total amount of the payment (sum of items), VAT should be included in amount unless `usePricesWithoutVat` is set to true
-///  - currency : String // Currency string, e.g. "EUR"
-///  - language : String // Alpha-2 language code for the payment process, e.g. "FI"
+///  - currency : Currency // Currency string, e.g. "EUR"
+///  - language : Language // Alpha-2 language code string for the payment process, e.g. "FI"
 ///  - items : [Item] // Payment item array, see Item
 ///  - customer: Customer // Customer, see Customer
 ///  - redirectUrls : CallbackUrls // Redirect Urls, see CallbackUrls
@@ -32,8 +32,8 @@ public struct PaymentRequestBody : Codable {
     let stamp : String
     let reference : String
     let amount : Int
-    let currency : String
-    let language : String
+    let currency : Currency
+    let language : Language
     let items : [Item]
     let customer : Customer
     let redirectUrls : CallbackUrls
@@ -49,8 +49,8 @@ public struct PaymentRequestBody : Codable {
     init(stamp: String,
          reference: String,
          amount: Int,
-         currency: String,
-         language: String,
+         currency: Currency,
+         language: Language,
          items: [Item],
          customer: Customer,
          redirectUrls: CallbackUrls,
@@ -203,6 +203,12 @@ public struct Address: Codable {
         self.country = country
         self.county = county
     }
+}
+
+public enum Language: String, Codable {
+    case en = "EN"
+    case fi = "FI"
+    case sv = "SV"
 }
 
 public enum PaymentType: String, Codable {

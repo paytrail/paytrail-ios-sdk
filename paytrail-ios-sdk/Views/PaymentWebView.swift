@@ -75,6 +75,7 @@ public struct PaymentWebView: UIViewRepresentable {
                 decisionHandler(.cancel)
                 return
             }
+            print(urlString)
             decisionHandler(.allow)
         }
     }

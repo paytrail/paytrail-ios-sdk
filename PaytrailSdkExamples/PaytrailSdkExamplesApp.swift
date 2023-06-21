@@ -9,9 +9,14 @@ import SwiftUI
 
 @main
 struct PaytrailSdkExamplesApp: App {
+    var isAddingCard: Bool = true
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            if !isAddingCard {
+                ContentView()
+            } else {
+                AddCardView()
+            }
         }
     }
 }

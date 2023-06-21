@@ -26,7 +26,7 @@ open class PaytrailPaymentAPIs {
             "checkout-algorithm": "sha256",
             "checkout-method": "POST",
             "checkout-nonce": UUID().uuidString,
-            "checkout-timestamp": dateIsoString,
+            "checkout-timestamp": getCurrentDateIsoString(),
             "checkout-account": merchantId
         ]
         
@@ -94,12 +94,6 @@ open class PaytrailPaymentAPIs {
         }
         request.httpBody = body
         return request
-    }
-    
-    var dateIsoString: String {
-        let iso8601DateFormatter = ISO8601DateFormatter()
-        iso8601DateFormatter.formatOptions = [.withInternetDateTime, .withFractionalSeconds]
-        return iso8601DateFormatter.string(from: Date())
     }
 
 }
