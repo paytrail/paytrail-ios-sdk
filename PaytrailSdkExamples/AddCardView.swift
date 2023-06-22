@@ -13,6 +13,7 @@ let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
 
 struct AddCardView: View {
     
+    let cardApi = PaytrailCardTokenAPIs()
     @StateObject private var viewModel = ViewModel()
     @State private var savedCards: [TokenizedCard] = []
     
@@ -31,16 +32,22 @@ struct AddCardView: View {
             Divider()
 
             Button {
+                viewModel.clean()
                 // 1) Initiate add card request
-                viewModel.addCardRequest = viewModel.cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
+                viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
             } label: {
                 Text("Add your sweet card!")
             }
             
             Divider()
             
-            Text("Card Added with partial pan: \(viewModel.tokenizedCard?.partialPan ?? "")")
-                .visible(viewModel.tokenizedCard != nil)
+            Text("Card saved successfully!")
+                .foregroundColor(Color.green)
+                .visible(viewModel.isCardSaved == true)
+            
+            Text("Card saved unsuccessfully, please try again")
+                .foregroundColor(Color.red)
+                .visible(viewModel.isCardSaved == false)
 
         }
         .fullScreenCover(isPresented: Binding(get: { viewModel.addCardRequest != nil }, set: { _, _ in }), onDismiss: {
@@ -62,12 +69,28 @@ struct AddCardView: View {
                 }
             }
         }
-        .onChange(of: viewModel.tokenizedCard) { newValue in
+        .onChange(of: viewModel.tokenizedId, perform: { newValue in
             guard let newValue = newValue else { return }
-            viewModel.addCardToDb(newValue)
-        }
+            cardApi.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
+                switch result {
+                case .success(let success):
+                    print(success)
+                    let tokenizedCard = TokenizedCard(token: success.token, customer: TokenCustomer(networkAddress: success.customer?.networkAddress ?? "", countryCode: success.customer?.countryCode ?? ""), type: success.card?.type ?? "", partialPan: success.card?.partialPan ?? "", expireYear: success.card?.expireYear ?? "", expireMonth: success.card?.expireMonth ?? "", cvcRequired: success.card?.cvcRequired?.rawValue ?? "", bin: success.card?.bin ?? "", funding: success.card?.funding?.rawValue ?? "", countryCode: success.card?.countryCode ?? "", category: success.card?.category?.rawValue ?? "", cardFingerprint: success.card?.cardFingerprint ?? "", panFingerprint: success.card?.panFingerprint ?? "")
+                    viewModel.addCardToDb(tokenizedCard)
+                case .failure(let failure):
+                    print(failure)
+                    viewModel.isCardSaved = false
+                }
+            }
+        })
+        .onChange(of: viewModel.isCardSaved, perform: { newValue in
+            guard let value = newValue, value else { return }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                savedCards = viewModel.savedCards
+            }
+        })
         .onAppear {
-            savedCards = viewModel.getSavedCards()
+            savedCards = viewModel.savedCards
         }
     }
     
@@ -75,30 +98,25 @@ struct AddCardView: View {
 
 extension AddCardView {
     class ViewModel: ObservableObject, PaymentDelegate {
-        let cardApi = PaytrailCardTokenAPIs()
         var realm: Realm?
         @Published var addCardRequest: URLRequest?
-        @Published var tokenizedCard: TokenizedCard?
+        @Published var tokenizedId: String?
+        @Published var isCardSaved: Bool?
+        var savedCards: [TokenizedCard] {
+            getSavedCards()
+        }
         
         // 3) Listen to tokenizedId change and call getToken API once tokenizedId is receiced
         func onCardTokenizedIdReceived(_ tokenizedId: String) {
             print("Checkout tokenized id received: \(tokenizedId)")
             addCardRequest = nil
-            guard !tokenizedId.isEmpty else {
-                print("Error, tokenizedId is empty, abort!")
+            guard !tokenizedId.isEmpty && tokenizedId != PaymentStatus.fail.rawValue else {
+                print("Error, tokenizedId is empty or tokenization failed, abort!")
+                isCardSaved = false
                 return
             }
-            cardApi.getToken(of: tokenizedId, merchantId: merchant.merchantId, secret: merchant.secret) { result in
-                switch result {
-                case .success(let success):
-                    print(success)
-                    self.tokenizedCard = TokenizedCard(token: success.token, customer: TokenCustomer(networkAddress: success.customer?.networkAddress ?? "", countryCode: success.customer?.countryCode ?? ""), type: success.card?.type ?? "", partialPan: success.card?.partialPan ?? "", expireYear: success.card?.expireYear ?? "", expireMonth: success.card?.expireMonth ?? "", cvcRequired: success.card?.cvcRequired?.rawValue ?? "", bin: success.card?.bin ?? "", funding: success.card?.funding?.rawValue ?? "", countryCode: success.card?.countryCode ?? "", category: success.card?.category?.rawValue ?? "", cardFingerprint: success.card?.cardFingerprint ?? "", panFingerprint: success.card?.panFingerprint ?? "")
-//                    self.addCardToDb(tokenizedCard)
-//                    self.realm = nil
-                case .failure(let failure):
-                    print(failure)
-                }
-            }
+            // TODO: save tokenizedId to DB once it is confirmed to do so
+            self.tokenizedId = tokenizedId
         }
         
         func addCardToDb(_ tokenizedCard: TokenizedCard) {
@@ -109,6 +127,12 @@ extension AddCardView {
                 }
             } catch let error as NSError {
                 print("Error: \(error)")
+                DispatchQueue.main.async {
+                    self.isCardSaved = false
+                }
+            }
+            DispatchQueue.main.async {
+                self.isCardSaved = true
             }
         }
         
@@ -116,6 +140,12 @@ extension AddCardView {
             realm = try! Realm()
             let cards = realm!.objects(TokenizedCard.self)
             return cards.map { $0 }
+        }
+        
+        func clean() {
+            addCardRequest = nil
+            tokenizedId = nil
+            isCardSaved = nil
         }
     }
 }

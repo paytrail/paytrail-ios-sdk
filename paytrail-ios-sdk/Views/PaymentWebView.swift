@@ -68,6 +68,9 @@ public struct PaymentWebView: UIViewRepresentable {
                 switch contentType {
                 case .addCard:
                     guard let tokenId = items["checkout-tokenization-id"], let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                        if let status = items["checkout-status"] {
+                            delegate?.onCardTokenizedIdReceived(status)
+                        }
                         decisionHandler(.allow)
                         return
                     }
