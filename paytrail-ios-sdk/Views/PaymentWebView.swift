@@ -66,15 +66,28 @@ public struct PaymentWebView: UIViewRepresentable {
                 let items = getQueryItems(urlString)
                 
                 switch contentType {
-                case .addCard:
-                    guard let tokenId = items["checkout-tokenization-id"], let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                case .addCard:                    
+                    guard let tokenId = items["checkout-tokenization-id"] else {
                         if let status = items["checkout-status"] {
-                            delegate?.onCardTokenizedIdReceived(status)
+                            let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, empty tokenization-id")
+                            delegate?.onCardTokenizedIdReceived(result)
                         }
                         decisionHandler(.allow)
                         return
                     }
-                    delegate?.onCardTokenizedIdReceived(tokenId)
+                    
+                    guard let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                        if let status = items["checkout-status"] {
+                            let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, invalid signature")
+                            delegate?.onCardTokenizedIdReceived(result)
+                        }
+                        decisionHandler(.allow)
+                        return
+                    }
+                    
+                    let result = TokenizationResult(tokenizationId: tokenId, status: .ok)
+                    delegate?.onCardTokenizedIdReceived(result)
+                    
                 case .normalPayment:
                     // Validate reponse signature
                     guard let status = items["checkout-status"], let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {

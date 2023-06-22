@@ -22,7 +22,6 @@ struct AddCardView: View {
             VStack(spacing: 80) {
                 
                 // Show saved cards if any
-
                 VStack(spacing: 24) {
                     GroupedGrid(headerTitle: "Saved Cards: ") {
                         ForEach(savedCards, id: \.self) { card in
@@ -50,7 +49,7 @@ struct AddCardView: View {
                     .foregroundColor(Color.green)
                     .visible(viewModel.isCardSaved == true)
                 
-                Text("Card saved unsuccessfully, please try again")
+                Text("Card saved unsuccessfully")
                     .foregroundColor(Color.red)
                     .visible(viewModel.isCardSaved == false)
                 
@@ -122,16 +121,16 @@ extension AddCardView {
         }
         
         // 3) Listen to tokenizedId change and call getToken API once tokenizedId is receiced
-        func onCardTokenizedIdReceived(_ tokenizedId: String) {
-            print("Checkout tokenized id received: \(tokenizedId)")
+        func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
+            print("Checkout tokenized id received: \(tokenizationResult.tokenizationId)")
             addCardRequest = nil
-            guard !tokenizedId.isEmpty && tokenizedId != PaymentStatus.fail.rawValue else {
-                print("Error, tokenizedId is empty or tokenization failed, abort!")
+            guard tokenizationResult.errorMessage.isEmpty, tokenizationResult.status == .ok else {
+                print(tokenizationResult.errorMessage)
                 isCardSaved = false
                 return
             }
             // TODO: save tokenizedId to DB once it is confirmed to do so
-            self.tokenizedId = tokenizedId
+            self.tokenizedId = tokenizationResult.tokenizationId
         }
         
         func addCardToDb(_ tokenizedCard: TokenizedCard) {

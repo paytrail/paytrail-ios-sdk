@@ -30,3 +30,16 @@ public struct TokenCustomerDetails: Codable {
         try container.encode(countryCode, forKey: .countryCode)
     }
 }
+
+public struct TokenizationResult {
+    
+    public let tokenizationId: String
+    public let status: PaymentStatus
+    public let errorMessage: String
+    
+    init(tokenizationId: String, status: PaymentStatus, errorMessage: String = "") {
+        self.tokenizationId = tokenizationId
+        self.status = status
+        self.errorMessage = errorMessage
+    }
+}
