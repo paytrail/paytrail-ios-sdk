@@ -18,38 +18,53 @@ struct AddCardView: View {
     @State private var savedCards: [TokenizedCard] = []
     
     var body: some View {
-        VStack(spacing: 80) {
-            
-            // Show saved cards if any
-            VStack(spacing: 24) {
-                ForEach(savedCards, id: \.self) { card in
-                    Text("Saved card \(card.type) with partial pan: \(card.partialPan)")
-                        .bold()
-                        .foregroundColor(Color.green)
+        ScrollView {
+            VStack(spacing: 80) {
+                
+                // Show saved cards if any
+
+                VStack(spacing: 24) {
+                    GroupedGrid(headerTitle: "Saved Cards: ") {
+                        ForEach(savedCards, id: \.self) { card in
+                            Text("\(card.type) \(card.partialPan)")
+                                .bold()
+                                .foregroundColor(Color.green)
+                        }
+                        
+                    }
                 }
+  
+                Divider()
+                
+                Button {
+                    viewModel.clean()
+                    // 1) Initiate add card request
+                    viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
+                } label: {
+                    Text("Add your sweet card!")
+                }
+                
+                Divider()
+                
+                Text("Card saved successfully!")
+                    .foregroundColor(Color.green)
+                    .visible(viewModel.isCardSaved == true)
+                
+                Text("Card saved unsuccessfully, please try again")
+                    .foregroundColor(Color.red)
+                    .visible(viewModel.isCardSaved == false)
+                
             }
             
-            Divider()
-
-            Button {
-                viewModel.clean()
-                // 1) Initiate add card request
-                viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
-            } label: {
-                Text("Add your sweet card!")
-            }
-            
-            Divider()
-            
-            Text("Card saved successfully!")
-                .foregroundColor(Color.green)
-                .visible(viewModel.isCardSaved == true)
-            
-            Text("Card saved unsuccessfully, please try again")
-                .foregroundColor(Color.red)
-                .visible(viewModel.isCardSaved == false)
-
         }
+        .frame(
+          minWidth: 0,
+          maxWidth: .infinity,
+          minHeight: 0,
+          maxHeight: .infinity,
+          alignment: .topLeading
+        )
+        .padding()
         .fullScreenCover(isPresented: Binding(get: { viewModel.addCardRequest != nil }, set: { _, _ in }), onDismiss: {
             viewModel.addCardRequest = nil
         }) {
