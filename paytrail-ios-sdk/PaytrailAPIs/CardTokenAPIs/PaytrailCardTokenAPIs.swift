@@ -30,6 +30,11 @@ open class PaytrailCardTokenAPIs {
             return nil
         }
         
+        guard let urlSuccess = URL(string: redirectUrls.success), urlSuccess.host != nil, let urlCancel = URL(string: redirectUrls.cancel), urlCancel.host != nil else {
+            print("Error,failed initiate payment request, reason: invalid redirectUrls")
+            return nil
+        }
+        
         var parameters: [String: String] = [
             "checkout-account": merchantId,
             "checkout-algorithm": "sha256",
@@ -45,11 +50,6 @@ open class PaytrailCardTokenAPIs {
         
         let signature = hmacSignature(secret: secret, headers: parameters, body: nil)
         parameters["signature"] = signature
-        
-        guard !parameters.isEmpty else {
-            print("Error,failed initiate card tokenization request, reason: invalid parameters")
-            return nil
-        }
         
         guard var urlComponent = URLComponents(string: url.absoluteString) else { return nil }
         var queryItems: [URLQueryItem] = []

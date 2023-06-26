@@ -72,6 +72,17 @@
 		DC3689762A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */; };
 		DC3689792A432E6700FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689782A432E6700FB2D71 /* RealmSwift */; };
 		DC36897C2A43305500FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
+		DC36897E2A4988B800FB2D71 /* CardTokenApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897D2A4988B800FB2D71 /* CardTokenApiTestSuite.swift */; };
+		DC3689812A499B0400FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689802A499B0400FB2D71 /* RealmSwift */; };
+		DC3689832A499B0B00FB2D71 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689822A499B0B00FB2D71 /* Realm */; };
+		DC3689852A499B5C00FB2D71 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689842A499B5C00FB2D71 /* Realm */; };
+		DC3689872A499B5C00FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689862A499B5C00FB2D71 /* RealmSwift */; };
+		DC3689882A499B9200FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
+		DC3689892A499B9300FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
+		DC36898A2A499BD600FB2D71 /* PaymentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689212A33312300FB2D71 /* PaymentWebView.swift */; };
+		DC36898B2A499BD700FB2D71 /* PaymentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689212A33312300FB2D71 /* PaymentWebView.swift */; };
+		DC36898C2A499C0000FB2D71 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689232A37266600FB2D71 /* BackButton.swift */; };
+		DC36898D2A499C0000FB2D71 /* BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689232A37266600FB2D71 /* BackButton.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -159,6 +170,7 @@
 		DC36896F2A431B5F00FB2D71 /* TokenCustomerDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenCustomerDetails.swift; sourceTree = "<group>"; };
 		DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTokenizationRequest.swift; sourceTree = "<group>"; };
 		DC36897B2A43305500FB2D71 /* TokenizedCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenizedCard.swift; sourceTree = "<group>"; };
+		DC36897D2A4988B800FB2D71 /* CardTokenApiTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardTokenApiTestSuite.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
@@ -190,6 +202,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC3689872A499B5C00FB2D71 /* RealmSwift in Frameworks */,
+				DC3689852A499B5C00FB2D71 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -197,6 +211,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC3689832A499B0B00FB2D71 /* Realm in Frameworks */,
+				DC3689812A499B0400FB2D71 /* RealmSwift in Frameworks */,
 				DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -291,6 +307,13 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		DC36897F2A499B0400FB2D71 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		DC501F132A1F5DEF004AD49D = {
 			isa = PBXGroup;
 			children = (
@@ -298,6 +321,7 @@
 				DC501F2B2A1F5DEF004AD49D /* paytrail-ios-sdkTests */,
 				DC501FAB2A25FEDF004AD49D /* PaytrailSdkExamples */,
 				DC501F1E2A1F5DEF004AD49D /* Products */,
+				DC36897F2A499B0400FB2D71 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -330,6 +354,7 @@
 				DC3689372A3B125500FB2D71 /* Mocks */,
 				DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */,
 				DC3689512A3CA91100FB2D71 /* GetPaymentApiTestSuite.swift */,
+				DC36897D2A4988B800FB2D71 /* CardTokenApiTestSuite.swift */,
 			);
 			path = "paytrail-ios-sdkTests";
 			sourceTree = "<group>";
@@ -454,6 +479,10 @@
 			dependencies = (
 			);
 			name = "paytrail-ios-sdk";
+			packageProductDependencies = (
+				DC3689842A499B5C00FB2D71 /* Realm */,
+				DC3689862A499B5C00FB2D71 /* RealmSwift */,
+			);
 			productName = "paytrail-ios-sdk";
 			productReference = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */;
 			productType = "com.apple.product-type.framework";
@@ -472,6 +501,10 @@
 				DC501F2A2A1F5DEF004AD49D /* PBXTargetDependency */,
 			);
 			name = "paytrail-ios-sdkTests";
+			packageProductDependencies = (
+				DC3689802A499B0400FB2D71 /* RealmSwift */,
+				DC3689822A499B0B00FB2D71 /* Realm */,
+			);
 			productName = "paytrail-ios-sdkTests";
 			productReference = DC501F272A1F5DEF004AD49D /* paytrail-ios-sdkTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -580,6 +613,7 @@
 				DC36895F2A42FC2800FB2D71 /* DateHandler.swift in Sources */,
 				DC3689572A41BD8200FB2D71 /* PaytrailCardTokenAPIs.swift in Sources */,
 				DC501FC62A263249004AD49D /* PaymentError.swift in Sources */,
+				DC3689882A499B9200FB2D71 /* TokenizedCard.swift in Sources */,
 				DC501F9C2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
 				DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */,
 				DC3689682A430A9700FB2D71 /* TokenizationRequestResponse.swift in Sources */,
@@ -588,6 +622,7 @@
 				DC36896C2A4319D300FB2D71 /* Card.swift in Sources */,
 				DC3689262A373D0900FB2D71 /* UrlStringHandler.swift in Sources */,
 				DC3689182A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */,
+				DC36898A2A499BD600FB2D71 /* PaymentWebView.swift in Sources */,
 				DC36894A2A3C9AE600FB2D71 /* Currency.swift in Sources */,
 				DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
 				DC501FCA2A263D3F004AD49D /* HMACCaculator.swift in Sources */,
@@ -607,6 +642,7 @@
 				DC36891C2A31D66700FB2D71 /* PaymentImageDataRequest.swift in Sources */,
 				DC3689302A386BE900FB2D71 /* View+Extension.swift in Sources */,
 				DC501F392A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
+				DC36898C2A499C0000FB2D71 /* BackButton.swift in Sources */,
 				DC3689462A3C96B300FB2D71 /* Payment.swift in Sources */,
 				DC3689412A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
 				DC36895B2A41E4C700FB2D71 /* AddCardView.swift in Sources */,
@@ -617,6 +653,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DC36898D2A499C0000FB2D71 /* BackButton.swift in Sources */,
 				DC501FC72A263249004AD49D /* PaymentError.swift in Sources */,
 				DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
 				DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */,
@@ -639,13 +676,16 @@
 				DC501FA52A25EDD1004AD49D /* JSONHandler.swift in Sources */,
 				DC3689642A43041800FB2D71 /* PaymentDelegate.swift in Sources */,
 				DC501F912A24D750004AD49D /* CustomProvider.swift in Sources */,
+				DC36897E2A4988B800FB2D71 /* CardTokenApiTestSuite.swift in Sources */,
 				DC501F9A2A24D92D004AD49D /* Parameter.swift in Sources */,
 				DC501F8E2A24D6C6004AD49D /* PaymentMethodProvider.swift in Sources */,
+				DC3689892A499B9300FB2D71 /* TokenizedCard.swift in Sources */,
 				DC501F942A24D7E0004AD49D /* PaymentMethodGroup.swift in Sources */,
 				DC501F972A24D858004AD49D /* PTApplePay.swift in Sources */,
 				DC501F7C2A24B272004AD49D /* PaymentRequestBody.swift in Sources */,
 				DC36891D2A31D66700FB2D71 /* PaymentImageDataRequest.swift in Sources */,
 				DC3689312A386BE900FB2D71 /* View+Extension.swift in Sources */,
+				DC36898B2A499BD700FB2D71 /* PaymentWebView.swift in Sources */,
 				DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
 				DC3689472A3C96B300FB2D71 /* Payment.swift in Sources */,
 				DC3689422A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
@@ -1037,6 +1077,26 @@
 
 /* Begin XCSwiftPackageProductDependency section */
 		DC3689782A432E6700FB2D71 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		DC3689802A499B0400FB2D71 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+		DC3689822A499B0B00FB2D71 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		DC3689842A499B5C00FB2D71 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		DC3689862A499B5C00FB2D71 /* RealmSwift */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = RealmSwift;

@@ -19,6 +19,7 @@ import WebKit
 /// - request: URLRequest - the URLRequest of the payment provider
 /// - delegate: PaymentDelegate? - PaymentDelegate for handling payment reponses
 /// - merchant: PaytrailMerchant - Current merchant needed for signature validation
+/// - contentType: ContentType - normalPayment or addCard for loading and handling each type of view accordingly
 ///
 public struct PaymentWebView: UIViewRepresentable {
     
@@ -66,7 +67,7 @@ public struct PaymentWebView: UIViewRepresentable {
                 let items = getQueryItems(urlString)
                 
                 switch contentType {
-                case .addCard:                    
+                case .addCard:
                     guard let tokenId = items["checkout-tokenization-id"] else {
                         if let status = items["checkout-status"] {
                             let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, empty tokenization-id")
