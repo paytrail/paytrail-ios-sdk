@@ -9,7 +9,7 @@ import Foundation
 
 open class PaytrailCardTokenAPIs {
     
-    let addCardTokenEndpoint: String = "/tokenization/addcard-form"
+    let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
         
     
     /// initiateCardTokenizationRequest API to create an add-card-form request
@@ -36,20 +36,20 @@ open class PaytrailCardTokenAPIs {
         }
         
         var parameters: [String: String] = [
-            "checkout-account": merchantId,
-            "checkout-algorithm": "sha256",
-            "checkout-method": "POST",
-            "checkout-nonce": UUID().uuidString,
-            "checkout-timestamp": getCurrentDateIsoString(),
-            "checkout-redirect-success-url": redirectUrls.success,
-            "checkout-redirect-cancel-url": redirectUrls.cancel,
-            "checkout-callback-success-url": callbackUrls?.success ?? "",
-            "checkout-callback-cancel-url": callbackUrls?.cancel ?? "",
-            "language": language.rawValue
+            ParameterKeys.checkoutAccount: merchantId,
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutRedirectSuccessUrl: redirectUrls.success,
+            ParameterKeys.checkoutRedirectCancelUrl: redirectUrls.cancel,
+            ParameterKeys.checkoutCallbackSuccessUrl: callbackUrls?.success ?? "",
+            ParameterKeys.checkoutCallbackCancelUrl: callbackUrls?.cancel ?? "",
+            ParameterKeys.language: language.rawValue
         ]
         
         let signature = hmacSignature(secret: secret, headers: parameters, body: nil)
-        parameters["signature"] = signature
+        parameters[ParameterKeys.signature] = signature
         
         guard var urlComponent = URLComponents(string: url.absoluteString) else { return nil }
         var queryItems: [URLQueryItem] = []
@@ -76,17 +76,17 @@ open class PaytrailCardTokenAPIs {
         let networkService: NetworkService = DefaultNetworkService()
         
         let headers = [
-            "checkout-algorithm": "sha256",
-            "checkout-method": "POST",
-            "checkout-nonce": UUID().uuidString,
-            "checkout-timestamp": getCurrentDateIsoString(),
-            "checkout-account": merchantId,
-            "checkout-tokenization-id": tokenizedId
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutAccount: merchantId,
+            ParameterKeys.checkoutTokenizationId: tokenizedId
         ]
         
         let signature = hmacSignature(secret: secret, headers: headers, body: nil)
-        let path = "/tokenization/\(tokenizedId)"
-        let speicalHeader = ["signature": signature]
+        let path = "\(ApiPaths.tokenization)/\(tokenizedId)"
+        let speicalHeader = [ParameterKeys.signature: signature]
         let dataRequest: CardTokenizationRequest = CardTokenizationRequest(path: path, headers: headers, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
             switch result {

@@ -18,19 +18,19 @@ public extension PaytrailPaymentAPIs {
     func getPayment(of merchantId: String, secret: String, transactionId: String, completion: @escaping (Result<Payment, Error>) -> Void) {
         let networkService: NetworkService = DefaultNetworkService()
         
-        let path = "/payments/\(transactionId)"
+        let path = "\(ApiPaths.payments)/\(transactionId)"
         let headers = [
-            "checkout-account": merchantId,
-            "checkout-algorithm": "sha256",
-            "checkout-method": "GET",
-            "checkout-timestamp": getCurrentDateIsoString(),
-            "checkout-transaction-id": transactionId,
-            "checkout-nonce": UUID().uuidString
+            ParameterKeys.checkoutAccount: merchantId,
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.get,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutTransactionId: transactionId,
+            ParameterKeys.checkoutNonce: UUID().uuidString
         ]
         
         let signature = hmacSignature(secret: secret, headers: headers, body: nil)
         
-        let speicalHeader = ["signature": signature]
+        let speicalHeader = [ParameterKeys.signature: signature]
         let dataRequest: GetPaymentDataRequest = GetPaymentDataRequest(path: path, headers: headers, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
             switch result {

@@ -23,16 +23,16 @@ open class PaytrailPaymentAPIs {
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
         let headers = [
-            "checkout-algorithm": "sha256",
-            "checkout-method": "POST",
-            "checkout-nonce": UUID().uuidString,
-            "checkout-timestamp": getCurrentDateIsoString(),
-            "checkout-account": merchantId
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutAccount: merchantId
         ]
         
         let signature = hmacSignature(secret: secret, headers: headers, body: body)
         
-        let speicalHeader = ["signature": signature]
+        let speicalHeader = [ParameterKeys.signature: signature]
         let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
             switch result {

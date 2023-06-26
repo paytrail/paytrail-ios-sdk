@@ -94,9 +94,10 @@ struct ContentView: View {
             switch PaymentStatus(rawValue: newValue) {
             case .ok:
                 print("payment ok!")
-                paymentApis.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: "cfaa43a2-0c4e-11ee-829b-a75b998e8f55") { result in
-                    print(result)
-                }
+                
+                //                paymentApis.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: "cfaa43a2-0c4e-11ee-829b-a75b998e8f55") { result in
+                //                    print(result)
+                //                }
             case .pending:
                 print("payment pending!")
             case .delayed:

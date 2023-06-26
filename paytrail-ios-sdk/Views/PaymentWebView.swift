@@ -68,8 +68,8 @@ public struct PaymentWebView: UIViewRepresentable {
                 
                 switch contentType {
                 case .addCard:
-                    guard let tokenId = items["checkout-tokenization-id"] else {
-                        if let status = items["checkout-status"] {
+                    guard let tokenId = items[ParameterKeys.checkoutTokenizationId] else {
+                        if let status = items[ParameterKeys.checkoutStatus] {
                             let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, empty tokenization-id")
                             delegate?.onCardTokenizedIdReceived(result)
                         }
@@ -77,8 +77,8 @@ public struct PaymentWebView: UIViewRepresentable {
                         return
                     }
                     
-                    guard let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
-                        if let status = items["checkout-status"] {
+                    guard let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                        if let status = items[ParameterKeys.checkoutStatus] {
                             let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, invalid signature")
                             delegate?.onCardTokenizedIdReceived(result)
                         }
@@ -91,8 +91,8 @@ public struct PaymentWebView: UIViewRepresentable {
                     
                 case .normalPayment:
                     // Validate reponse signature
-                    guard let status = items["checkout-status"], let signature = items["signature"], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
-                        if let _ = items["checkout-status"] {
+                    guard let status = items[ParameterKeys.checkoutStatus], let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                        if let _ = items[ParameterKeys.checkoutStatus] {
                             print("signature mismatch, failing payment")
                             // Return payment status fail when signatures mismatch
                             delegate?.onPaymentStatusChanged(PaymentStatus.fail.rawValue)

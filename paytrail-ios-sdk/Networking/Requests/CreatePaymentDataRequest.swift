@@ -17,7 +17,7 @@ public struct CreatePaymentDataRequest: DataRequest {
     
     var specialHeader: [String : String]
     
-    var path: String = "/payments"
+    var path: String = ApiPaths.payments
     
     var method: HTTPMethod {
         HTTPMethod.post
