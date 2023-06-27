@@ -17,6 +17,7 @@ struct AddCardView: View {
     @StateObject private var viewModel = ViewModel()
     @State private var savedCards: [TokenizedCard] = []
     @State private var statusString: String = ""
+    @State private var threeDSecureRequest: URLRequest?
     
     private var autoPayload: PaymentRequestBody {
         let token =  savedCards.first?.token ?? ""
@@ -33,6 +34,19 @@ struct AddCardView: View {
         return payload
     }
     
+    private func createPayload(from token: String) -> PaymentRequestBody {
+        PaymentRequestBody(stamp: UUID().uuidString,
+                                         reference: "3759170",
+                                         amount: 1999,
+                                         currency: .eur,
+                                         language: .fi,
+                                         items: [Item(unitPrice: 1999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                         customer: Customer(email: "test.customer@example.com"),
+                                         redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
+                                         callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
+                                         token: token)
+    }
+    
     var body: some View {
         ScrollView {
             VStack(spacing: 80) {
@@ -41,9 +55,31 @@ struct AddCardView: View {
                 VStack(spacing: 24) {
                     GroupedGrid(headerTitle: "Saved Cards: ") {
                         ForEach(savedCards, id: \.self) { card in
-                            Text("\(card.type) \(card.partialPan)")
-                                .bold()
-                                .foregroundColor(Color.green)
+                            Button {
+                                statusString = ""
+                                cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(from: card.token), transactionType: .cit, authorizationType: .charge) { result in
+                                    switch result {
+                                    case .success(let success):
+                                        statusString = "Payment success: \(success.transactionId ?? "")"
+                                        print(success)
+                                    case .failure(let failure as NSError):
+                                        statusString = "Payment failure!\(failure)"
+                                        print(failure)
+                                        if failure.code == 403, let threeDSecureUrl = (failure.userInfo["info"] as? TokenPaymentThreeDsReponse)?.threeDSecureUrl, let url = URL(string: threeDSecureUrl) {
+                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
+                                            
+                                            let request = URLRequest(url: url)
+                                            threeDSecureRequest = request
+                                            
+                                        }
+                                    }
+                                }
+                            } label: {
+                                Text("\(card.type) \(card.partialPan)")
+                                    .bold()
+                                    .foregroundColor(Color.green)
+                            }
+
                         }
                         
                     }
@@ -61,21 +97,21 @@ struct AddCardView: View {
                 
                 Divider()
 
-                Button {
-                    statusString = ""
-                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: autoPayload, transactionType: .cit, authorizationType: .charge) { result in
-                        switch result {
-                        case .success(let success):
-                            statusString = "Payment success: \(success.transactionId ?? "")"
-                            print(success)
-                        case .failure(let failure):
-                            statusString = "Payment failure!\(failure)"
-                            print(failure)
-                        }
-                    }
-                } label: {
-                    Text("Pay with saved card!")
-                }
+                //                Button {
+                //                    statusString = ""
+                //                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: autoPayload, transactionType: .cit, authorizationType: .charge) { result in
+                //                        switch result {
+                //                        case .success(let success):
+                //                            statusString = "Payment success: \(success.transactionId ?? "")"
+                //                            print(success)
+                //                        case .failure(let failure as NSError):
+                //                            statusString = "Payment failure!\(failure)"
+                //                            print(failure.userInfo["info"])
+                //                        }
+                //                    }
+                //                } label: {
+                //                    Text("Pay with saved card!")
+                //                }
                 
                 Divider()
                 
@@ -120,6 +156,22 @@ struct AddCardView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: Binding(get: { threeDSecureRequest != nil }, set: { _, _ in }), content: {
+            if let request = threeDSecureRequest {
+                NavigationView {
+                    PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+                        .ignoresSafeArea()
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                BackButton {
+                                    threeDSecureRequest = nil
+                                }
+                            }
+                        }
+                }
+            }
+        })
         .onChange(of: viewModel.tokenizedId, perform: { newValue in
             guard let newValue = newValue else { return }
             cardApi.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
@@ -140,6 +192,11 @@ struct AddCardView: View {
                 savedCards = viewModel.savedCards
             }
         })
+        .onChange(of: viewModel.paymentStatus, perform: { newValue in
+            guard let value = newValue else { return }
+            threeDSecureRequest = nil
+            statusString = "Payment status: \(value)"
+        })
         .onAppear {
             savedCards = viewModel.savedCards
         }
@@ -153,6 +210,8 @@ extension AddCardView {
         @Published var addCardRequest: URLRequest?
         @Published var tokenizedId: String?
         @Published var isCardSaved: Bool?
+        @Published var paymentStatus: String?
+//        @Published var threeDSecureRequest: URLRequest?
         var savedCards: [TokenizedCard] {
             getSavedCards()
         }
@@ -168,6 +227,11 @@ extension AddCardView {
             }
             // TODO: save tokenizedId to DB once it is confirmed to do so
             self.tokenizedId = tokenizationResult.tokenizationId
+        }
+        
+        func onPaymentStatusChanged(_ status: String) {
+            print("Payment status received: \(status)")
+            paymentStatus = status
         }
         
         func addCardToDb(_ tokenizedCard: TokenizedCard) {

@@ -10,8 +10,22 @@ import Foundation
 public struct TokenPaymentRequestResponse: Codable {
     
     let transactionId: String?
-    let threeDSecureUrl: String?
 
+    enum CodingKeys: String, CodingKey {
+        case transactionId = "transactionId"
+    }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        transactionId = try values.decodeIfPresent(String.self, forKey: .transactionId)
+    }
+}
+
+public struct TokenPaymentThreeDsReponse: Codable {
+    
+    let transactionId: String?
+    let threeDSecureUrl: String?
+    
     enum CodingKeys: String, CodingKey {
         case transactionId = "transactionId"
         case threeDSecureUrl = "threeDSecureUrl"

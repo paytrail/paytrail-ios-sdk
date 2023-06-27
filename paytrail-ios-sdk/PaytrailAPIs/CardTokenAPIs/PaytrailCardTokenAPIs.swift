@@ -115,7 +115,6 @@ open class PaytrailCardTokenAPIs {
         
     }
     
-    
     /// createTokenPayment API for creating a token payment
     /// - Parameters:
     ///   - merchantId: merchantId, i.e. account
@@ -131,7 +130,7 @@ open class PaytrailCardTokenAPIs {
                             authorizationType: PaymentAuthorizationType,
                             completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
         
-        let networkService: NetworkService = DefaultNetworkService()
+        let networkService: NetworkService = TokenPaymentNetworkService()
         
         let path = ApiPaths.paymentsToken + "/\(transactionType.rawValue)/\(authorizationType.rawValue)"
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
