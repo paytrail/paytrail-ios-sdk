@@ -28,6 +28,8 @@ import Foundation
 ///  - callbackDelay: Int? // Callback delay in seconds. If callback URLs and delay are provided, callbacks will be called after the delay. max: 900, min: 0
 ///  - groups: [PaymentType]? // Optionally return only payment methods for selected groups
 ///  - usePricesWithoutVat: Bool? // If true, `amount` and `items.unitPrice` should be sent to API without VAT, and final VAT-included prices are calculated by Paytrail's system (with prices rounded to closest cent). Also, when true, items must be included.
+///  - token: String? // Payment card token received from request to /tokenization/{checkout-tokenization-id}
+
 public struct PaymentRequestBody : Codable {
     let stamp : String
     let reference : String
@@ -45,6 +47,7 @@ public struct PaymentRequestBody : Codable {
     let callbackDelay: Int?
     let groups: [PaymentType]?
     let usePricesWithoutVat: Bool?
+    let token: String?
     
     init(stamp: String,
          reference: String,
@@ -61,7 +64,8 @@ public struct PaymentRequestBody : Codable {
          manualInvoiceActivation: Bool? = nil,
          callbackDelay: Int? = nil,
          groups: [PaymentType]? = nil,
-         usePricesWithoutVat: Bool? = nil) {
+         usePricesWithoutVat: Bool? = nil,
+         token: String? = nil) {
         self.stamp = stamp
         self.reference = reference
         self.amount = amount
@@ -78,6 +82,7 @@ public struct PaymentRequestBody : Codable {
         self.manualInvoiceActivation = manualInvoiceActivation
         self.usePricesWithoutVat = usePricesWithoutVat
         self.groups = groups
+        self.token = token
     }
 }
 

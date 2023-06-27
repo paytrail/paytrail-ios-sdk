@@ -9,9 +9,15 @@ import Foundation
 
 open class PaytrailCardTokenAPIs {
     
-    let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
-        
+    public enum PaymentTransactionType: String {
+        case cit, mit
+    }
     
+    public enum PaymentAuthorizationType: String {
+        case authorizationHold = "authorization-hold"
+        case charge
+    }
+        
     /// initiateCardTokenizationRequest API to create an add-card-form request
     /// - Parameters:
     ///   - merchantId: merchant id, i.e. account
@@ -25,6 +31,9 @@ open class PaytrailCardTokenAPIs {
                                                 redirectUrls: CallbackUrls,
                                                 callbackUrls: CallbackUrls? = nil,
                                                 language: Language = .en) -> URLRequest? {
+        
+        let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
+
         guard let url = URL(string: baseUrl + addCardTokenEndpoint) else {
             print("Error,failed initiate payment request, reason: invalid url")
             return nil
@@ -71,6 +80,13 @@ open class PaytrailCardTokenAPIs {
         return request
     }
     
+    
+    /// getToken API for retrieving the card token by the tokenizedId to be used when creating a token payment. 
+    /// - Parameters:
+    ///   - tokenizedId: tokenizedId of a payment card
+    ///   - merchantId: merchantId, i.e. account
+    ///   - secret: merchant secret
+    ///   - completion: Result<TokenizationRequestResponse, Error>
     func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
         
         let networkService: NetworkService = DefaultNetworkService()
@@ -88,6 +104,50 @@ open class PaytrailCardTokenAPIs {
         let path = "\(ApiPaths.tokenization)/\(tokenizedId)"
         let speicalHeader = [ParameterKeys.signature: signature]
         let dataRequest: CardTokenizationRequest = CardTokenizationRequest(path: path, headers: headers, specialHeader: speicalHeader)
+        networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+    }
+    
+    
+    /// createTokenPayment API for creating a token payment
+    /// - Parameters:
+    ///   - merchantId: merchantId, i.e. account
+    ///   - secret: merchant secret
+    ///   - payload: paylaod data of a PaymentRequestBody which needs to have a 'token' property of a saved card
+    ///   - transactionType: PaymentTransactionType, can be CIT or MIT
+    ///   - authorizationType: PaymentAuthorizationType, can be 'authorizationHold' or 'charge'
+    ///   - completion: Result<TokenPaymentRequestResponse, Error>
+    func createTokenPayment(of merchantId: String,
+                            secret: String,
+                            payload: PaymentRequestBody,
+                            transactionType: PaymentTransactionType,
+                            authorizationType: PaymentAuthorizationType,
+                            completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+        
+        let networkService: NetworkService = DefaultNetworkService()
+        
+        let path = ApiPaths.paymentsToken + "/\(transactionType.rawValue)/\(authorizationType.rawValue)"
+        let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
+        
+        let headers = [
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutAccount: merchantId
+        ]
+        
+        let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        
+        let speicalHeader = [ParameterKeys.signature: signature]
+        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader, path: path)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):

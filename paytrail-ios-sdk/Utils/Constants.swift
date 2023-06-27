@@ -38,4 +38,10 @@ public struct ApiPaths {
     static let payments = "/payments"
     static let tokenization = "/tokenization"
     static let addCard = "/addcard-form"
+    static let paymentsToken = "/payments/token"
+}
+
+public struct InvalidAcquirerResponseCode {
+    static let nets = [111, 119, 165, 200, 207, 208, 209, 902, 908, 909]
+    static let amex = [181, 183, 187, 189, 200]
 }

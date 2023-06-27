@@ -16,6 +16,22 @@ struct AddCardView: View {
     let cardApi = PaytrailCardTokenAPIs()
     @StateObject private var viewModel = ViewModel()
     @State private var savedCards: [TokenizedCard] = []
+    @State private var statusString: String = ""
+    
+    private var autoPayload: PaymentRequestBody {
+        let token =  savedCards.first?.token ?? ""
+        let payload = PaymentRequestBody(stamp: UUID().uuidString,
+                                         reference: "3759170",
+                                         amount: 1999,
+                                         currency: .eur,
+                                         language: .fi,
+                                         items: [Item(unitPrice: 1999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                         customer: Customer(email: "test.customer@example.com"),
+                                         redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
+                                         callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
+                                         token: token)
+        return payload
+    }
     
     var body: some View {
         ScrollView {
@@ -44,6 +60,27 @@ struct AddCardView: View {
                 }
                 
                 Divider()
+
+                Button {
+                    statusString = ""
+                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: autoPayload, transactionType: .cit, authorizationType: .charge) { result in
+                        switch result {
+                        case .success(let success):
+                            statusString = "Payment success: \(success.transactionId ?? "")"
+                            print(success)
+                        case .failure(let failure):
+                            statusString = "Payment failure!\(failure)"
+                            print(failure)
+                        }
+                    }
+                } label: {
+                    Text("Pay with saved card!")
+                }
+                
+                Divider()
+                
+                Text(statusString)
+                    .visible(!statusString.isEmpty)
                 
                 Text("Card saved successfully!")
                     .foregroundColor(Color.green)
