@@ -347,6 +347,17 @@
 			path = CreateTokenPayment;
 			sourceTree = "<group>";
 		};
+		DC3689A72A4C78B200FB2D71 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */,
+				DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */,
+				DC36899F2A4C61B300FB2D71 /* NormalPaymentNetworkService.swift */,
+				DC3689A32A4C67E800FB2D71 /* TokenPaymentNetworkService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
 		DC501F132A1F5DEF004AD49D = {
 			isa = PBXGroup;
 			children = (
@@ -395,12 +406,9 @@
 		DC501F372A1FA152004AD49D /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				DC3689A72A4C78B200FB2D71 /* Services */,
 				DC36891F2A32075C00FB2D71 /* Requests */,
 				DC501F782A24AD59004AD49D /* Models */,
-				DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */,
-				DC501F3B2A1FA3C1004AD49D /* NetworkService.swift */,
-				DC36899F2A4C61B300FB2D71 /* NormalPaymentNetworkService.swift */,
-				DC3689A32A4C67E800FB2D71 /* TokenPaymentNetworkService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
