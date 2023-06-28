@@ -62,15 +62,15 @@ struct AddCardView: View {
                                     case .success(let success):
                                         statusString = "Payment success: \(success.transactionId ?? "")"
                                         print(success)
-                                    case .failure(let failure as NSError):
+                                    case .failure(let failure):
                                         statusString = "Payment failure!\(failure)"
                                         print(failure)
-                                        if failure.code == 403, let threeDSecureUrl = (failure.userInfo["info"] as? TokenPaymentThreeDsReponse)?.threeDSecureUrl, let url = URL(string: threeDSecureUrl) {
+                                        if let failure = failure as? PaytrailTokenError,
+                                           let threeDSecureUrl = failure.payload?.threeDSecureUrl,
+                                           let url = URL(string: threeDSecureUrl) {
                                             statusString = "Redirecting to provider 3DS page to finish the payment.."
-                                            
                                             let request = URLRequest(url: url)
                                             threeDSecureRequest = request
-                                            
                                         }
                                     }
                                 }

@@ -19,7 +19,7 @@ open class PaytrailPaymentAPIs {
     ///   - payload: paylaod data,see PaymentRequestBody
     ///   - completion: Result<PaymentRequestResponse, Error>
     public func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
-        let networkService: NetworkService = DefaultNetworkService()
+        let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
         let headers = [

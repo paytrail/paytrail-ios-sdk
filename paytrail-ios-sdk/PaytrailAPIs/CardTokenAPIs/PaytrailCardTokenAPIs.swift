@@ -89,7 +89,8 @@ open class PaytrailCardTokenAPIs {
     ///   - completion: Result<TokenizationRequestResponse, Error>
     func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
         
-        let networkService: NetworkService = DefaultNetworkService()
+        // TODO: use another service
+        let networkService: NetworkService = NormalPaymentNetworkService()
         
         let headers = [
             ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,

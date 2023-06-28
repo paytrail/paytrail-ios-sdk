@@ -12,7 +12,7 @@ struct PaytrailSdkExamplesApp: App {
     var isAddingCard: Bool = true
     var body: some Scene {
         WindowGroup {
-            if !isAddingCard {
+            if isAddingCard {
                 ContentView()
             } else {
                 AddCardView()

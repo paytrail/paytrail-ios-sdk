@@ -26,6 +26,13 @@ public struct TokenPaymentThreeDsReponse: Codable {
     let transactionId: String?
     let threeDSecureUrl: String?
     
+    var localizedDescription: String {
+        guard let transactionId = transactionId, let threeDSecureUrl = threeDSecureUrl else {
+            return ""
+        }
+        return "{status: \(transactionId), message: \(threeDSecureUrl)}"
+    }
+    
     enum CodingKeys: String, CodingKey {
         case transactionId = "transactionId"
         case threeDSecureUrl = "threeDSecureUrl"

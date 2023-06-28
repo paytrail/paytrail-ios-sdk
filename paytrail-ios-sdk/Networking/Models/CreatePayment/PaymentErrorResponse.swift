@@ -7,9 +7,16 @@
 
 import Foundation
 
-public struct PaymentError: Codable {
+public struct PaymentErrorResponse: Codable {
     let status: String?
     let message: String?
+    
+    var localizedDescription: String {
+        guard let status = status, let message = message else {
+            return ""
+        }
+        return "{status: \(status), message: \(message)}"
+    }
     
     public init(status: String, message: String) {
         self.status = status

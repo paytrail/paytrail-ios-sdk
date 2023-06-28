@@ -107,7 +107,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             XCTAssert(success.transactionId == nil && success.providers == nil)
         case .failure(let failure as NSError):
             print(failure)
-            let message = (failure.userInfo["info"] as? PaymentError)?.message ?? ""
+            let message = (failure.userInfo["info"] as? PaymentErrorResponse)?.message ?? ""
             XCTAssert(failure.code == 401 && message.lowercased().contains("invalid merchant"))
         }
     }
@@ -121,7 +121,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             XCTAssert(success.transactionId == nil && success.providers == nil)
         case .failure(let failure as NSError):
             print(failure)
-            let message = (failure.userInfo["info"] as? PaymentError)?.message ?? ""
+            let message = (failure.userInfo["info"] as? PaymentErrorResponse)?.message ?? ""
             XCTAssert(failure.code == 400 && message.lowercased().contains("validation failed"))
         }
     }

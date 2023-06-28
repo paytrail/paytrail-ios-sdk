@@ -22,11 +22,7 @@ public struct PaymentImageDataRequest: DataRequest {
     
     func decode(_ data: Data) throws -> UIImage {
         guard let image = UIImage(data: data) else {
-            throw NSError(
-                domain: "Decode image error",
-                code: NSURLErrorDownloadDecodingFailedToComplete,
-                userInfo: nil
-            )
+            throw PaytrailGenericError(type: .jsonDecode, code: NSURLErrorDownloadDecodingFailedToComplete)
         }
         return image
     }

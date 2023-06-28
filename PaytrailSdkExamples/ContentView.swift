@@ -49,6 +49,9 @@ struct ContentView: View {
                     }
                     
                 }
+                
+                Text(contentText)
+
             }
             .frame(
               minWidth: 0,
@@ -136,9 +139,9 @@ struct ContentView: View {
                     //                    +
                     //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
                     print(contentText)
-                case .failure(let error as NSError):
+                case .failure(let error):
                     print(error)
-                    contentText = error.userInfo.description
+                    contentText = (error as? any PaytrailError)?.description ?? ""
                 }
             })
         }
