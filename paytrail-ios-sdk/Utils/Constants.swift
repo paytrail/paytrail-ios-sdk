@@ -39,6 +39,7 @@ public struct ApiPaths {
     static let tokenization = "/tokenization"
     static let addCard = "/addcard-form"
     static let paymentsToken = "/payments/token"
+    static let tokenCommit = "/token/commit"
 }
 
 public struct InvalidAcquirerResponseCode {

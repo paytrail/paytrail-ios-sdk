@@ -158,5 +158,46 @@ open class PaytrailCardTokenAPIs {
         }
         
     }
+    
+    
+    /// commitAuthorizationHold API for commit any authorization-hold transaction
+    /// - Parameters:
+    ///   - merchantId: merchantId, i.e. account
+    ///   - secret: merchant secret
+    ///   - transactionId: onhold transactionId
+    ///   - payload: onhold payment payload which can be different than the original
+    ///   - completion: Result<TokenPaymentRequestResponse, Error>
+    func commitAuthorizationHold(of merchantId: String,
+                                 secret: String,
+                                 transactionId: String,
+                                 payload: PaymentRequestBody,
+                                 completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+        let networkService: NetworkService = TokenPaymentNetworkService()
+        
+        let path = ApiPaths.payments + "/\(transactionId)" + ApiPaths.tokenCommit
+        let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
+        
+        let headers = [
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutAccount: merchantId,
+            ParameterKeys.checkoutTransactionId: transactionId
+        ]
+        
+        let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        
+        let speicalHeader = [ParameterKeys.signature: signature]
+        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader, path: path)
+        networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
      
 }

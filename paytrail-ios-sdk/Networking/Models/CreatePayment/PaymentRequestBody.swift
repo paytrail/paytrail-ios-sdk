@@ -33,7 +33,7 @@ import Foundation
 public struct PaymentRequestBody : Codable {
     let stamp : String
     let reference : String
-    let amount : Int
+    let amount : Int64
     let currency : Currency
     let language : Language
     let items : [Item]
@@ -51,7 +51,7 @@ public struct PaymentRequestBody : Codable {
     
     init(stamp: String,
          reference: String,
-         amount: Int,
+         amount: Int64,
          currency: Currency,
          language: Language,
          items: [Item],

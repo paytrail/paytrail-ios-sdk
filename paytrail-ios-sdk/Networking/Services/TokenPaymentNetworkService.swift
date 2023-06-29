@@ -16,6 +16,8 @@ final class TokenPaymentNetworkService: NetworkService {
             let error = createUrlRequet(from: request).1 ?? PaytrailGenericError._default
             return completion(.failure(error))
         }
+        
+        print(urlRequest)
                 
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {

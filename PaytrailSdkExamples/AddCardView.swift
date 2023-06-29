@@ -18,6 +18,7 @@ struct AddCardView: View {
     @State private var savedCards: [TokenizedCard] = []
     @State private var statusString: String = ""
     @State private var threeDSecureRequest: URLRequest?
+    @State private var commitOnHoldAmount: String = ""
     
     private var autoPayload: PaymentRequestBody {
         let token =  savedCards.first?.token ?? ""
@@ -57,10 +58,18 @@ struct AddCardView: View {
                         ForEach(savedCards, id: \.self) { card in
                             Button {
                                 statusString = ""
-                                cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(from: card.token), transactionType: .cit, authorizationType: .charge) { result in
+                                let payload = createPayload(from: card.token)
+                                let authType: PaytrailCardTokenAPIs.PaymentAuthorizationType = card.partialPan == "0313" ? .authorizationHold : .charge
+                                cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
                                     switch result {
                                     case .success(let success):
                                         statusString = "Payment success: \(success.transactionId ?? "")"
+                                        DispatchQueue.main.async {
+                                            if authType == .authorizationHold {
+                                                viewModel.transcationOnHold = (success.transactionId!, payload)
+                                                commitOnHoldAmount = String(payload.amount)
+                                            }
+                                        }
                                         print(success)
                                     case .failure(let failure):
                                         statusString = "Payment failure!\(failure)"
@@ -112,6 +121,49 @@ struct AddCardView: View {
                 //                } label: {
                 //                    Text("Pay with saved card!")
                 //                }
+                HStack {
+                    Button {
+
+                        if let newAmount = Int64(commitOnHoldAmount) {
+                            if viewModel.transcationOnHold!.payload.amount != newAmount {
+                                viewModel.updateOnHoldTransaction(with: newAmount)
+                            }
+                        }
+                        
+                        guard let transacationOnHold = viewModel.transcationOnHold else { return }
+                    
+                        cardApi.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+                            switch result {
+                            case .success(let success):
+                                DispatchQueue.main.async {
+                                    viewModel.transcationOnHold = nil
+                                }
+                                statusString = "Payment success: \(success.transactionId ?? "")"
+                                print(success)
+                            case .failure(let failure):
+                                statusString = "Payment failure!\(failure)"
+                                print(failure)
+                            }
+                        }
+                    } label: {
+                        Text("Commit onhold transcation")
+                    }
+                    
+                    TextField("Amount", text: $commitOnHoldAmount)
+                        .textFieldStyle(.roundedBorder)
+                        .onChange(of: commitOnHoldAmount) { newText in
+                            guard let amount = Int64(newText) else {
+                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                                return
+                            }
+                            if amount > viewModel.transcationOnHold!.payload.amount {
+                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                            } else if amount <= 0 {
+                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                            }
+                        }
+                }
+                .visible(viewModel.transcationOnHold != nil)
                 
                 Divider()
                 
@@ -206,11 +258,13 @@ struct AddCardView: View {
 
 extension AddCardView {
     class ViewModel: ObservableObject, PaymentDelegate {
+        typealias TranscationOnHold = (transcationId: String, payload: PaymentRequestBody)
         var realm: Realm?
         @Published var addCardRequest: URLRequest?
         @Published var tokenizedId: String?
         @Published var isCardSaved: Bool?
         @Published var paymentStatus: String?
+        @Published var transcationOnHold: TranscationOnHold?
 //        @Published var threeDSecureRequest: URLRequest?
         var savedCards: [TokenizedCard] {
             getSavedCards()
@@ -261,6 +315,18 @@ extension AddCardView {
             addCardRequest = nil
             tokenizedId = nil
             isCardSaved = nil
+        }
+        
+        func updateOnHoldTransaction(with newAmount: Int64) {
+            guard let payload = transcationOnHold?.payload else {
+                print("Error updating on hold transaction, reason: currnt transcationOnHold is nil")
+                return
+            }
+            
+            let newPayload = PaymentRequestBody(stamp: payload.stamp,
+                                                reference: payload.reference, amount: newAmount, currency: payload.currency, language: payload.language, items: [Item(unitPrice: newAmount, units: 1, vatPercentage: 24, productCode: "#1234")], customer: payload.customer, redirectUrls: payload.redirectUrls)
+            transcationOnHold?.payload = newPayload
+            
         }
     }
 }
