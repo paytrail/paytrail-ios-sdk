@@ -101,27 +101,12 @@ struct AddCardView: View {
                     // 1) Initiate add card request
                     viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
                 } label: {
-                    Text("Add your sweet card!")
+                    Text("Add Card")
                 }
                 
                 Divider()
 
-                //                Button {
-                //                    statusString = ""
-                //                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: autoPayload, transactionType: .cit, authorizationType: .charge) { result in
-                //                        switch result {
-                //                        case .success(let success):
-                //                            statusString = "Payment success: \(success.transactionId ?? "")"
-                //                            print(success)
-                //                        case .failure(let failure as NSError):
-                //                            statusString = "Payment failure!\(failure)"
-                //                            print(failure.userInfo["info"])
-                //                        }
-                //                    }
-                //                } label: {
-                //                    Text("Pay with saved card!")
-                //                }
-                HStack {
+                HStack(alignment: .center) {
                     Button {
 
                         if let newAmount = Int64(commitOnHoldAmount) {
@@ -164,19 +149,40 @@ struct AddCardView: View {
                         }
                 }
                 .visible(viewModel.transcationOnHold != nil)
+                .fixedSize(horizontal: true, vertical: false)
+                
+                Button {
+                    guard let transacationOnHold = viewModel.transcationOnHold else { return }
+                    
+                    cardApi.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
+                        switch result {
+                        case .success(let success):
+                            DispatchQueue.main.async {
+                                viewModel.transcationOnHold = nil
+                            }
+                            statusString = "Reverted onhold transaction: \(success.transactionId ?? "")"
+                        case .failure(let failure):
+                            statusString = "Revert onhold transaction failed: --\(failure)"
+                            print(failure)
+                        }
+                    }
+                } label: {
+                    Text("Revert onhold transcation")
+                }
+                .visible(viewModel.transcationOnHold != nil)
                 
                 Divider()
                 
                 Text(statusString)
                     .visible(!statusString.isEmpty)
                 
-                Text("Card saved successfully!")
-                    .foregroundColor(Color.green)
-                    .visible(viewModel.isCardSaved == true)
-                
-                Text("Card saved unsuccessfully")
-                    .foregroundColor(Color.red)
-                    .visible(viewModel.isCardSaved == false)
+//                Text("Card saved successfully!")
+//                    .foregroundColor(Color.green)
+//                    .visible(viewModel.isCardSaved == true)
+//
+//                Text("Card saved unsuccessfully")
+//                    .foregroundColor(Color.red)
+//                    .visible(viewModel.isCardSaved == false)
                 
             }
             
@@ -239,10 +245,16 @@ struct AddCardView: View {
             }
         })
         .onChange(of: viewModel.isCardSaved, perform: { newValue in
-            guard let value = newValue, value else { return }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                savedCards = viewModel.savedCards
+            guard let value = newValue else { return }
+            if value {
+                statusString = "Saved card successfully!"
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    savedCards = viewModel.savedCards
+                }
+            } else {
+                statusString = "Saved card failed!"
             }
+
         })
         .onChange(of: viewModel.paymentStatus, perform: { newValue in
             guard let value = newValue else { return }
