@@ -20,21 +20,6 @@ struct AddCardView: View {
     @State private var threeDSecureRequest: URLRequest?
     @State private var commitOnHoldAmount: String = ""
     
-    private var autoPayload: PaymentRequestBody {
-        let token =  savedCards.first?.token ?? ""
-        let payload = PaymentRequestBody(stamp: UUID().uuidString,
-                                         reference: "3759170",
-                                         amount: 1999,
-                                         currency: .eur,
-                                         language: .fi,
-                                         items: [Item(unitPrice: 1999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
-                                         customer: Customer(email: "test.customer@example.com"),
-                                         redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
-                                         callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
-                                         token: token)
-        return payload
-    }
-    
     private func createPayload(from token: String) -> PaymentRequestBody {
         PaymentRequestBody(stamp: UUID().uuidString,
                                          reference: "3759170",
@@ -50,7 +35,22 @@ struct AddCardView: View {
     
     var body: some View {
         ScrollView {
-            VStack(spacing: 80) {
+            VStack(spacing: 40) {
+                VStack() {
+                    Button {
+                        viewModel.clean()
+                        // 1) Initiate add card request
+                        viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
+                    } label: {
+                        Text("Add Card")
+                            .bold()
+                    }
+                                                            
+                }
+                .frame(height: 80)
+                
+                Divider()
+                
                 
                 // Show saved cards if any
                 VStack(spacing: 24) {
@@ -93,96 +93,79 @@ struct AddCardView: View {
                         
                     }
                 }
-  
-                Divider()
-                
-                Button {
-                    viewModel.clean()
-                    // 1) Initiate add card request
-                    viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
-                } label: {
-                    Text("Add Card")
-                }
                 
                 Divider()
 
-                HStack(alignment: .center) {
-                    Button {
-
-                        if let newAmount = Int64(commitOnHoldAmount) {
-                            if viewModel.transcationOnHold!.payload.amount != newAmount {
-                                viewModel.updateOnHoldTransaction(with: newAmount)
+                VStack(spacing: 48) {
+                    HStack(alignment: .center) {
+                        Button {
+                            
+                            if let newAmount = Int64(commitOnHoldAmount) {
+                                if viewModel.transcationOnHold!.payload.amount != newAmount {
+                                    viewModel.updateOnHoldTransaction(with: newAmount)
+                                }
                             }
+                            
+                            guard let transacationOnHold = viewModel.transcationOnHold else { return }
+                            
+                            cardApi.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+                                switch result {
+                                case .success(let success):
+                                    DispatchQueue.main.async {
+                                        viewModel.transcationOnHold = nil
+                                    }
+                                    statusString = "Payment success: \(success.transactionId ?? "")"
+                                    print(success)
+                                case .failure(let failure):
+                                    statusString = "Payment failure!\(failure)"
+                                    print(failure)
+                                }
+                            }
+                        } label: {
+                            Text("Commit onhold transcation")
                         }
                         
-                        guard let transacationOnHold = viewModel.transcationOnHold else { return }
+                        TextField("Amount", text: $commitOnHoldAmount)
+                            .textFieldStyle(.roundedBorder)
+                            .onChange(of: commitOnHoldAmount) { newText in
+                                guard let amount = Int64(newText) else {
+                                    commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                                    return
+                                }
+                                if amount > viewModel.transcationOnHold!.payload.amount {
+                                    commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                                } else if amount <= 0 {
+                                    commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
+                                }
+                            }
+                    }
+                    .fixedSize(horizontal: true, vertical: false)
                     
-                        cardApi.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+                    Button {
+                        guard let transacationOnHold = viewModel.transcationOnHold else { return }
+                        
+                        cardApi.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
                             switch result {
                             case .success(let success):
                                 DispatchQueue.main.async {
                                     viewModel.transcationOnHold = nil
                                 }
-                                statusString = "Payment success: \(success.transactionId ?? "")"
-                                print(success)
+                                statusString = "Reverted onhold transaction: \(success.transactionId ?? "")"
                             case .failure(let failure):
-                                statusString = "Payment failure!\(failure)"
+                                statusString = "Revert onhold transaction failed: --\(failure)"
                                 print(failure)
                             }
                         }
                     } label: {
-                        Text("Commit onhold transcation")
+                        Text("Revert onhold transcation")
                     }
                     
-                    TextField("Amount", text: $commitOnHoldAmount)
-                        .textFieldStyle(.roundedBorder)
-                        .onChange(of: commitOnHoldAmount) { newText in
-                            guard let amount = Int64(newText) else {
-                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
-                                return
-                            }
-                            if amount > viewModel.transcationOnHold!.payload.amount {
-                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
-                            } else if amount <= 0 {
-                                commitOnHoldAmount = String(viewModel.transcationOnHold!.payload.amount)
-                            }
-                        }
+                    Divider()
                 }
                 .visible(viewModel.transcationOnHold != nil)
-                .fixedSize(horizontal: true, vertical: false)
-                
-                Button {
-                    guard let transacationOnHold = viewModel.transcationOnHold else { return }
-                    
-                    cardApi.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
-                        switch result {
-                        case .success(let success):
-                            DispatchQueue.main.async {
-                                viewModel.transcationOnHold = nil
-                            }
-                            statusString = "Reverted onhold transaction: \(success.transactionId ?? "")"
-                        case .failure(let failure):
-                            statusString = "Revert onhold transaction failed: --\(failure)"
-                            print(failure)
-                        }
-                    }
-                } label: {
-                    Text("Revert onhold transcation")
-                }
-                .visible(viewModel.transcationOnHold != nil)
-                
-                Divider()
                 
                 Text(statusString)
                     .visible(!statusString.isEmpty)
-                
-//                Text("Card saved successfully!")
-//                    .foregroundColor(Color.green)
-//                    .visible(viewModel.isCardSaved == true)
-//
-//                Text("Card saved unsuccessfully")
-//                    .foregroundColor(Color.red)
-//                    .visible(viewModel.isCardSaved == false)
                 
             }
             
