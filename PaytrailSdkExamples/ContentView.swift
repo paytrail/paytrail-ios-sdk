@@ -10,6 +10,9 @@ import paytrail_ios_sdk
 
 struct ContentView: View {
     
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    @Binding var amount: String
+    @Binding var status: PaymentStatus
     @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var groups: [PaymentMethodGroup] = []
@@ -97,6 +100,8 @@ struct ContentView: View {
             switch PaymentStatus(rawValue: newValue) {
             case .ok:
                 print("payment ok!")
+                status = .ok
+                mode.wrappedValue.dismiss()
                 
                 //                paymentApis.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: "cfaa43a2-0c4e-11ee-829b-a75b998e8f55") { result in
                 //                    print(result)
@@ -114,10 +119,10 @@ struct ContentView: View {
         .onAppear {
             let payload = PaymentRequestBody(stamp: UUID().uuidString,
                                              reference: "3759170",
-                                             amount: 999,
+                                             amount: (Int64(amount) ?? 1) * 100,
                                              currency: .eur,
                                              language: .fi,
-                                             items: [Item(unitPrice: 999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                             items: [Item(unitPrice: (Int64(amount) ?? 1) * 100, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                              customer: Customer(email: "test.customer@example.com"),
                                              redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
                                              callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"))
@@ -163,6 +168,6 @@ extension ContentView {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        ContentView()
+        ContentView(amount: .constant("10"), status: .constant(.ok))
     }
 }

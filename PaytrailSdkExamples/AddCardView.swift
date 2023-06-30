@@ -13,7 +13,10 @@ let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
 
 struct AddCardView: View {
     
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     let cardApi = PaytrailCardTokenAPIs()
+    @Binding var amount: String
+    @Binding var status: PaymentStatus
     @StateObject private var viewModel = ViewModel()
     @State private var savedCards: [TokenizedCard] = []
     @State private var statusString: String = ""
@@ -23,10 +26,10 @@ struct AddCardView: View {
     private func createPayload(from token: String) -> PaymentRequestBody {
         PaymentRequestBody(stamp: UUID().uuidString,
                                          reference: "3759170",
-                                         amount: 1999,
+                                         amount: (Int64(amount) ?? 1) * 100,
                                          currency: .eur,
                                          language: .fi,
-                                         items: [Item(unitPrice: 1999, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                         items: [Item(unitPrice: (Int64(amount) ?? 1) * 100, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
                                          customer: Customer(email: "test.customer@example.com"),
                                          redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
                                          callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
@@ -42,7 +45,7 @@ struct AddCardView: View {
                         // 1) Initiate add card request
                         viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
                     } label: {
-                        Text("Add Card")
+                        Text("Add a new card")
                             .bold()
                     }
                                                             
@@ -51,10 +54,9 @@ struct AddCardView: View {
                 
                 Divider()
                 
-                
                 // Show saved cards if any
                 VStack(spacing: 24) {
-                    GroupedGrid(headerTitle: "Saved Cards: ") {
+                    GroupedGrid(headerTitle: "Click a saved card and pay: ") {
                         ForEach(savedCards, id: \.self) { card in
                             Button {
                                 statusString = ""
@@ -68,6 +70,9 @@ struct AddCardView: View {
                                             if authType == .authorizationHold {
                                                 viewModel.transcationOnHold = (success.transactionId!, payload)
                                                 commitOnHoldAmount = String(payload.amount)
+                                            } else {
+                                                status = .ok
+                                                mode.wrappedValue.dismiss()
                                             }
                                         }
                                         print(success)
@@ -113,9 +118,11 @@ struct AddCardView: View {
                                 case .success(let success):
                                     DispatchQueue.main.async {
                                         viewModel.transcationOnHold = nil
+                                        statusString = "Payment success: \(success.transactionId ?? "")"
+                                        status = .ok
+                                        mode.wrappedValue.dismiss()
                                     }
-                                    statusString = "Payment success: \(success.transactionId ?? "")"
-                                    print(success)
+
                                 case .failure(let failure):
                                     statusString = "Payment failure!\(failure)"
                                     print(failure)
@@ -243,7 +250,11 @@ struct AddCardView: View {
             guard let value = newValue else { return }
             threeDSecureRequest = nil
             statusString = "Payment status: \(value)"
-        })
+            if value == PaymentStatus.ok.rawValue {
+                status = .ok
+                mode.wrappedValue.dismiss()
+            }
+         })
         .onAppear {
             savedCards = viewModel.savedCards
         }
