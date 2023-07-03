@@ -15,11 +15,11 @@ public protocol PaymentDelegate {
     /// Handle payment status change
     /// - Parameter status: status string of a payment flow, see PaymentStatus
     ///
-    func onPaymentStatusChanged(_ status: String)
+    func onPaymentStatusChanged(_ paymentResult: PaymentResult)
     func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult)
 }
 
 extension PaymentDelegate {
-    func onPaymentStatusChanged(_ status: String) {}
+    func onPaymentStatusChanged(_ paymentResult: PaymentResult) {}
     func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {}
 }

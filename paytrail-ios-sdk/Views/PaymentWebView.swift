@@ -91,16 +91,22 @@ public struct PaymentWebView: UIViewRepresentable {
                     
                 case .normalPayment:
                     // Validate reponse signature
-                    guard let status = items[ParameterKeys.checkoutStatus], let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
-                        if let _ = items[ParameterKeys.checkoutStatus] {
-                            print("signature mismatch, failing payment")
+                    guard let status = items[ParameterKeys.checkoutStatus],
+                            let transactionId = items[ParameterKeys.checkoutTransactionId],
+                            let signature = items[ParameterKeys.signature],
+                            signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                        if let transactionId = items[ParameterKeys.checkoutTransactionId] {
+                            print("Error, signature mismatch, failing payment")
                             // Return payment status fail when signatures mismatch
-                            delegate?.onPaymentStatusChanged(PaymentStatus.fail.rawValue)
+                            let result = PaymentResult(transactionId: transactionId, status: .fail, error: PaytrailPaymentError(type: .invalidSignature, code: 404))
+                            delegate?.onPaymentStatusChanged(result)
                         }
+
                         decisionHandler(.allow)
                         return
                     }
-                    delegate?.onPaymentStatusChanged(status)
+                    let result = PaymentResult(transactionId: transactionId, status: PaymentStatus(rawValue: status) ?? .none)
+                    delegate?.onPaymentStatusChanged(result)
                 }
             }
             decisionHandler(.allow)

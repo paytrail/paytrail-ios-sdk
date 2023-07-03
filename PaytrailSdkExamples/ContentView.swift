@@ -24,10 +24,10 @@ struct ContentView: View {
     var body: some View {
         ScrollView(showsIndicators: false) {
             VStack(alignment: .leading) {
-                Text("<Payment Status: \(viewModel.paymentStatus)>\n")
+                Text("<Payment result: \(viewModel.paymentResult?.status.rawValue ?? "")>\n")
                     .bold()
-                    .foregroundColor(viewModel.paymentStatus == PaymentStatus.ok.rawValue ? Color.green : Color.red)
-                    .visible(!viewModel.paymentStatus.isEmpty)
+                    .foregroundColor(viewModel.paymentResult?.status == .ok ? Color.green : Color.red)
+                    .visible(viewModel.paymentResult != nil)
                 
                 ForEach(groups, id: \.self) { group in
                     GroupedGrid(headerTitle: group.name ?? "") {
@@ -76,7 +76,7 @@ struct ContentView: View {
                             .toolbar {
                                 ToolbarItem(placement: .navigationBarLeading) {
                                     BackButton {                                    viewModel.currentPaymentRequest = nil
-                                        viewModel.paymentStatus = ""
+                                        viewModel.paymentResult = nil
                                     }
                                 }
                             }
@@ -96,8 +96,11 @@ struct ContentView: View {
                 }
             }
         })
-        .onChange(of: viewModel.paymentStatus, perform: { newValue in
-            switch PaymentStatus(rawValue: newValue) {
+        .onChange(of: viewModel.paymentResult, perform: { newValue in
+            guard let newValue = newValue else {
+                return
+            }
+            switch newValue.status {
             case .ok:
                 print("payment ok!")
                 status = .ok
@@ -112,6 +115,9 @@ struct ContentView: View {
                 print("payment delayed!")
             case .fail:
                 print("payment failed!")
+                if let _ = newValue.error {
+                    // Take care of the error when payment fails
+                }
             default:
                 print("Payment none")
             }
@@ -155,12 +161,12 @@ struct ContentView: View {
 
 extension ContentView {
     class ViewModel: ObservableObject, PaymentDelegate {
-        @Published var paymentStatus: String = ""
+        @Published var paymentResult: PaymentResult?
         @Published var currentPaymentRequest: URLRequest?
         // 3) Handle payment callbacks
-        func onPaymentStatusChanged(_ status: String) {
-            print("payment status changed: \(status)")
-            paymentStatus = status
+        func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
+            print("payment status changed: \(paymentResult.status.rawValue)")
+            self.paymentResult = paymentResult
             currentPaymentRequest = nil // Exit payment
         }
     }

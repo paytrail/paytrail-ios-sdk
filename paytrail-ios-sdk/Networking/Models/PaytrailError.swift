@@ -23,6 +23,7 @@ extension PaytrailError {
 
 public enum PaytrialErrorType: String {
     case invalidEndpint
+    case invalidSignature
     case createPayment
     case getPayment
     case getToken
