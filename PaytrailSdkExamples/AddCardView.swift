@@ -287,8 +287,9 @@ extension AddCardView {
         func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
             print("Checkout tokenized id received: \(tokenizationResult.tokenizationId)")
             addCardRequest = nil
-            guard tokenizationResult.errorMessage.isEmpty, tokenizationResult.status == .ok else {
-                print(tokenizationResult.errorMessage)
+            guard tokenizationResult.error == nil, tokenizationResult.status == .ok else {
+                print(tokenizationResult.error)
+                //  Take care of the tokenization error here if any
                 isCardSaved = false
                 return
             }

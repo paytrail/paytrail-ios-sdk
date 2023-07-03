@@ -8,7 +8,7 @@
 import Foundation
 
 public struct PaymentResult: Equatable {
-
+        
     public let transactionId: String
     public let status: PaymentStatus
     public let error: PaytrailPaymentError?

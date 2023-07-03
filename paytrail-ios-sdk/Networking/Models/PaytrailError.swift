@@ -27,6 +27,7 @@ public enum PaytrialErrorType: String {
     case createPayment
     case getPayment
     case getToken
+    case invalidToken
     case createTokenPayment
     case jsonDecode
     case threeDsPaymentSoftDecline

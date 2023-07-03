@@ -69,19 +69,21 @@ public struct PaymentWebView: UIViewRepresentable {
                 switch contentType {
                 case .addCard:
                     guard let tokenId = items[ParameterKeys.checkoutTokenizationId] else {
-                        if let status = items[ParameterKeys.checkoutStatus] {
-                            let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, empty tokenization-id")
+                        if let _ = items[ParameterKeys.checkoutStatus] {
+                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PaytrailTokenError(type: .invalidToken, code: 404))
                             delegate?.onCardTokenizedIdReceived(result)
                         }
+
                         decisionHandler(.allow)
                         return
                     }
                     
                     guard let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
-                        if let status = items[ParameterKeys.checkoutStatus] {
-                            let result = TokenizationResult(tokenizationId: "", status: PaymentStatus(rawValue: status) ?? .fail, errorMessage: "Error, invalid signature")
+                        if let _ = items[ParameterKeys.checkoutStatus]  {
+                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PaytrailTokenError(type: .invalidSignature, code: 404))
                             delegate?.onCardTokenizedIdReceived(result)
                         }
+
                         decisionHandler(.allow)
                         return
                     }
