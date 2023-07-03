@@ -246,13 +246,21 @@ struct AddCardView: View {
             }
 
         })
-        .onChange(of: viewModel.paymentStatus, perform: { newValue in
+        .onChange(of: viewModel.paymentResult, perform: { newValue in
             guard let value = newValue else { return }
             threeDSecureRequest = nil
-            statusString = "Payment status: \(value)"
-            if value == PaymentStatus.ok.rawValue {
+            statusString = "Payment status: \(value.status.rawValue)"
+            switch value.status {
+            case .ok:
                 status = .ok
                 mode.wrappedValue.dismiss()
+            case .fail:
+                statusString = "Payment status: \(PaymentStatus.fail.rawValue)"
+                if let _ = value.error {
+                    // Take care of the payment error here
+                }
+            default:
+                statusString = "Payment status: \(value.status.rawValue)"
             }
          })
         .onAppear {
@@ -269,9 +277,8 @@ extension AddCardView {
         @Published var addCardRequest: URLRequest?
         @Published var tokenizedId: String?
         @Published var isCardSaved: Bool?
-        @Published var paymentStatus: String?
+        @Published var paymentResult: PaymentResult?
         @Published var transcationOnHold: TranscationOnHold?
-//        @Published var threeDSecureRequest: URLRequest?
         var savedCards: [TokenizedCard] {
             getSavedCards()
         }
@@ -289,9 +296,9 @@ extension AddCardView {
             self.tokenizedId = tokenizationResult.tokenizationId
         }
         
-        func onPaymentStatusChanged(_ status: String) {
-            print("Payment status received: \(status)")
-            paymentStatus = status
+        func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
+            print("payment status changed: \(paymentResult.status.rawValue)")
+            self.paymentResult = paymentResult
         }
         
         func addCardToDb(_ tokenizedCard: TokenizedCard) {
