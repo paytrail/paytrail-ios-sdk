@@ -110,6 +110,10 @@
 		DC3689B52A52FD0900FB2D71 /* TokenizationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689B42A52FD0900FB2D71 /* TokenizationResult.swift */; };
 		DC3689B62A52FD0900FB2D71 /* TokenizationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689B42A52FD0900FB2D71 /* TokenizationResult.swift */; };
 		DC3689B72A52FD0900FB2D71 /* TokenizationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689B42A52FD0900FB2D71 /* TokenizationResult.swift */; };
+		DC3689B82A54199500FB2D71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FAE2A25FEDF004AD49D /* ContentView.swift */; };
+		DC3689B92A54199500FB2D71 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FAE2A25FEDF004AD49D /* ContentView.swift */; };
+		DC3689BA2A54199B00FB2D71 /* PaytrailSdkExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FAC2A25FEDF004AD49D /* PaytrailSdkExamplesApp.swift */; };
+		DC3689BB2A54199B00FB2D71 /* PaytrailSdkExamplesApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FAC2A25FEDF004AD49D /* PaytrailSdkExamplesApp.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -711,10 +715,12 @@
 				DC3689302A386BE900FB2D71 /* View+Extension.swift in Sources */,
 				DC501F392A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
 				DC36898C2A499C0000FB2D71 /* BackButton.swift in Sources */,
+				DC3689B82A54199500FB2D71 /* ContentView.swift in Sources */,
 				DC3689462A3C96B300FB2D71 /* Payment.swift in Sources */,
 				DC3689412A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
 				DC36898F2A49B79900FB2D71 /* Constants.swift in Sources */,
 				DC36895B2A41E4C700FB2D71 /* AddCardView.swift in Sources */,
+				DC3689BB2A54199B00FB2D71 /* PaytrailSdkExamplesApp.swift in Sources */,
 				DC3689B12A52E13A00FB2D71 /* PaymentResult.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -725,6 +731,7 @@
 			files = (
 				DC36898D2A499C0000FB2D71 /* BackButton.swift in Sources */,
 				DC501FC72A263249004AD49D /* PaymentErrorResponse.swift in Sources */,
+				DC3689B92A54199500FB2D71 /* ContentView.swift in Sources */,
 				DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
 				DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */,
 				DC3689942A4AD8EE00FB2D71 /* CreateTokenPaymentDataRequest.swift in Sources */,
@@ -758,6 +765,7 @@
 				DC501F7C2A24B272004AD49D /* PaymentRequestBody.swift in Sources */,
 				DC36891D2A31D66700FB2D71 /* PaymentImageDataRequest.swift in Sources */,
 				DC3689AE2A4DBA0D00FB2D71 /* ProductCheckoutView.swift in Sources */,
+				DC3689BA2A54199B00FB2D71 /* PaytrailSdkExamplesApp.swift in Sources */,
 				DC3689A12A4C61B300FB2D71 /* NormalPaymentNetworkService.swift in Sources */,
 				DC3689312A386BE900FB2D71 /* View+Extension.swift in Sources */,
 				DC3689B22A52E13A00FB2D71 /* PaymentResult.swift in Sources */,
