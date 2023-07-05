@@ -176,19 +176,20 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    /// Test commitAuthorizationHold failure case..
+    /// Test commitAuthorizationHold failure case with a revertedTransactionId
     func testCommitAuthorizationHoldFailure() async {
         let tokenResult = await getTokenAsync(tokenizedId, merchantId: merchant.merchantId, secret: merchant.secret)
         if case .success(let success) = tokenResult {
             let payload = createPaymentPayload(with: success.token)
-            let result = await commitAuthorizationHoldAsync(merchant.merchantId, secret: merchant.secret, transactionId: committedTransactionId, payload: payload)
+            let result = await commitAuthorizationHoldAsync(merchant.merchantId, secret: merchant.secret, transactionId: revertedTransactionId, payload: payload)
             switch result {
             case .success(let success):
                 print(success)
                 XCTFail("Invalid success due to invalid transaction Id")
             case .failure(let failure):
                 print(failure)
-                XCTAssert(failure is any PaytrailError)
+                let error = failure as? any PaytrailError
+                XCTAssert(error?.code == 400, "Trade is already cancelled, cannot commit.")
             }
         }
     }
