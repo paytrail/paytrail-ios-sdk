@@ -9,8 +9,8 @@ import Foundation
 import SwiftUI
 
 public enum PaytrailViewMode {
-    case normal(background: Color = Color.white)
-    case dark(background: Color = Color.black)
+    case normal(background: Color = Color.white, foreground: Color = Color.black)
+    case dark(background: Color = Color.black, foreground: Color = Color.white)
 }
 
 public struct PaytrailThemes {
@@ -18,27 +18,36 @@ public struct PaytrailThemes {
     
     var background: Color {
         switch viewMode {
-        case .normal(let background):
+        case .normal(let background, _):
             return background
-        case .dark(let background):
+        case .dark(let background, _):
             return background
+        }
+    }
+    
+    var foreground: Color {
+        switch viewMode {
+        case .normal(_, let foreground):
+            return foreground
+        case .dark(_, let foreground):
+            return foreground
         }
     }
     
     var shadow: Color {
         switch viewMode {
-        case .normal(_):
+        case .normal(_, _):
             return Color.gray.opacity(0.3)
-        case .dark(_):
+        case .dark(_, _):
             return Color.white.opacity(0.3)
         }
     }
     
     var inverted: Bool {
         switch viewMode {
-        case .normal(_):
+        case .normal(_, _):
             return false
-        case .dark(_):
+        case .dark(_, _):
             return true
         }
     }

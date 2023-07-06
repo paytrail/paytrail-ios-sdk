@@ -28,7 +28,7 @@ struct ContentView: View {
                     .foregroundColor(viewModel.paymentResult?.status == .ok ? Color.green : Color.red)
                     .visible(viewModel.paymentResult != nil)
                 
-                PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: $providers, groups: groups, currentPaymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
+                PaymentProvidersView(themes: PaytrailThemes(viewMode: .dark()), providers: $providers, groups: groups, currentPaymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
                     viewModel.currentPaymentRequest = request
                 }))
                 
@@ -63,7 +63,7 @@ struct ContentView: View {
                 }
             }
         }
-        .background(Color.white)
+        .background(Color.black.opacity(0.9))
         .onChange(of: viewModel.paymentResult, perform: { newValue in
             guard let newValue = newValue else {
                 return
