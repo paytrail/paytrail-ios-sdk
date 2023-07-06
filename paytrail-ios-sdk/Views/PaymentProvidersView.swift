@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct PaymentProvidersView: View {
+public struct PaymentProvidersView: View {
     
     private let paymentApis = PaytrailPaymentAPIs()
     @Binding var providers: [PaymentMethodProvider]
@@ -15,10 +15,10 @@ struct PaymentProvidersView: View {
     @Binding var currentPaymentRequest: URLRequest?
     @State private var providerImages: [UIImage] = []
 
-    var body: some View {
+    public var body: some View {
         VStack(alignment: .leading) {
             ForEach(groups, id: \.self) { group in
-                GroupedGrid(headerTitle: group.name ?? "") {
+                GroupedGridView(headerTitle: group.name ?? "") {
                     ForEach(0..<providerImages.count, id: \.self) { index in
                         if providers[index].group == group.id {
                             Button {
@@ -49,7 +49,7 @@ struct PaymentProvidersView: View {
                         providerImages.append(success)
                     case .failure(let failure):
                         print("Render image failure: \(failure.localizedDescription)")
-                        providerImages.append(UIImage(systemName: "exclamationmark.square")!)
+                        providerImages.append(UIImage(systemName: "exclamationmark.square") ?? UIImage())
                     }
                 }
             }
