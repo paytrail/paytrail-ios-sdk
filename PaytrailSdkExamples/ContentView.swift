@@ -32,30 +32,6 @@ struct ContentView: View {
                     viewModel.currentPaymentRequest = request
                 }))
                 
-                //                ForEach(groups, id: \.self) { group in
-                //                    GroupedGrid(headerTitle: group.name ?? "") {
-                //                        ForEach(0..<providerImages.count, id: \.self) { index in
-                //                            if providers[index].group == group.id {
-                //                                Button {
-                //                                    // Start the Payment flow:
-                //                                    // 1) Initiate payment provider URLRequest
-                //                                    guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
-                //                                    viewModel.currentPaymentRequest = request
-                //
-                //                                } label: {
-                //                                    Image(uiImage: providerImages[index])
-                //                                        .resizable()
-                //                                        .aspectRatio(contentMode: .fit)
-                //                                }
-                //                                .frame(width: 100, height: 100)
-                //                                .background(Color.gray.opacity(0.1))
-                //                            }
-                //
-                //                        }
-                //                    }
-                //
-                //                }
-                
                 Text(contentText)
 
             }
@@ -87,19 +63,7 @@ struct ContentView: View {
                 }
             }
         }
-        .background(Color.gray.opacity(0.3))
-//        .onChange(of: providers, perform: { newValue in
-//            for provider in newValue {
-//                paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { result in
-//                    switch result {
-//                    case .success(let success):
-//                        providerImages.append(success)
-//                    case .failure(let failure):
-//                        print("Render image failure: \(failure.localizedDescription)")
-//                    }
-//                }
-//            }
-//        })
+        .background(Color.white)
         .onChange(of: viewModel.paymentResult, perform: { newValue in
             guard let newValue = newValue else {
                 return

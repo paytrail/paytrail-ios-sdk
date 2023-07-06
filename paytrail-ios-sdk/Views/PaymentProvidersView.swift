@@ -15,6 +15,14 @@ public struct PaymentProvidersView: View {
     let groups: [PaymentMethodGroup]
     @Binding var currentPaymentRequest: URLRequest?
     @State private var providerImages: [UIImage] = []
+    
+    private struct Constants {
+        static let providerWidth: CGFloat = 100
+        static let providerHeight: CGFloat = 56
+        static let providerCornerRadius: CGFloat = 8
+        static let providerShadowRadius: CGFloat = 4
+        static let providerImagePadding: CGFloat = 8
+    }
 
     public var body: some View {
         VStack(alignment: .leading) {
@@ -30,17 +38,17 @@ public struct PaymentProvidersView: View {
                                 Image(uiImage: providerImages[index])
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
-                                    .padding(8)
+                                    .padding(Constants.providerImagePadding)
                                     .invertColor(themes.inverted)
 
                             }
-                            .frame(width: 100, height: 56)
+                            .frame(width: Constants.providerWidth, height: Constants.providerHeight)
                             .background(
-                                RoundedRectangle(cornerRadius: 8)
+                                RoundedRectangle(cornerRadius: Constants.providerCornerRadius)
                                     .fill(themes.background)
                                     .shadow(
                                         color: themes.shadow,
-                                        radius: 4,
+                                        radius: Constants.providerShadowRadius,
                                         x: 0,
                                         y: 0
                                      )
