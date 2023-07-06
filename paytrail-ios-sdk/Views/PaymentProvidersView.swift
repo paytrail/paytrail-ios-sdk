@@ -10,6 +10,7 @@ import SwiftUI
 public struct PaymentProvidersView: View {
     
     private let paymentApis = PaytrailPaymentAPIs()
+    let themes: PaytrailThemes
     @Binding var providers: [PaymentMethodProvider]
     let groups: [PaymentMethodGroup]
     @Binding var currentPaymentRequest: URLRequest?
@@ -22,8 +23,6 @@ public struct PaymentProvidersView: View {
                     ForEach(0..<providerImages.count, id: \.self) { index in
                         if providers[index].group == group.id {
                             Button {
-                                // Start the Payment flow:
-                                // 1) Initiate payment provider URLRequest
                                 guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
                                 currentPaymentRequest = request
                                 
@@ -31,9 +30,21 @@ public struct PaymentProvidersView: View {
                                 Image(uiImage: providerImages[index])
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
+                                    .padding(8)
+                                    .invertColor(themes.inverted)
+
                             }
-                            .frame(width: 100, height: 100)
-                            .background(Color.gray.opacity(0.1))
+                            .frame(width: 100, height: 56)
+                            .background(
+                                RoundedRectangle(cornerRadius: 8)
+                                    .fill(themes.background)
+                                    .shadow(
+                                        color: themes.shadow,
+                                        radius: 4,
+                                        x: 0,
+                                        y: 0
+                                     )
+                            )
                         }
                         
                     }
@@ -59,6 +70,6 @@ public struct PaymentProvidersView: View {
 
 struct PaymentProvidersView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentProvidersView(providers: .constant([]), groups: [], currentPaymentRequest: .constant(nil))
+        PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: .constant([]), groups: [], currentPaymentRequest: .constant(nil))
     }
 }
