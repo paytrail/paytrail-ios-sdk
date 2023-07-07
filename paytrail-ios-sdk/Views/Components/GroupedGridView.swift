@@ -7,29 +7,43 @@
 
 import SwiftUI
 
+
+/// GroupedGridView<Content> made to show the list of Payment Providers
+///
+/// Content: the desired content views to be grided with each view having a minimal width of 100 in CGFloat
 struct GroupedGridView<Content>: View where Content: View {
 
     @State var headerTitle: String = ""
     @State var hasDivider: Bool = false
     let themes: PaytrailThemes
     @ViewBuilder var content: () -> Content
+        
+    private enum UIConstants: CGFloat {
+        case itemMinWidth = 100
+        case gridSpacing = 30
+        case itemHorizontalSpacing = 20
+        case gridDividerHeight = 1.5
+    }
+    
     private let columns = [
-        GridItem(.adaptive(minimum: 100))
+        GridItem(.adaptive(minimum: UIConstants.itemMinWidth.rawValue))
     ]
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 30) {
+        VStack(alignment: .leading, spacing: UIConstants.gridSpacing.rawValue) {
             if !headerTitle.isEmpty {
+                // TODO: Consdier to load the font correctly or use the system one
                 Text(headerTitle)
+                    .font(.custom("RockwellStd-Bold", size: themes.fontSize))
                     .bold()
                     .foregroundColor(themes.foreground)
             }
-            LazyVGrid(columns: columns, spacing: 20) {
+            LazyVGrid(columns: columns, spacing: UIConstants.itemHorizontalSpacing.rawValue) {
                 content()
             }
             if hasDivider {
                 Divider()
-                    .frame(height: 1)
+                    .frame(height: UIConstants.gridDividerHeight.rawValue)
                     .background(Color.gray.opacity(0.3))
             }
         }
