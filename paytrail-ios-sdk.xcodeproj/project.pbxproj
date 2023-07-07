@@ -126,12 +126,6 @@
 		DC3689CA2A56F4FA00FB2D71 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689C92A56F4FA00FB2D71 /* View+Extensions.swift */; };
 		DC3689CB2A56F4FA00FB2D71 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689C92A56F4FA00FB2D71 /* View+Extensions.swift */; };
 		DC3689CC2A56F4FA00FB2D71 /* View+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689C92A56F4FA00FB2D71 /* View+Extensions.swift */; };
-		DC3689CF2A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689CE2A581C2C00FB2D71 /* Rockwell Std Regular.otf */; };
-		DC3689D02A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689CE2A581C2C00FB2D71 /* Rockwell Std Regular.otf */; };
-		DC3689D12A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689CE2A581C2C00FB2D71 /* Rockwell Std Regular.otf */; };
-		DC3689D32A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689D22A5823A800FB2D71 /* RockwellStd-Bold.otf */; };
-		DC3689D42A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689D22A5823A800FB2D71 /* RockwellStd-Bold.otf */; };
-		DC3689D52A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = DC3689D22A5823A800FB2D71 /* RockwellStd-Bold.otf */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -233,8 +227,6 @@
 		DC3689C12A56BCE000FB2D71 /* GroupedGridView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedGridView.swift; sourceTree = "<group>"; };
 		DC3689C52A56E40000FB2D71 /* PaytrailThemes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaytrailThemes.swift; sourceTree = "<group>"; };
 		DC3689C92A56F4FA00FB2D71 /* View+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Extensions.swift"; sourceTree = "<group>"; };
-		DC3689CE2A581C2C00FB2D71 /* Rockwell Std Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Rockwell Std Regular.otf"; sourceTree = "<group>"; };
-		DC3689D22A5823A800FB2D71 /* RockwellStd-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "RockwellStd-Bold.otf"; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
@@ -316,7 +308,6 @@
 		DC36892D2A374B6D00FB2D71 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				DC3689CD2A581BA900FB2D71 /* Fonts */,
 				DC3689C02A56BC9500FB2D71 /* Components */,
 				DC3689212A33312300FB2D71 /* PaymentWebView.swift */,
 				DC3689BC2A559B4800FB2D71 /* PaymentProvidersView.swift */,
@@ -410,15 +401,6 @@
 				DC3689C92A56F4FA00FB2D71 /* View+Extensions.swift */,
 			);
 			path = Components;
-			sourceTree = "<group>";
-		};
-		DC3689CD2A581BA900FB2D71 /* Fonts */ = {
-			isa = PBXGroup;
-			children = (
-				DC3689CE2A581C2C00FB2D71 /* Rockwell Std Regular.otf */,
-				DC3689D22A5823A800FB2D71 /* RockwellStd-Bold.otf */,
-			);
-			path = Fonts;
 			sourceTree = "<group>";
 		};
 		DC501F132A1F5DEF004AD49D = {
@@ -690,9 +672,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC36893D2A3B316200FB2D71 /* ProviderInvalid.json in Resources */,
-				DC3689CF2A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */,
 				DC3689392A3B12EB00FB2D71 /* Provider.json in Resources */,
-				DC3689D32A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -701,9 +681,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC36893E2A3B316200FB2D71 /* ProviderInvalid.json in Resources */,
-				DC3689D02A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */,
 				DC36893A2A3B12EB00FB2D71 /* Provider.json in Resources */,
-				DC3689D42A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -714,9 +692,7 @@
 				DC501FB42A25FEE2004AD49D /* Preview Assets.xcassets in Resources */,
 				DC501FB12A25FEE2004AD49D /* Assets.xcassets in Resources */,
 				DC36893F2A3B316200FB2D71 /* ProviderInvalid.json in Resources */,
-				DC3689D12A581C2C00FB2D71 /* Rockwell Std Regular.otf in Resources */,
 				DC36893B2A3B12EB00FB2D71 /* Provider.json in Resources */,
-				DC3689D52A5823A800FB2D71 /* RockwellStd-Bold.otf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
