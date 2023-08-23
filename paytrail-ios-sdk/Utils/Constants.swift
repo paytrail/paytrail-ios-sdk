@@ -41,6 +41,7 @@ public struct ApiPaths {
     static let paymentsToken = "/payments/token"
     static let tokenCommit = "/token/commit"
     static let tokenRevert = "/token/revert"
+    static let payAndAddCard = "/pay-and-add-card"
 }
 
 public struct InvalidAcquirerResponseCode {

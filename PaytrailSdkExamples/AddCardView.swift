@@ -23,17 +23,26 @@ struct AddCardView: View {
     @State private var threeDSecureRequest: URLRequest?
     @State private var commitOnHoldAmount: String = ""
     
-    private func createPayload(from token: String) -> PaymentRequestBody {
+    private func createPayload(from token: String = "") -> PaymentRequestBody {
+        return !token.isEmpty ? PaymentRequestBody(stamp: UUID().uuidString,
+                                                   reference: "3759170",
+                                                   amount: (Int64(amount) ?? 1) * 100,
+                                                   currency: .eur,
+                                                   language: .fi,
+                                                   items: [Item(unitPrice: (Int64(amount) ?? 1) * 100, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                                   customer: Customer(email: "test.customer@example.com"),
+                                                   redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
+                                                   callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
+                                                   token: token) :
         PaymentRequestBody(stamp: UUID().uuidString,
-                                         reference: "3759170",
-                                         amount: (Int64(amount) ?? 1) * 100,
-                                         currency: .eur,
-                                         language: .fi,
-                                         items: [Item(unitPrice: (Int64(amount) ?? 1) * 100, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
-                                         customer: Customer(email: "test.customer@example.com"),
-                                         redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
-                                         callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
-                                         token: token)
+                           reference: "3759170",
+                           amount: (Int64(amount) ?? 1) * 100,
+                           currency: .eur,
+                           language: .fi,
+                           items: [Item(unitPrice: (Int64(amount) ?? 1) * 100, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                           customer: Customer(email: "test.customer@example.com"),
+                           redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
+                           callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"))
     }
     
     var body: some View {
@@ -48,7 +57,30 @@ struct AddCardView: View {
                         Text("Add a new card")
                             .bold()
                     }
-                                                            
+                     
+                    Spacer()
+                    
+                    Button {
+                        viewModel.clean()
+                        cardApi.payAndAddCard(of: merchant.merchantId, secret: merchant.secret, payload: createPayload()) { result in
+                            switch result {
+                            case .success(let success):
+                                print(success)
+                                guard let urlString = success.redirectUrl else { return }
+                                DispatchQueue.main.async {
+                                    if let url = URL(string: urlString) {
+                                        viewModel.payAndAddCardRequest = URLRequest(url: url)
+                                    }
+                                }
+                            case .failure(let failure):
+                                print(failure)
+                            }
+                        }
+                    } label: {
+                        Text("Pay and Add a new card")
+                            .bold()
+                    }
+
                 }
                 .frame(height: 80)
                 
@@ -204,6 +236,25 @@ struct AddCardView: View {
                 }
             }
         }
+        .fullScreenCover(isPresented: Binding(get: { viewModel.payAndAddCardRequest != nil }, set: { _, _ in }), onDismiss: {
+            viewModel.payAndAddCardRequest = nil
+        }) {
+            if let request = viewModel.payAndAddCardRequest {
+                NavigationView {
+                    // Treat pay and add card as normal payment
+                    PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .normalPayment)
+                        .ignoresSafeArea()
+                        .navigationBarTitleDisplayMode(.inline)
+                        .toolbar {
+                            ToolbarItem(placement: .navigationBarLeading) {
+                                BackButton {
+                                    threeDSecureRequest = nil
+                                }
+                            }
+                        }
+                }
+            }
+        }
         .fullScreenCover(isPresented: Binding(get: { threeDSecureRequest != nil }, set: { _, _ in }), content: {
             if let request = threeDSecureRequest {
                 NavigationView {
@@ -275,6 +326,7 @@ extension AddCardView {
         typealias TranscationOnHold = (transcationId: String, payload: PaymentRequestBody)
         var realm: Realm?
         @Published var addCardRequest: URLRequest?
+        @Published var payAndAddCardRequest: URLRequest?
         @Published var tokenizedId: String?
         @Published var isCardSaved: Bool?
         @Published var paymentResult: PaymentResult?
@@ -291,6 +343,7 @@ extension AddCardView {
                 print(tokenizationResult.error)
                 //  Take care of the tokenization error here if any
                 isCardSaved = false
+                payAndAddCardRequest = nil
                 return
             }
             // TODO: save tokenizedId to DB once it is confirmed to do so
@@ -327,6 +380,7 @@ extension AddCardView {
         
         func clean() {
             addCardRequest = nil
+            payAndAddCardRequest = nil
             tokenizedId = nil
             isCardSaved = nil
         }

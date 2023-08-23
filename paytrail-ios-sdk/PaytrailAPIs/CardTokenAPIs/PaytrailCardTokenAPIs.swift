@@ -30,7 +30,8 @@ open class PaytrailCardTokenAPIs {
                                                 secret: String,
                                                 redirectUrls: CallbackUrls,
                                                 callbackUrls: CallbackUrls? = nil,
-                                                language: Language = .en) -> URLRequest? {
+                                                language: Language = .en) -> URLRequest?
+    {
         
         let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
 
@@ -228,6 +229,35 @@ open class PaytrailCardTokenAPIs {
         
         let speicalHeader = [ParameterKeys.signature: signature]
         let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: nil, specialHeader: speicalHeader, path: path)
+        networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    func payAndAddCard(of merchantId: String,
+                       secret: String,
+                       payload: PaymentRequestBody,
+                       completion: @escaping (Result<PayAndAddCardRequestResponse, Error>) -> Void) {
+        let networkService: NetworkService = NormalPaymentNetworkService()
+        let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
+        
+        let headers = [
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.post,
+            ParameterKeys.checkoutNonce: UUID().uuidString,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutAccount: merchantId
+        ]
+        
+        let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        
+        let speicalHeader = [ParameterKeys.signature: signature]
+        let dataRequest: PayAndAddCardDataRequest = PayAndAddCardDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
