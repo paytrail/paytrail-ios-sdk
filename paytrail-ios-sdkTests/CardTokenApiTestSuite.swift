@@ -234,6 +234,31 @@ final class CardTokenApiTestSuite: XCTestCase {
         }
     }
     
+    /// Test payAndAddCard success case with non-empty redirectUrl and transactionId
+    func testPayAndAddCardSuccess() async {
+        let result = await payAndAddCardAync(merchant.merchantId, secret: merchant.secret, payload: createPaymentPayload())
+        switch result {
+        case .success(let success):
+            XCTAssert(!(success.transactionId ?? "").isEmpty && !(success.redirectUrl ?? "").isEmpty)
+        case .failure(let failure):
+            print(failure)
+            XCTFail("Pay and add card failed due to unknown failure")
+        }
+    }
+    
+    /// Test payAndAddCard failure case when the merchant id is invalid
+    func testPayAndAddCardFailure() async {
+        let result = await payAndAddCardAync("", secret: merchant.secret, payload: createPaymentPayload())
+        switch result {
+        case .success(_):
+            XCTFail("Invalid merchant account given")
+        case .failure(let failure):
+            print(failure)
+            let error = failure as? PaytrailPaymentError
+            XCTAssert(error?.code == 401, "Missing required value checkout-account")
+        }
+    }
+    
     
     // MARK: - Private funcs
     
@@ -258,8 +283,8 @@ final class CardTokenApiTestSuite: XCTestCase {
         self.authorizationType = authType
     }
     
-    private func createPaymentPayload(with token: String) -> PaymentRequestBody {
-        PaymentRequestBody(stamp: UUID().uuidString,
+    private func createPaymentPayload(with token: String = "") -> PaymentRequestBody {
+        return !token.isEmpty ? PaymentRequestBody(stamp: UUID().uuidString,
                                                  reference: "3759170",
                                                  amount: 2200,
                                                  currency: .eur,
@@ -268,7 +293,16 @@ final class CardTokenApiTestSuite: XCTestCase {
                                                  customer: Customer(email: "test.customer@example.com"),
                                                  redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
                                                  callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"),
-                                         token: token)
+                                                   token: token) :
+        PaymentRequestBody(stamp: UUID().uuidString,
+                                                 reference: "3759170",
+                                                 amount: 2200,
+                                                 currency: .eur,
+                                                 language: .fi,
+                                                 items: [Item(unitPrice: 2200, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                                 customer: Customer(email: "test.customer@example.com"),
+                                                 redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
+                                                 callbackUrls: CallbackUrls(success: "https://qvik.com", cancel: "https://qvik.com"))
     }
     
     
@@ -283,6 +317,14 @@ final class CardTokenApiTestSuite: XCTestCase {
     private func revertAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String) async -> Result<TokenPaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
             cardTokenApis.revertAuthorizationHold(of: merchantId, secret: secret, transactionId: transactionId) { result in
+                continuation.resume(returning: result)
+            }
+        })
+    }
+    
+    private func payAndAddCardAync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PayAndAddCardRequestResponse, Error> {
+        await withCheckedContinuation({ continuation in
+            cardTokenApis.payAndAddCard(of: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })

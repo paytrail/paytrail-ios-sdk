@@ -239,6 +239,14 @@ open class PaytrailCardTokenAPIs {
         }
     }
     
+    
+    /// payAndAddCard API handles payment as well as adding a new card. If the flow succeeds, it calls the Callback Url with the additional parameter of 'checkout-card-token' to the merchant's backend who will then save the card token and communicate with the client when needed. Note: do not use this API when the merchant backend is not setup for this.
+    /// See: https://docs.paytrail.com/#/?id=pay-and-add-card
+    /// - Parameters:
+    ///   - merchantId: merchantId, i.e. account
+    ///   - secret: merchant secret
+    ///   - payload: paylaod data, i.e. PaymentRequestBody
+    ///   - completion: Result<PayAndAddCardRequestResponse, Error>) -> Void
     func payAndAddCard(of merchantId: String,
                        secret: String,
                        payload: PaymentRequestBody,
