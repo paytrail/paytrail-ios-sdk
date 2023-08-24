@@ -17,7 +17,7 @@ final class TokenPaymentNetworkService: NetworkService {
             return completion(.failure(error))
         }
         
-        print(urlRequest)
+        PTLogger.log(message: "Token request: \(urlRequest)", level: .debug)
                 
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {

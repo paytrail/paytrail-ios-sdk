@@ -66,7 +66,7 @@ public struct PaymentProvidersView: View {
                     case .success(let success):
                         providerImages.append(success)
                     case .failure(let failure):
-                        print("Render image failure: \(failure.localizedDescription)")
+                        PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
                         providerImages.append(UIImage(systemName: "exclamationmark.square") ?? UIImage())
                     }
                 }

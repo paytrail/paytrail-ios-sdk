@@ -25,9 +25,9 @@ public func hmacSignature(secret: String, headers: [String: String], body: Data?
     }
     
     let message = headerArray.joined(separator: "\n")
-    print(message)
+    PTLogger.log(message: "Signature message: \(message)", level: .debug)
     let hmac = hmacCaculator(secret: secret, message: message)
-    print(hmac)
+    PTLogger.log(message: "HMAC: \(hmac)", level: .debug)
     return hmac
 }
 

@@ -63,7 +63,7 @@ public struct PaymentWebView: UIViewRepresentable {
         public func webView(_ webView: WKWebView, decidePolicyFor navigationResponse: WKNavigationResponse, decisionHandler: @escaping (WKNavigationResponsePolicy) -> Void) {
 
             if let urlString = navigationResponse.response.url?.absoluteString {
-                print("Response url: \(urlString)")
+                PTLogger.log(message: "Response url: \(urlString)", level: .debug)
                 let items = getQueryItems(urlString)
                 
                 switch contentType {
@@ -98,7 +98,7 @@ public struct PaymentWebView: UIViewRepresentable {
                             let signature = items[ParameterKeys.signature],
                             signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
                         if let transactionId = items[ParameterKeys.checkoutTransactionId] {
-                            print("Error, signature mismatch, failing payment")
+                            PTLogger.log(message: "Signature mismatch, failing payment", level: .error)
                             // Return payment status fail when signatures mismatch
                             let result = PaymentResult(transactionId: transactionId, status: .fail, error: PaytrailPaymentError(type: .invalidSignature, code: 404))
                             delegate?.onPaymentStatusChanged(result)
@@ -119,7 +119,7 @@ public struct PaymentWebView: UIViewRepresentable {
                 decisionHandler(.cancel)
                 return
             }
-            print(urlString)
+            PTLogger.log(message: "Request URL: \(urlString)", level: .debug)
             decisionHandler(.allow)
         }
     }

@@ -36,12 +36,12 @@ open class PaytrailCardTokenAPIs {
         let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
 
         guard let url = URL(string: baseUrl + addCardTokenEndpoint) else {
-            print("Error,failed initiate payment request, reason: invalid url")
+            PTLogger.log(message: "Failed initiate payment request, reason: invalid url.", level: .error)
             return nil
         }
         
         guard let urlSuccess = URL(string: redirectUrls.success), urlSuccess.host != nil, let urlCancel = URL(string: redirectUrls.cancel), urlCancel.host != nil else {
-            print("Error,failed initiate payment request, reason: invalid redirectUrls")
+            PTLogger.log(message: "Failed initiate payment request, reason: invalid redirectUrls.", level: .error)
             return nil
         }
         
@@ -74,7 +74,7 @@ open class PaytrailCardTokenAPIs {
         request.httpMethod = HTTPMethod.post.rawValue
         request.allHTTPHeaderFields = ["content-type": "application/x-www-form-urlencoded"]
         guard let body = urlComponent.query?.data(using: .utf8), !body.isEmpty else {
-            print("Error,failed initiate payment request, reason: Empty request body")
+            PTLogger.log(message: "Failed initiate payment request, reason: empty request body.", level: .error)
             return nil
         }
         request.httpBody = body

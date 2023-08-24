@@ -37,7 +37,6 @@ extension NetworkService {
         urlRequest.httpMethod = request.method.rawValue
         urlRequest.httpBody = request.body
         urlRequest.allHTTPHeaderFields = request.combinedHeaders
-        //        print(request.combinedHeaders)
         
         return (urlRequest, nil)
     }
@@ -57,6 +56,7 @@ final class DefaultNetworkService: NetworkService {
                 return completion(.failure(PaytrailGenericError(type: .unknown, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: error as PaytrailGenericError.Payload)))
             }
             
+            //            PTLogger.log(message: "\(response)", level: .debug)
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
             
                 guard let _ = data else {
