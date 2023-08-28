@@ -14,7 +14,7 @@ struct ShoppingCartItemView: View {
     var body: some View {
         VStack(alignment: .leading) {
             HStack(alignment: .top) {
-                Icon(name: item.image, size: 60)
+                Icon(name: item.image, size: 80)
                 VStack(alignment: .leading, spacing: 16) {
                     Text(item.productName)
                     Text("\(item.price) \(item.currency)")
@@ -47,11 +47,17 @@ struct ShoppingCartItemView: View {
             .padding(.trailing, 16)
             
         }
-        .border(Color.gray)
-        .background(Color.white)
-        .onAppear {
-        }
-        
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(Color.white)
+                .shadow(
+                    color: Color.gray.opacity(0.5),
+                    radius: 3,
+                    x: 5,
+                    y: 5
+                 )
+        )
+        .padding(.trailing, 8)
     }
 
 }

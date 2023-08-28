@@ -57,6 +57,7 @@ struct ShoppingCartView: View {
                             updateItem(with: newValue)
                         }))
                     }
+                    .padding(.bottom, 12)
                     
                     Divider()
                         .frame(minHeight: 1)
@@ -69,7 +70,7 @@ struct ShoppingCartView: View {
                             .font(.system(size: 20))
                             .bold()
                         Spacer()
-                        Text("\(sum)")
+                        Text("\(sum) €")
                             .font(.system(size: 20))
                             .bold()
                     }
@@ -84,7 +85,7 @@ struct ShoppingCartView: View {
             .padding(.horizontal, 24)
             
         }
-        .background(Color.gray.opacity(0.1))
+        .background(Color.gray.opacity(0.2))
         .onAppear {
             updatedItems = items
         }
