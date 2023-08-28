@@ -11,7 +11,8 @@ import SwiftUI
 struct PaytrailSdkExamplesApp: App {
     var body: some Scene {
         WindowGroup {
-            ProductCheckoutView()
+//            ProductCheckoutView()
+            ShoppingCartView()
         }
     }
 }
