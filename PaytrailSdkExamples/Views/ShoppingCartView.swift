@@ -34,9 +34,7 @@ struct ShoppingCartView: View {
             HStack(spacing: 4) {
                 // Logo
                 Icon(name: "logo", size: 46)
-                // Shopping cart icon
                 Spacer()
-                
                 Icon(name: "shopping-cart", size: 20)
                 Text("\(items.count)")
                 
@@ -78,9 +76,16 @@ struct ShoppingCartView: View {
             }
             .padding(.horizontal, 24)
             
+            Spacer()
+            
             // Footer view
-            VStack {
+            HStack(alignment: .center) {
+                Spacer()
                 // Order button
+                TextButton(text: "Checkout") {
+                    
+                }
+                Spacer()
             }
             .padding(.horizontal, 24)
             

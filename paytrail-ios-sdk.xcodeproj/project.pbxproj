@@ -150,6 +150,9 @@
 		DC3689F42A98E9ED00FB2D71 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F32A98E9ED00FB2D71 /* IconButton.swift */; };
 		DC3689F52A98E9ED00FB2D71 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F32A98E9ED00FB2D71 /* IconButton.swift */; };
 		DC3689F62A98E9ED00FB2D71 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F32A98E9ED00FB2D71 /* IconButton.swift */; };
+		DC3689F82A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
+		DC3689F92A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
+		DC3689FA2A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -259,6 +262,7 @@
 		DC3689EB2A98D5F300FB2D71 /* ShoppingCartItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingCartItemView.swift; sourceTree = "<group>"; };
 		DC3689EF2A98DAAD00FB2D71 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		DC3689F32A98E9ED00FB2D71 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
+		DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
@@ -337,6 +341,7 @@
 				DC3689E72A98CBA800FB2D71 /* Icon.swift */,
 				DC3689EB2A98D5F300FB2D71 /* ShoppingCartItemView.swift */,
 				DC3689F32A98E9ED00FB2D71 /* IconButton.swift */,
+				DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -787,6 +792,7 @@
 				DC36899C2A4C550000FB2D71 /* PaytrailError.swift in Sources */,
 				DC501FA42A25EDD1004AD49D /* JSONHandler.swift in Sources */,
 				DC3689AD2A4DBA0D00FB2D71 /* ProductCheckoutView.swift in Sources */,
+				DC3689F82A9CDB5B00FB2D71 /* TextButton.swift in Sources */,
 				DC501F902A24D750004AD49D /* CustomProvider.swift in Sources */,
 				DC3689742A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */,
 				DC501F992A24D92D004AD49D /* Parameter.swift in Sources */,
@@ -825,6 +831,7 @@
 				DC3689E92A98CBA800FB2D71 /* Icon.swift in Sources */,
 				DC3689D82A94D78F00FB2D71 /* PayAndAddCardRequestResponse.swift in Sources */,
 				DC501F9D2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
+				DC3689F92A9CDB5B00FB2D71 /* TextButton.swift in Sources */,
 				DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */,
 				DC3689942A4AD8EE00FB2D71 /* CreateTokenPaymentDataRequest.swift in Sources */,
 				DC36894F2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */,
@@ -891,6 +898,7 @@
 				DC501FC42A2606F8004AD49D /* JSONHandler.swift in Sources */,
 				DC3689DD2A94DEF200FB2D71 /* PayAndAddCardDataRequest.swift in Sources */,
 				DC3689282A373D0900FB2D71 /* UrlStringHandler.swift in Sources */,
+				DC3689FA2A9CDB5B00FB2D71 /* TextButton.swift in Sources */,
 				DC501FC22A2606ED004AD49D /* NetworkMethods.swift in Sources */,
 				DC501FCC2A263D3F004AD49D /* HMACCaculator.swift in Sources */,
 				DC3689C42A56BCE000FB2D71 /* GroupedGridView.swift in Sources */,
