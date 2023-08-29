@@ -42,6 +42,7 @@ struct ShoppingCartView: View {
                         // Shopping cart title
                         Text("Shopping cart")
                             .font(.system(size: 24))
+                            .padding(.vertical, 10)
                             .bold()
                         // List of shopping cart items
                         ForEach(items) { item in
