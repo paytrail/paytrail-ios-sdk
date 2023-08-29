@@ -31,14 +31,7 @@ struct ShoppingCartView: View {
         VStack(alignment: .leading, spacing: 28) {
             
             // Header view
-            HStack(spacing: 4) {
-                // Logo
-                Icon(name: "logo", size: 46)
-                Spacer()
-                Icon(name: "shopping-cart", size: 20)
-                Text("\(items.count)")
-                
-            }
+            HeaderView(itemCount: Binding(get: { items.count }, set: { _ in }))
             .padding(.horizontal, 24)
             .padding(.bottom, 24)
             .background(Color.white)

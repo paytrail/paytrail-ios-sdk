@@ -153,6 +153,9 @@
 		DC3689F82A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
 		DC3689F92A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
 		DC3689FA2A9CDB5B00FB2D71 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */; };
+		DC3689FC2A9DED8E00FB2D71 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */; };
+		DC3689FD2A9DED8E00FB2D71 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */; };
+		DC3689FE2A9DED8E00FB2D71 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */; };
 		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
@@ -263,6 +266,7 @@
 		DC3689EF2A98DAAD00FB2D71 /* ShoppingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShoppingItem.swift; sourceTree = "<group>"; };
 		DC3689F32A98E9ED00FB2D71 /* IconButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
 		DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
+		DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
 		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
@@ -342,6 +346,7 @@
 				DC3689EB2A98D5F300FB2D71 /* ShoppingCartItemView.swift */,
 				DC3689F32A98E9ED00FB2D71 /* IconButton.swift */,
 				DC3689F72A9CDB5B00FB2D71 /* TextButton.swift */,
+				DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -791,6 +796,7 @@
 				DC3689E82A98CBA800FB2D71 /* Icon.swift in Sources */,
 				DC36899C2A4C550000FB2D71 /* PaytrailError.swift in Sources */,
 				DC501FA42A25EDD1004AD49D /* JSONHandler.swift in Sources */,
+				DC3689FC2A9DED8E00FB2D71 /* HeaderView.swift in Sources */,
 				DC3689AD2A4DBA0D00FB2D71 /* ProductCheckoutView.swift in Sources */,
 				DC3689F82A9CDB5B00FB2D71 /* TextButton.swift in Sources */,
 				DC501F902A24D750004AD49D /* CustomProvider.swift in Sources */,
@@ -878,6 +884,7 @@
 				DC36898B2A499BD700FB2D71 /* PaymentWebView.swift in Sources */,
 				DC3689ED2A98D5F300FB2D71 /* ShoppingCartItemView.swift in Sources */,
 				DC36899D2A4C550000FB2D71 /* PaytrailError.swift in Sources */,
+				DC3689FD2A9DED8E00FB2D71 /* HeaderView.swift in Sources */,
 				DC501F3A2A1FA2DF004AD49D /* NetworkMethods.swift in Sources */,
 				DC3689472A3C96B300FB2D71 /* Payment.swift in Sources */,
 				DC3689422A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
@@ -947,6 +954,7 @@
 				DC3689722A431B5F00FB2D71 /* TokenCustomerDetails.swift in Sources */,
 				DC501FAD2A25FEDF004AD49D /* PaytrailSdkExamplesApp.swift in Sources */,
 				DC3689B32A52E13A00FB2D71 /* PaymentResult.swift in Sources */,
+				DC3689FE2A9DED8E00FB2D71 /* HeaderView.swift in Sources */,
 				DC501FBF2A2606E6004AD49D /* PaymentMethodGroup.swift in Sources */,
 				DC3689432A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
 				DC3689482A3C96B300FB2D71 /* Payment.swift in Sources */,
