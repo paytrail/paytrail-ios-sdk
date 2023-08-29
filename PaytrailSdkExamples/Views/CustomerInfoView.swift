@@ -18,6 +18,7 @@ struct CustomerInfoView: View {
     @State private var address: String = ""
     @State private var postalCode: String = ""
     @State private var city: String = ""
+    @State private var isTermsAgreed: Bool = false
     
     var body: some View {
         AppBackgroundView {
@@ -67,6 +68,14 @@ struct CustomerInfoView: View {
                                 
                             }
                         }
+                        
+                        // Terms
+                        Toggle(isOn: $isTermsAgreed) {
+                             Text("I have read and accepted the order and contract terms.")
+                                .multilineTextAlignment(.leading)
+                                .foregroundColor(Color.black)
+                         }
+                        .toggleStyle(AppCheckboxStyle())
                     }
                 }
                 .padding(.horizontal, 24)
