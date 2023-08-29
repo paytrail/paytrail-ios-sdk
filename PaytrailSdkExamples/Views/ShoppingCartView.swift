@@ -28,62 +28,63 @@ struct ShoppingCartView: View {
         items.insert(newItem, at: index)
     }
     var body: some View {
-        VStack(alignment: .leading, spacing: 28) {
-            
-            // Header view
-            HeaderView(itemCount: Binding(get: { items.count }, set: { _ in }))
-            .padding(.horizontal, 24)
-            .padding(.bottom, 24)
-            .background(Color.white)
-            // Content view
-            ScrollView() {
-                VStack(alignment: .leading) {
-                    // Shopping cart title
-                    Text("Shopping cart")
-                        .font(.system(size: 24))
-                        .bold()
-                    // List of shopping cart items
-                    ForEach(items) { item in
-                        ShoppingCartItemView(item: Binding(get: { item }, set: { newValue in
-                            updateItem(with: newValue)
-                        }))
-                    }
-                    .padding(.bottom, 12)
-                    
-                    Divider()
-                        .frame(minHeight: 1)
-                        .overlay(Color.black)
-                        .padding(.top,20)
+        
+        AppBackgroundView {
+            VStack {
+                // Header view
+                HeaderView(itemCount: items.count)
+                .padding(.horizontal, 24)
+                .padding(.bottom, 24)
+                .background(Color.white)
+                // Content view
+                ScrollView() {
+                    VStack(alignment: .leading) {
+                        // Shopping cart title
+                        Text("Shopping cart")
+                            .font(.system(size: 24))
+                            .bold()
+                        // List of shopping cart items
+                        ForEach(items) { item in
+                            ShoppingCartItemView(item: Binding(get: { item }, set: { newValue in
+                                updateItem(with: newValue)
+                            }))
+                        }
+                        .padding(.bottom, 12)
+                        
+                        Divider()
+                            .frame(minHeight: 1)
+                            .overlay(Color.black)
+                            .padding(.top,20)
 
-                    // Total price
-                    HStack {
-                        Text("Total price")
-                            .font(.system(size: 20))
-                            .bold()
-                        Spacer()
-                        Text("\(sum) €")
-                            .font(.system(size: 20))
-                            .bold()
+                        // Total price
+                        HStack {
+                            Text("Total price")
+                                .font(.system(size: 20))
+                                .bold()
+                            Spacer()
+                            Text("\(sum) €")
+                                .font(.system(size: 20))
+                                .bold()
+                        }
                     }
                 }
-            }
-            .padding(.horizontal, 24)
-            
-            Spacer()
-            
-            // Footer view
-            HStack(alignment: .center) {
+                .padding(.horizontal, 24)
+                
                 Spacer()
-                // Order button
-                TextButton(text: "Checkout") {
-                    
+                
+                // Footer view
+                HStack(alignment: .center) {
+                    Spacer()
+                    // Order button
+                    TextButton(text: "Checkout") {
+                        
+                    }
+                    Spacer()
                 }
-                Spacer()
+                .padding(.horizontal, 24)
             }
-            .padding(.horizontal, 24)
-            
+
         }
-        .background(Color.gray.opacity(0.2))
         .onAppear {
             updatedItems = items
         }

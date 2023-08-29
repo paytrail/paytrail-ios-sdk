@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeaderView: View {
     
-    @Binding var itemCount: Int
+    let itemCount: Int
     
     var body: some View {
         HStack(spacing: 4) {
@@ -24,6 +24,6 @@ struct HeaderView: View {
 
 struct HeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderView(itemCount: .constant(3))
+        HeaderView(itemCount: 3)
     }
 }
