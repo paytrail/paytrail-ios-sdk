@@ -16,7 +16,7 @@ struct AppBackgroundView<Content: View>: View {
             VStack(alignment: .leading, spacing: 28) {
                 content()
             }
-            .background(Color.gray.opacity(0.1))
+            .background(Color.init("lightGray"))
         }
         .navigationBarHidden(true)
     }

@@ -26,6 +26,8 @@ struct CustomerInfoView: View {
     @State private var country: String = ""
     @State private var isTermsAgreed: Bool = false
     
+    @State private var showPaymentsView: Bool = false
+    
     private func prefillData() {
         firstName = "Maija"
         lastName = "Meikäläinen"
@@ -116,14 +118,16 @@ struct CustomerInfoView: View {
                         mode.wrappedValue.dismiss()
                     }
                     Spacer()
-                    TextButton(text: "To Payment", theme: .fill()) {
+                    TextButton(text: "To Payments", theme: .fill()) {
                         createCustomer()
-                        print(customer!)
-                        print(fullAddress!)
+                        showPaymentsView.toggle()
                     }
                     .disabled(!isTermsAgreed)
                 }
                 .padding(.horizontal, 24)
+            
+                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress), isActive: $showPaymentsView)
+
             }
             .onAppear {
                 prefillData()
