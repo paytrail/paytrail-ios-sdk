@@ -11,6 +11,9 @@ struct CustomerInfoView: View {
     
     @Binding var items: [ShoppingItem]
     
+    @State private var customer: Customer?
+    @State private var fullAddress: Address?
+    
     @State private var firstName: String = ""
     @State private var lastName: String = ""
     @State private var phone: String = ""
@@ -18,7 +21,27 @@ struct CustomerInfoView: View {
     @State private var address: String = ""
     @State private var postalCode: String = ""
     @State private var city: String = ""
+    @State private var country: String = ""
     @State private var isTermsAgreed: Bool = false
+    
+    private func prefillData() {
+        firstName = "Maija"
+        lastName = "Meikäläinen"
+        phone = "0401886666"
+        email = "tester@test.com"
+        
+        address = "Loremipsunkuja 1b"
+        postalCode = "00100"
+        city = "Helsinki"
+        country = "Finland"
+        
+        isTermsAgreed = true
+    }
+    
+    private func createCustomer() {
+        customer = Customer(email: email, firstName: firstName, lastName: lastName, phone: phone)
+        fullAddress = Address(streetAddress: address, postalCode: postalCode, city: city, country: country)
+    }
     
     var body: some View {
         AppBackgroundView {
@@ -39,7 +62,6 @@ struct CustomerInfoView: View {
                             .padding(.vertical, 10)
                         // Customer infos
                         InfoTextField(placeholder: "First name", text: $firstName) {
-                            
                         }
 
                         InfoTextField(placeholder: "Last name", text: $lastName) {
@@ -69,6 +91,10 @@ struct CustomerInfoView: View {
                             }
                         }
                         
+                        InfoTextField(placeholder: "Country", text: $country) {
+                            
+                        }
+                        
                         // Terms
                         Toggle(isOn: $isTermsAgreed) {
                              Text("I have read and accepted the order and contract terms.")
@@ -84,15 +110,21 @@ struct CustomerInfoView: View {
                 
                 // Footer
                 HStack(alignment: .center) {
-                    TextButton(text: "Cancel") {
+                    TextButton(text: "Cancel", theme: .light()) {
                         
                     }
                     Spacer()
-                    TextButton(text: "Checkout") {
-                        
+                    TextButton(text: "To Payment", theme: .fill()) {
+                        createCustomer()
+                        print(customer!)
+                        print(fullAddress!)
                     }
+                    .disabled(!isTermsAgreed)
                 }
                 .padding(.horizontal, 24)
+            }
+            .onAppear {
+                prefillData()
             }
         }
 

@@ -77,7 +77,7 @@ struct ShoppingCartView: View {
                 HStack(alignment: .center) {
                     Spacer()
                     // Order button
-                    TextButton(text: "Checkout") {
+                    TextButton(text: "Checkout", theme: .light()) {
                         
                     }
                     Spacer()

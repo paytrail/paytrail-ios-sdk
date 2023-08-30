@@ -8,27 +8,56 @@
 import SwiftUI
 
 struct TextButton: View {
+    @Environment(\.isEnabled) private var isEnabled
+
     let text: String
+    let theme: ButtonTheme
     let action: () -> Void
+    
+    enum ButtonTheme {
+        case light(foregroundColor: Color = Color.gray, backgroundColor: Color = Color.white, borderColor: Color = Color.init("magenta"))
+        case fill(foregroundColor: Color = Color.white, backgroundColor: Color = Color.init("magenta"), borderColor: Color = Color.gray)
+    }
     
     var body: some View {
         Button {
             action()
         } label: {
-            Text(text)
-                .font(.system(size: 16))
-                .frame(width: 100, height: 42)
-                .background(
-                    RoundedRectangle(cornerRadius: 21)
-                        .fill(Color.init("magenta"))
-                )
-                .foregroundColor(Color.white)
+            switch theme {
+            case .fill(let foregroundColor, let backgroundColor, let borderColor):
+                Text(text)
+                    .font(.system(size: 16))
+                    .frame(width: 130, height: 42)
+                    .background(
+                        RoundedRectangle(cornerRadius: 21)
+                            .fill(isEnabled ? backgroundColor : Color.clear)
+                    )
+                    .background(
+                        RoundedRectangle(cornerRadius: 21)
+                            .stroke(isEnabled ? borderColor : Color.gray, lineWidth: 1)
+                    )
+                    .foregroundColor(isEnabled ? foregroundColor : Color.gray)
+            case .light(let foregroundColor, let backgroundColor, let borderColor):
+                Text(text)
+                    .font(.system(size: 16))
+                    .frame(width: 130, height: 42)
+                    .background(
+                        RoundedRectangle(cornerRadius: 21)
+                            .fill(isEnabled ? backgroundColor : Color.clear)
+                    )
+                    .background(
+                        RoundedRectangle(cornerRadius: 21)
+                            .stroke(isEnabled ? borderColor : Color.gray, lineWidth: 1)
+                    )
+                    .foregroundColor(foregroundColor)
+            }
         }
     }
 }
 
 struct TextButton_Previews: PreviewProvider {
     static var previews: some View {
-        TextButton(text: "Checkout", action: {})
+        TextButton(text: "Checkout", theme: .light(), action: {})
+//            .disabled(true)
     }
 }
