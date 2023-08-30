@@ -16,6 +16,8 @@ struct ShoppingCartView: View {
     
     @State var updatedItems: [ShoppingItem] = []
     
+    @State private var showCustomerDetailsView: Bool = false
+    
     var sum: Int {
         items.map { Int($0.price) * $0.amount }.reduce(0,+)
     }
@@ -77,12 +79,14 @@ struct ShoppingCartView: View {
                 HStack(alignment: .center) {
                     Spacer()
                     // Order button
-                    TextButton(text: "Checkout", theme: .light()) {
-                        
+                    TextButton(text: "Continue", theme: .fill()) {
+                        showCustomerDetailsView.toggle()
                     }
                     Spacer()
                 }
                 .padding(.horizontal, 24)
+                
+                NavigationLink("", destination: CustomerInfoView(items: $items), isActive: $showCustomerDetailsView)
             }
 
         }

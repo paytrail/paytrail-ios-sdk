@@ -9,6 +9,8 @@ import SwiftUI
 
 struct CustomerInfoView: View {
     
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+    
     @Binding var items: [ShoppingItem]
     
     @State private var customer: Customer?
@@ -111,7 +113,7 @@ struct CustomerInfoView: View {
                 // Footer
                 HStack(alignment: .center) {
                     TextButton(text: "Cancel", theme: .light()) {
-                        
+                        mode.wrappedValue.dismiss()
                     }
                     Spacer()
                     TextButton(text: "To Payment", theme: .fill()) {

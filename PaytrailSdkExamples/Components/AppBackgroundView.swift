@@ -12,10 +12,13 @@ struct AppBackgroundView<Content: View>: View {
     let content: () -> Content
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 28) {
-            content()
+        NavigationView {
+            VStack(alignment: .leading, spacing: 28) {
+                content()
+            }
+            .background(Color.gray.opacity(0.1))
         }
-        .background(Color.gray.opacity(0.1))
+        .navigationBarHidden(true)
     }
 }
 

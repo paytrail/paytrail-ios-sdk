@@ -12,9 +12,9 @@ struct PaytrailSdkExamplesApp: App {
     var body: some Scene {
         WindowGroup {
 //            ProductCheckoutView()
-//            ShoppingCartView()
-            CustomerInfoView(items: .constant([
-            ]))
+            ShoppingCartView()
+//            CustomerInfoView(items: .constant([
+//            ]))
         }
     }
 }
