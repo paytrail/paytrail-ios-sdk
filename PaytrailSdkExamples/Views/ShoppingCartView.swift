@@ -13,9 +13,7 @@ struct ShoppingCartView: View {
         ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella", description: "", amount: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
         ShoppingItem(id: UUID().uuidString, productName: "Paytrail drinking bottle", description: "", amount: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
     ]
-    
-    @State var updatedItems: [ShoppingItem] = []
-    
+        
     @State private var showCustomerDetailsView: Bool = false
     
     var sum: Int {
@@ -30,9 +28,8 @@ struct ShoppingCartView: View {
         items.insert(newItem, at: index)
     }
     var body: some View {
-        
-        AppBackgroundView {
-            VStack {
+        NavigationView {
+            VStack(alignment: .leading, spacing: 10) {
                 // Header view
                 HeaderView(itemCount: items.count)
                 .padding(.horizontal, 24)
@@ -88,11 +85,10 @@ struct ShoppingCartView: View {
                 
                 NavigationLink("", destination: CustomerInfoView(items: $items), isActive: $showCustomerDetailsView)
             }
+            .background(Color.init("lightGray"))
+        }
+        .navigationBarHidden(true)
 
-        }
-        .onAppear {
-            updatedItems = items
-        }
     }
 }
 

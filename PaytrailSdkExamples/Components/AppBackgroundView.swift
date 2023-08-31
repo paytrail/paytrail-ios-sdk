@@ -11,9 +11,13 @@ struct AppBackgroundView<Content: View>: View {
     
     let content: () -> Content
     
+    init(@ViewBuilder content: @escaping () -> Content) {
+        self.content = content
+    }
+    
     var body: some View {
         NavigationView {
-            VStack(alignment: .leading, spacing: 28) {
+            VStack(alignment: .leading, spacing: 10) {
                 content()
             }
             .background(Color.init("lightGray"))
@@ -26,6 +30,9 @@ struct AppBackgroundView_Previews: PreviewProvider {
     static var previews: some View {
         AppBackgroundView(content: {
             Text("haha")
+            Text("haha")
+            Text("haha")
+
         })
     }
 }
