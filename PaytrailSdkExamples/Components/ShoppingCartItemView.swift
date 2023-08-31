@@ -31,14 +31,14 @@ struct ShoppingCartItemView: View {
                 Spacer()
                 HStack() {
                     IconButton(name: "minus", size: 32, action: {
-                        let newAmount = item.amount - 1 >= 0 ? item.amount - 1 : 0
-                        item.updateAmount(of: newAmount)
+                        let newUnits = item.units - 1 >= 0 ? item.units - 1 : 0
+                        item.updateUnits(of: newUnits)
                     })
-                    Text("\(item.amount)")
+                    Text("\(item.units)")
                         .frame(width: 60)
                     IconButton(name: "plus", size: 32, action: {
-                        let newAmount = item.amount + 1 <= item.upperLimit ? item.amount + 1 : item.upperLimit
-                        item.updateAmount(of: newAmount)
+                        let newUnits = item.units + 1 <= item.upperLimit ? item.units + 1 : item.upperLimit
+                        item.updateUnits(of: newUnits)
                     })
                 }
                 .border(Color.gray.opacity(0.5))
@@ -64,6 +64,6 @@ struct ShoppingCartItemView: View {
 
 struct ShoppingCartItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ShoppingCartItemView(item: .constant(ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella Umbrella Umbrella", description: "", amount: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000)))
+        ShoppingCartItemView(item: .constant(ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella Umbrella Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000)))
     }
 }

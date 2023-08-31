@@ -55,7 +55,7 @@ struct ProductCheckoutView: View {
                     }
                     
                     NavigationLink {
-                        ContentView(amount: $amount, status: $status)
+                        //                        ContentView(amount: $amount, status: $status)
                     } label: {
                         Text("Pay with another provider")
                             .bold()

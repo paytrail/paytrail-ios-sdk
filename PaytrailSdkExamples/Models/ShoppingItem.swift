@@ -11,7 +11,7 @@ struct ShoppingItem: Identifiable, Equatable {
     let id: String
     let productName: String
     let description: String
-    var amount: Int
+    var units: Int
     let price: Int64
     let image: String
     let currency: String
@@ -21,8 +21,17 @@ struct ShoppingItem: Identifiable, Equatable {
         lhs.id == rhs.id
     }
     
-    mutating func updateAmount(of newAmount: Int) {
-        amount = newAmount
+    mutating func updateUnits(of newUnits: Int) {
+        units = newUnits
+    }
+    
+    func toProductItem(shoppingItem: Self) -> Item {
+        Item(unitPrice: self.price,
+             units: Int64(self.units),
+             vatPercentage: 24,
+             productCode: self.id,
+             description: self.productName
+        )
     }
     
 }

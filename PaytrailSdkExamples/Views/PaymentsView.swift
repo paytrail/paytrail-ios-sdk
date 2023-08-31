@@ -13,6 +13,8 @@ struct PaymentsView: View {
     @Binding var items: [ShoppingItem]
     @Binding var customer: Customer?
     @Binding var fullAddress: Address?
+    
+    @State private var showPayWithProvidersView: Bool = false
 
     var body: some View {
         AppBackgroundView {
@@ -40,7 +42,7 @@ struct PaymentsView: View {
                         }
                         
                         Button {
-                            
+                            showPayWithProvidersView.toggle()
                         } label: {
                             Text("Pay with another provider")
                                 .bold()
@@ -50,6 +52,8 @@ struct PaymentsView: View {
                     .scrollContentBackground(.hidden)
                     .scrollDisabled(true)
                     .padding(.horizontal, -16)
+                    
+                    NavigationLink("", destination: ContentView(items: $items, customer: $customer, fullAddress: $fullAddress, status: .constant(.none)), isActive: $showPayWithProvidersView)
 
                 }
                 .padding(.horizontal, 24)

@@ -30,7 +30,7 @@ struct CustomerInfoView: View {
     
     private func prefillData() {
         firstName = "Maija"
-        lastName = "Meikäläinen"
+        lastName = "Meikalainen"
         phone = "0401886666"
         email = "tester@test.com"
         

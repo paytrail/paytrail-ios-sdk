@@ -10,14 +10,14 @@ import SwiftUI
 struct ShoppingCartView: View {
     
     @State var items: [ShoppingItem] = [
-        ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella", description: "", amount: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
-        ShoppingItem(id: UUID().uuidString, productName: "Paytrail drinking bottle", description: "", amount: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
+        ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
+        ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
     ]
         
     @State private var showCustomerDetailsView: Bool = false
     
     var sum: Int {
-        items.map { Int($0.price) * $0.amount }.reduce(0,+)
+        items.map { Int($0.price) * $0.units }.reduce(0,+)
     }
     
     private func updateItem(with newItem: ShoppingItem) {
