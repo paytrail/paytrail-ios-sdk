@@ -27,7 +27,8 @@ struct TextButton: View {
             case .fill(let foregroundColor, let backgroundColor, let borderColor):
                 Text(text)
                     .font(.system(size: 16))
-                    .frame(width: 130, height: 42)
+                    .frame(minWidth: 130, minHeight: 42)
+                    .padding(.horizontal, 12)
                     .background(
                         RoundedRectangle(cornerRadius: 21)
                             .fill(isEnabled ? backgroundColor : Color.clear)
@@ -40,7 +41,8 @@ struct TextButton: View {
             case .light(let foregroundColor, let backgroundColor, let borderColor):
                 Text(text)
                     .font(.system(size: 16))
-                    .frame(width: 130, height: 42)
+                    .frame(minWidth: 130, minHeight: 42)
+                    .padding(.horizontal, 12)
                     .background(
                         RoundedRectangle(cornerRadius: 21)
                             .fill(isEnabled ? backgroundColor : Color.clear)
@@ -57,7 +59,7 @@ struct TextButton: View {
 
 struct TextButton_Previews: PreviewProvider {
     static var previews: some View {
-        TextButton(text: "Checkout", theme: .light(), action: {})
+        TextButton(text: "Continue Shopping", theme: .light(), action: {})
 //            .disabled(true)
     }
 }
