@@ -53,7 +53,7 @@ struct PaymentsView: View {
                     .scrollDisabled(true)
                     .padding(.horizontal, -16)
                     
-                    NavigationLink("", destination: ContentView(items: $items, customer: $customer, fullAddress: $fullAddress, status: .constant(.none)), isActive: $showPayWithProvidersView)
+                    NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, status: .constant(.none)), isActive: $showPayWithProvidersView)
 
                 }
                 .padding(.horizontal, 24)
