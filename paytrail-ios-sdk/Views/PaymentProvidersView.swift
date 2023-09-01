@@ -27,7 +27,7 @@ public struct PaymentProvidersView: View {
     public var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             ForEach(groups, id: \.self) { group in
-                GroupedGridView(headerTitle: group.name ?? "", hasDivider: true, themes: themes) {
+                GroupedGridView(headerTitle: group.name ?? "", hasDivider: false, themes: themes) {
                     ForEach(0..<providerImages.count, id: \.self) { index in
                         if providers[index].group == group.id {
                             Button {

@@ -15,7 +15,7 @@ struct TextButton: View {
     let action: () -> Void
     
     enum ButtonTheme {
-        case light(foregroundColor: Color = Color.gray, backgroundColor: Color = Color.white, borderColor: Color = Color.init("magenta"))
+        case light(foregroundColor: Color = Color.init("textGray"), backgroundColor: Color = Color.white, borderColor: Color = Color.init("magenta"))
         case fill(foregroundColor: Color = Color.white, backgroundColor: Color = Color.init("magenta"), borderColor: Color = Color.gray)
     }
     
@@ -34,7 +34,7 @@ struct TextButton: View {
                     )
                     .background(
                         RoundedRectangle(cornerRadius: 21)
-                            .stroke(isEnabled ? borderColor : Color.gray, lineWidth: 1)
+                            .stroke(isEnabled ? Color.clear : borderColor, lineWidth: 2)
                     )
                     .foregroundColor(isEnabled ? foregroundColor : Color.gray)
             case .light(let foregroundColor, let backgroundColor, let borderColor):
@@ -47,7 +47,7 @@ struct TextButton: View {
                     )
                     .background(
                         RoundedRectangle(cornerRadius: 21)
-                            .stroke(isEnabled ? borderColor : Color.gray, lineWidth: 1)
+                            .stroke(isEnabled ? borderColor : Color.gray, lineWidth: 2)
                     )
                     .foregroundColor(foregroundColor)
             }

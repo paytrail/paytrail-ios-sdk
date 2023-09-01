@@ -33,11 +33,6 @@ struct PayWithProvidersView: View {
                 
                 Text("By selecting a payment method, you agree to our payment service terms & conditions.")
                     .font(.system(size: 12))
-                
-//                PaymentProvidersView(themes: PaytrailThemes(viewMode: .light()), providers: $providers, groups: groups, currentPaymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
-//                    viewModel.currentPaymentRequest = request
-//                }))
-                
             }
             .padding(.horizontal, 24)
 
