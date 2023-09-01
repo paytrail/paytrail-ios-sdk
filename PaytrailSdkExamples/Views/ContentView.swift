@@ -16,7 +16,7 @@ struct ContentView: View {
     @Binding var fullAddress: Address?
     
     var amount: Int64 {
-        items.map { $0.price * Int64($0.units) }.reduce(0,+)
+        productItems.map { $0.unitPrice * $0.units }.reduce(0,+)
     }
     
     var productItems: [Item] {
@@ -114,17 +114,15 @@ struct ContentView: View {
                     //                    }
                     providers = data.providers ?? []
                     groups = data.groups ?? []
-                    print(providers.map { $0.name })
-                    print(groups.map { $0.name })
-                    //                    contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
-                    //                    "\nhref: \(data.href ?? "")" +
-                    //                    "\nreference: \(data.reference ?? "")" +
-                    //                    "\n\nterms: \(data.terms ?? "")" +
-                    //                    "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
-                    //                    "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
-                    //                    //                    +
-                    //                    //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
-                    //                    print(contentText)
+                    let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
+                    "\nhref: \(data.href ?? "")" +
+                    "\nreference: \(data.reference ?? "")" +
+                    "\n\nterms: \(data.terms ?? "")" +
+                    "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
+                    "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
+                    //                    +
+                    //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
+                    print(contentText)
                 case .failure(let error):
                     print(error)
 //                    contentText = (error as? any PaytrailError)?.description ?? ""

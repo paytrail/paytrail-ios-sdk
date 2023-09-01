@@ -26,7 +26,7 @@ struct ShoppingItem: Identifiable, Equatable {
     }
     
     func toProductItem(shoppingItem: Self) -> Item {
-        Item(unitPrice: self.price,
+        Item(unitPrice: Int64(self.price * 100),
              units: Int64(self.units),
              vatPercentage: 24,
              productCode: self.id,
