@@ -69,7 +69,6 @@ struct ContentView: View {
                 }
             }
         }
-        .background(Color.black.opacity(0.9))
         .onChange(of: viewModel.paymentResult, perform: { newValue in
             guard let newValue = newValue else {
                 return
@@ -115,6 +114,8 @@ struct ContentView: View {
                     //                    }
                     providers = data.providers ?? []
                     groups = data.groups ?? []
+                    print(providers.map { $0.name })
+                    print(groups.map { $0.name })
                     //                    contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
                     //                    "\nhref: \(data.href ?? "")" +
                     //                    "\nreference: \(data.reference ?? "")" +
