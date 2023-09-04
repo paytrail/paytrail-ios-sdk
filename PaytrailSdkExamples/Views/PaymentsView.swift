@@ -29,30 +29,46 @@ struct PaymentsView: View {
                 // Content
                 VStack(alignment: .leading, spacing: 0) {
                     // Shopping cart title
-                    Text("Select Payment")
+                    Text("**Select Payment**")
                         .font(.system(size: 24))
-                        .bold()
-                    .padding(.vertical, 10)
+                        .padding(.vertical, 10)
                     
-                    List {
-                        Button {
+                    if #available(iOS 16.0, *) {
+                        List {
+                            Button {
+                                
+                            } label: {
+                                Text("**Pay with saved cards**")
+                            }
                             
-                        } label: {
-                            Text("Pay with saved cards")
-                                .bold()
+                            Button {
+                                showPayWithProvidersView.toggle()
+                            } label: {
+                                Text("**Pay with another provider**")
+                            }
+                            
                         }
-                        
-                        Button {
-                            showPayWithProvidersView.toggle()
-                        } label: {
-                            Text("Pay with another provider")
-                                .bold()
+                        .scrollContentBackground(.hidden)
+                        .scrollDisabled(true)
+                        .padding(.horizontal, -16)
+                    } else {
+                        // Fallback on earlier versions
+                        List {
+                            Button {
+                                
+                            } label: {
+                                Text("**Pay with saved cards**")
+                            }
+                            
+                            Button {
+                                showPayWithProvidersView.toggle()
+                            } label: {
+                                Text("**Pay with another provider**")
+                            }
+                            
                         }
-
+                        .padding(.horizontal, -16)
                     }
-                    .scrollContentBackground(.hidden)
-                    .scrollDisabled(true)
-                    .padding(.horizontal, -16)
                     
                     NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
 
@@ -70,7 +86,7 @@ struct PaymentsView: View {
                 }
                 .padding(.horizontal, 24)
             }
-
+            .navigationBarHidden(true)
         }
     }
 }

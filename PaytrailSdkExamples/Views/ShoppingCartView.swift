@@ -39,10 +39,10 @@ struct ShoppingCartView: View {
                 ScrollView() {
                     VStack(alignment: .leading) {
                         // Shopping cart title
-                        Text("Shopping cart")
+                        Text("**Shopping cart**")
                             .font(.system(size: 24))
+                            .foregroundColor(Color.black)
                             .padding(.vertical, 10)
-                            .bold()
                         // List of shopping cart items
                         ForEach(items) { item in
                             ShoppingCartItemView(item: Binding(get: { item }, set: { newValue in
@@ -58,13 +58,14 @@ struct ShoppingCartView: View {
 
                         // Total price
                         HStack {
-                            Text("Total price")
+                            Text("**Total price**")
                                 .font(.system(size: 20))
-                                .bold()
+                                .foregroundColor(Color.black)
+                                //                                .bold()
                             Spacer()
-                            Text("\(sum) €")
+                            Text("**\(sum) €**")
                                 .font(.system(size: 20))
-                                .bold()
+                                .foregroundColor(Color.black)
                         }
                     }
                 }
@@ -85,10 +86,9 @@ struct ShoppingCartView: View {
                 
                 NavigationLink("", destination: CustomerInfoView(items: $items, isShowing: $showCustomerDetailsView), isActive: $showCustomerDetailsView)
             }
-            .background(Color.init("lightGray"))
+            .background(Color("lightGray"))
+            .navigationBarHidden(true)
         }
-        .navigationBarHidden(true)
-
     }
 }
 

@@ -61,74 +61,77 @@ struct PaymentResultView: View {
 
     var body: some View {
         AppBackgroundView {
-            HeaderView(itemCount: items.count)
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
-                .background(Color.white)
-            
-            HStack {
-                Spacer()
-                Text(headerText)
-                    .font(.system(size: 24))
-                    .bold()
-                Spacer()
-            }
+            VStack {
+                HeaderView(itemCount: items.count)
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
+                    .background(Color.white)
+                
+                HStack {
+                    Spacer()
+                    Text("**\(headerText)**")
+                        .font(.system(size: 24))
+                    //                    .bold()
+                    Spacer()
+                }
                 .padding(.top, 10)
                 .padding(.bottom, 20)
                 .padding(.horizontal, 24)
-            
-            HStack {
-                Spacer()
-                VStack(alignment: .center, spacing: 0) {
-                    Text(bodyText)
-                        .font(.system(size: 14))
-                        .multilineTextAlignment(.center)
+                
+                HStack {
+                    Spacer()
+                    VStack(alignment: .center, spacing: 0) {
+                        Text(bodyText)
+                            .font(.system(size: 14))
+                            .multilineTextAlignment(.center)
+                            .padding(.vertical, 12)
+                            .padding(.horizontal, 24)
+                        TextButton(text: bodyButonText, theme: .fill()) {
+                            mode.wrappedValue.dismiss()
+                            isShowing = false
+                            items = [
+                                ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
+                                ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
+                            ]
+                        }
                         .padding(.vertical, 12)
                         .padding(.horizontal, 24)
-                    TextButton(text: bodyButonText, theme: .fill()) {
-                        mode.wrappedValue.dismiss()
-                        isShowing = false
-                        items = [
-                            ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
-                            ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
-                        ]
+                        .visible(status == .ok || status == .pending || status == .delayed)
+                        
+                        TextButton(text: bodyButonText, theme: .light()) {
+                            mode.wrappedValue.dismiss()
+                        }
+                        .padding(.vertical, 12)
+                        .padding(.horizontal, 24)
+                        .visible(status == .fail || status == .none)
                     }
-                    .padding(.vertical, 12)
-                    .padding(.horizontal, 24)
-                    .visible(status == .ok || status == .pending || status == .delayed)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 24)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.white)
+                            .shadow(
+                                color: Color.gray.opacity(0.5),
+                                radius: 3,
+                                x: 5,
+                                y: 5
+                            )
+                    )
                     
-                    TextButton(text: bodyButonText, theme: .light()) {
-                        mode.wrappedValue.dismiss()
-                    }
-                    .padding(.vertical, 12)
-                    .padding(.horizontal, 24)
-                    .visible(status == .fail || status == .none)
+                    Spacer()
                 }
-                .frame(maxWidth: .infinity)
-                .padding(.vertical, 24)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white)
-                        .shadow(
-                            color: Color.gray.opacity(0.5),
-                            radius: 3,
-                            x: 5,
-                            y: 5
-                         )
-                )
+                .padding(.horizontal, 24)
                 
                 Spacer()
             }
-            .padding(.horizontal, 24)
-            
-            Spacer()
-
-        }
-        .onAppear {
-            if status == .ok || status == .pending || status == .delayed {
-                items = []
+            .navigationBarHidden(true)
+            .onAppear {
+                if status == .ok || status == .pending || status == .delayed {
+                    items = []
+                }
             }
         }
+        
     }
 }
 

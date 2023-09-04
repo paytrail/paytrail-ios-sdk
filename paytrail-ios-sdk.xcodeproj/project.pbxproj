@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DC078A372AA5FDC7004284FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC501FB02A25FEE2004AD49D /* Assets.xcassets */; };
 		DC3689182A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC3689192A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC36891A2A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
@@ -768,6 +769,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DC36893D2A3B316200FB2D71 /* ProviderInvalid.json in Resources */,
+				DC078A372AA5FDC7004284FA /* Assets.xcassets in Resources */,
 				DC3689392A3B12EB00FB2D71 /* Provider.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1162,6 +1164,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1193,6 +1196,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1253,7 +1257,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PaytrailSdkExamples/Preview Content\"";
-				DEVELOPMENT_TEAM = 2RLYKMD3U8;
+				DEVELOPMENT_TEAM = FZ4NPHZ7Q2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1261,12 +1265,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = qvik.PaytrailSdkExamples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paytrail.DemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1282,7 +1287,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"PaytrailSdkExamples/Preview Content\"";
-				DEVELOPMENT_TEAM = 2RLYKMD3U8;
+				DEVELOPMENT_TEAM = FZ4NPHZ7Q2;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -1290,12 +1295,13 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = qvik.PaytrailSdkExamples;
+				PRODUCT_BUNDLE_IDENTIFIER = com.paytrail.DemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

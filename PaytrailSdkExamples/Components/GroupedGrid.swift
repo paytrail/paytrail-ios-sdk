@@ -19,8 +19,8 @@ struct GroupedGrid<Content>: View where Content: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if !headerTitle.isEmpty {
-                Text(headerTitle)
-                    .bold()
+                Text("**\(headerTitle)**")
+//                    .bold()
             }
             LazyVGrid(columns: columns, spacing: 20) {
                 content()

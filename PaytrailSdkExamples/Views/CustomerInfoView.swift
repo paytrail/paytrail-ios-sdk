@@ -61,9 +61,8 @@ struct CustomerInfoView: View {
                 ScrollView() {
                     VStack(alignment: .leading, spacing: 18) {
                         // Shopping cart title
-                        Text("Customer Details")
+                        Text("**Customer Details**")
                             .font(.system(size: 24))
-                            .bold()
                             .padding(.vertical, 10)
                         // Customer infos
                         InfoTextField(placeholder: "First name", text: $firstName) {
@@ -127,14 +126,16 @@ struct CustomerInfoView: View {
                 }
                 .padding(.horizontal, 24)
             
-                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView)
+                NavigationLink(destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView) {
+                    EmptyView()
+                }
 
             }
+            .navigationBarHidden(true)
             .onAppear {
                 prefillData()
             }
         }
-
     }
 }
 

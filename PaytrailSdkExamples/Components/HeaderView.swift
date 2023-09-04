@@ -18,6 +18,7 @@ struct HeaderView: View {
             Spacer()
             Icon(name: "shopping-cart", size: 20)
             Text("\(itemCount)")
+                .foregroundColor(Color.black)
         }
     }
 }

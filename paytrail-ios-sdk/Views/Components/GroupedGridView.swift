@@ -35,7 +35,7 @@ struct GroupedGridView<Content>: View where Content: View {
                 // TODO: Consdier to load the font correctly or use the system one
                 Text(headerTitle)
                     .font(.custom("RockwellStd-Bold", size: themes.fontSize))
-                    .bold()
+//                    .bold()
                     .foregroundColor(themes.foreground)
             }
             LazyVGrid(columns: columns, spacing: UIConstants.itemHorizontalSpacing.rawValue) {
