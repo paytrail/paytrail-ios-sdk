@@ -8,9 +8,11 @@
 import SwiftUI
 
 struct PaymentResultView: View {
-    
+    @Environment(\.presentationMode) var mode: Binding<PresentationMode>
+
     @Binding var items: [ShoppingItem]
     @Binding var status: PaymentStatus
+    @Binding var isShowing: Bool
     
     var headerText: String {
         switch status {
@@ -30,7 +32,7 @@ struct PaymentResultView: View {
     var bodyText: String {
         switch status {
         case .ok:
-            return "Your payment was done succesfully! Go back to shop."
+            return "Your payment is done succesfully! Please Go back to shop."
         case .fail:
             return "Your payment has failed. Please try again."
         case .pending:
@@ -84,18 +86,23 @@ struct PaymentResultView: View {
                         .padding(.vertical, 12)
                         .padding(.horizontal, 24)
                     TextButton(text: bodyButonText, theme: .fill()) {
-                        //                        mode.wrappedValue.dismiss()
+                        mode.wrappedValue.dismiss()
+                        isShowing = false
+                        items = [
+                            ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
+                            ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
+                        ]
                     }
                     .padding(.vertical, 12)
                     .padding(.horizontal, 24)
-                    .visible(status == .ok)
+                    .visible(status == .ok || status == .pending || status == .delayed)
                     
                     TextButton(text: bodyButonText, theme: .light()) {
-                        //                        mode.wrappedValue.dismiss()
+                        mode.wrappedValue.dismiss()
                     }
                     .padding(.vertical, 12)
                     .padding(.horizontal, 24)
-                    .visible(status != .ok)
+                    .visible(status == .fail || status == .none)
                 }
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 24)
@@ -117,11 +124,16 @@ struct PaymentResultView: View {
             Spacer()
 
         }
+        .onAppear {
+            if status == .ok || status == .pending || status == .delayed {
+                items = []
+            }
+        }
     }
 }
 
 struct PaymentResultView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentResultView(items: .constant([]), status: .constant(.ok))
+        PaymentResultView(items: .constant([]), status: .constant(.ok), isShowing: .constant(true))
     }
 }

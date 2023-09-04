@@ -13,6 +13,7 @@ struct PaymentsView: View {
     @Binding var items: [ShoppingItem]
     @Binding var customer: Customer?
     @Binding var fullAddress: Address?
+    @Binding var isShowing: Bool
     
     @State private var showPayWithProvidersView: Bool = false
 
@@ -53,7 +54,7 @@ struct PaymentsView: View {
                     .scrollDisabled(true)
                     .padding(.horizontal, -16)
                     
-                    NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, status: .constant(.none)), isActive: $showPayWithProvidersView)
+                    NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
 
                 }
                 .padding(.horizontal, 24)
@@ -76,6 +77,6 @@ struct PaymentsView: View {
 
 struct PaymentsView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentsView(items: .constant([]), customer: .constant(nil), fullAddress: .constant(nil))
+        PaymentsView(items: .constant([]), customer: .constant(nil), fullAddress: .constant(nil), isShowing: .constant(true))
     }
 }

@@ -27,6 +27,7 @@ struct CustomerInfoView: View {
     @State private var isTermsAgreed: Bool = false
     
     @State private var showPaymentsView: Bool = false
+    @Binding var isShowing: Bool
     
     private func prefillData() {
         firstName = "Maija"
@@ -126,7 +127,7 @@ struct CustomerInfoView: View {
                 }
                 .padding(.horizontal, 24)
             
-                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress), isActive: $showPaymentsView)
+                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView)
 
             }
             .onAppear {
@@ -139,6 +140,6 @@ struct CustomerInfoView: View {
 
 struct CustomerInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomerInfoView(items: .constant([]))
+        CustomerInfoView(items: .constant([]), isShowing: .constant(true))
     }
 }

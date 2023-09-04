@@ -14,6 +14,7 @@ struct PayWithProvidersView: View {
     @Binding var items: [ShoppingItem]
     @Binding var customer: Customer?
     @Binding var fullAddress: Address?
+    @Binding var isShowing: Bool
     
     var amount: Int64 {
         productItems.map { $0.unitPrice * $0.units }.reduce(0,+)
@@ -23,7 +24,7 @@ struct PayWithProvidersView: View {
         items.map { $0.toProductItem(shoppingItem: $0) }
     }
     
-    @Binding var status: PaymentStatus
+    @State private var status: PaymentStatus = .new
     //    @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var groups: [PaymentMethodGroup] = []
@@ -31,7 +32,9 @@ struct PayWithProvidersView: View {
     @StateObject private var viewModel = ViewModel()
     private let paymentApis = PaytrailPaymentAPIs()
     private let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
-
+    @State private var showPaymentResultView: Bool = false
+    
+    
     var body: some View {
         AppBackgroundView {
             HeaderView(itemCount: items.count)
@@ -94,23 +97,26 @@ struct PayWithProvidersView: View {
                 guard let newValue = newValue else {
                     return
                 }
-                switch newValue.status {
-                case .ok:
-                    print("payment ok!")
-                    status = .ok
-                    mode.wrappedValue.dismiss()
-                case .pending:
-                    print("payment pending!")
-                case .delayed:
-                    print("payment delayed!")
-                case .fail:
-                    print("payment failed!")
-                    if let _ = newValue.error {
-                        // Take care of the error when payment fails
-                    }
-                default:
-                    print("Payment none")
-                }
+                
+                status = newValue.status
+                showPaymentResultView.toggle()
+                //                switch newValue.status {
+                //                case .ok:
+                //                    print("payment ok!")
+                //                    status = .ok
+                //                    mode.wrappedValue.dismiss()
+                //                case .pending:
+                //                    print("payment pending!")
+                //                case .delayed:
+                //                    print("payment delayed!")
+                //                case .fail:
+                //                    print("payment failed!")
+                //                    if let _ = newValue.error {
+                //                        // Take care of the error when payment fails
+                //                    }
+                //                default:
+                //                    print("Payment none")
+                //                }
             })
             .onAppear {
                 let payload = PaymentRequestBody(stamp: UUID().uuidString,
@@ -160,6 +166,8 @@ struct PayWithProvidersView: View {
             }
             .padding(.horizontal, 24)
             .padding(.top, 16)
+            
+            NavigationLink("", destination: PaymentResultView(items: $items, status: $status, isShowing: $isShowing), isActive: $showPaymentResultView)
             
         }
     }

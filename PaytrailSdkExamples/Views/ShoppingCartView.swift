@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ShoppingCartView: View {
     
-    @State var items: [ShoppingItem] = [
+    @State private var items: [ShoppingItem] = [
         ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
         ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
     ]
@@ -83,7 +83,7 @@ struct ShoppingCartView: View {
                 }
                 .padding(.horizontal, 24)
                 
-                NavigationLink("", destination: CustomerInfoView(items: $items), isActive: $showCustomerDetailsView)
+                NavigationLink("", destination: CustomerInfoView(items: $items, isShowing: $showCustomerDetailsView), isActive: $showCustomerDetailsView)
             }
             .background(Color.init("lightGray"))
         }
