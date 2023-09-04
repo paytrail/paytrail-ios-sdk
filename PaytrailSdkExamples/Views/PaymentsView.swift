@@ -69,9 +69,6 @@ struct PaymentsView: View {
                         }
                         .padding(.horizontal, -16)
                     }
-                    
-                    NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
-
                 }
                 .padding(.horizontal, 24)
                 
@@ -85,6 +82,9 @@ struct PaymentsView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 24)
+                .padding(.top, 16)
+                
+                NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
             }
             .navigationBarHidden(true)
         }

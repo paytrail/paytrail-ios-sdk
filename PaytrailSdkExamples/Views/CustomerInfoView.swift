@@ -125,10 +125,9 @@ struct CustomerInfoView: View {
                     .disabled(!isTermsAgreed)
                 }
                 .padding(.horizontal, 24)
+                .padding(.top, 16)
             
-                NavigationLink(destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView) {
-                    EmptyView()
-                }
+                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView)
 
             }
             .navigationBarHidden(true)

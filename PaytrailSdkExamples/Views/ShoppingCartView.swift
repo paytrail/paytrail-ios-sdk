@@ -83,6 +83,7 @@ struct ShoppingCartView: View {
                     Spacer()
                 }
                 .padding(.horizontal, 24)
+                .padding(.top, 16)
                 
                 NavigationLink("", destination: CustomerInfoView(items: $items, isShowing: $showCustomerDetailsView), isActive: $showCustomerDetailsView)
             }
