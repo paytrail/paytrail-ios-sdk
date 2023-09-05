@@ -34,6 +34,7 @@ struct PayWithProvidersView: View {
     private let paymentApis = PaytrailPaymentAPIs()
     private let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
     @State private var showPaymentResultView: Bool = false
+    @State private var showProgressView: Bool = false
     
     @State var savedCards: [TokenizedCard] = []
     private let cardApi = PaytrailCardTokenAPIs()
@@ -67,244 +68,257 @@ struct PayWithProvidersView: View {
     
     var body: some View {
         AppBackgroundView {
-            VStack(alignment: .leading) {
-                HeaderView(itemCount: items.count)
-                    .padding(.horizontal, 24)
-                    .padding(.bottom, 24)
-                    .background(Color.white)
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("**Pay with saved cards**")
-                        .font(.system(size: 24))
-                        .padding(.vertical, 24)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+            ZStack(alignment: .center) {
+                VStack(alignment: .leading) {
+                    HeaderView(itemCount: items.count)
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 24)
+                        .background(Color.white)
                     
-                    GroupedGrid(headerTitle: "") {
-                        ForEach(savedCards, id: \.self) { card in
-                            Button {
-                                let payload = createPayload(from: card.token)
-                                let authType: PaytrailCardTokenAPIs.PaymentAuthorizationType = .charge
-                                cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
-                                    switch result {
-                                    case .success(let success):
-//                                        statusString = "Payment success: \(success.transactionId ?? "")"
-                                        DispatchQueue.main.async {
-                                            if authType == .authorizationHold {
-                                                //                                                viewModel.transcationOnHold = (success.transactionId!, payload)
-                                                //                                                commitOnHoldAmount = String(payload.amount)
-                                            } else {
-                                                status = .ok
-                                                //                                                mode.wrappedValue.dismiss()
-                                                //                                                isShowing = false
-                                                showPaymentResultView = true
-                                            }
-                                        }
-                                        print(success)
-                                    case .failure(let failure):
-                                        print(failure)
-                                        if let failure = failure as? PaytrailTokenError,
-                                           let threeDSecureUrl = failure.payload?.threeDSecureUrl,
-                                           let url = URL(string: threeDSecureUrl) {
-                                            //                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
-                                            let request = URLRequest(url: url)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("**Pay with saved cards**")
+                            .font(.system(size: 24))
+                            .padding(.vertical, 24)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        GroupedGrid(headerTitle: "") {
+                            ForEach(savedCards, id: \.self) { card in
+                                Button {
+                                    showProgressView = true
+                                    let payload = createPayload(from: card.token)
+                                    let authType: PaytrailCardTokenAPIs.PaymentAuthorizationType = .charge
+                                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
+                                        showProgressView = false
+                                        switch result {
+                                        case .success(let success):
+                                            //                                        statusString = "Payment success: \(success.transactionId ?? "")"
                                             DispatchQueue.main.async {
-                                                viewModel.threeDSecureRequest = request
+                                                if authType == .authorizationHold {
+                                                    //                                                viewModel.transcationOnHold = (success.transactionId!, payload)
+                                                    //                                                commitOnHoldAmount = String(payload.amount)
+                                                } else {
+                                                    status = .ok
+                                                    //                                                mode.wrappedValue.dismiss()
+                                                    //                                                isShowing = false
+                                                    showPaymentResultView = true
+                                                }
+                                            }
+                                            print(success)
+                                        case .failure(let failure):
+                                            print(failure)
+                                            if let failure = failure as? PaytrailTokenError,
+                                               let threeDSecureUrl = failure.payload?.threeDSecureUrl,
+                                               let url = URL(string: threeDSecureUrl) {
+                                                //                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
+                                                let request = URLRequest(url: url)
+                                                DispatchQueue.main.async {
+                                                    viewModel.threeDSecureRequest = request
+                                                }
                                             }
                                         }
                                     }
+                                } label: {
+                                    Text("**\(card.type) \(card.partialPan)**")
+                                        .foregroundColor(Color.blue)
                                 }
-                            } label: {
-                                Text("**\(card.type) \(card.partialPan)**")
-                                    .foregroundColor(Color.blue)
+                                
                             }
-
+                            
                         }
                         
+                        TextButton(text: "Add card", theme: .fill()) {
+                            viewModel.clean()
+                            // 1) Initiate add card request
+                            viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
+                        }
+                        .padding(.top, 24)
                     }
-                    
-                    TextButton(text: "Add card", theme: .fill()) {
-                        viewModel.clean()
-                        // 1) Initiate add card request
-                        viewModel.addCardRequest = cardApi.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
-                    }
-                    .padding(.top, 24)
-                }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
-                
-                
-                VStack(alignment: .leading, spacing: 0) {
-                    Text("**Pay with a payment method**")
-                        .font(.system(size: 24))
-                        .padding(.vertical, 10)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    Text("By selecting a payment method, you agree to our payment service terms & conditions.")
-                        .font(.system(size: 12))
-                        .foregroundColor(Color.init("textGray"))
-                }
-                .padding(.horizontal, 24)
-                .padding(.bottom, 24)
-                
-                ScrollView(showsIndicators: false) {
-                    VStack(alignment: .leading) {
-                        
-                        PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: $providers, groups: groups, currentPaymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
-                            viewModel.currentPaymentRequest = request
-                        }))
-                        
-                    }
-                    .frame(
-                        minWidth: 0,
-                        maxWidth: .infinity,
-                        minHeight: 0,
-                        maxHeight: .infinity,
-                        alignment: .topLeading
-                    )
                     .padding(.horizontal, 24)
-                    .padding(.bottom, 12)
-                    .fullScreenCover(isPresented: Binding(get: { viewModel.currentPaymentRequest != nil }, set: { _, _ in }), onDismiss: {
-                        viewModel.currentPaymentRequest = nil
+                    .padding(.bottom, 24)
+                    
+                    
+                    VStack(alignment: .leading, spacing: 0) {
+                        Text("**Pay with a payment method**")
+                            .font(.system(size: 24))
+                            .padding(.vertical, 10)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        
+                        Text("By selecting a payment method, you agree to our payment service terms & conditions.")
+                            .font(.system(size: 12))
+                            .foregroundColor(Color.init("textGray"))
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.bottom, 24)
+                    
+                    ScrollView(showsIndicators: false) {
+                        VStack(alignment: .leading) {
+                            
+                            PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: $providers, groups: groups, currentPaymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
+                                viewModel.currentPaymentRequest = request
+                            }))
+                            
+                        }
+                        .frame(
+                            minWidth: 0,
+                            maxWidth: .infinity,
+                            minHeight: 0,
+                            maxHeight: .infinity,
+                            alignment: .topLeading
+                        )
+                        .padding(.horizontal, 24)
+                        .padding(.bottom, 12)
+                        .fullScreenCover(isPresented: Binding(get: { viewModel.currentPaymentRequest != nil }, set: { _, _ in }), onDismiss: {
+                            viewModel.currentPaymentRequest = nil
+                        }) {
+                            if let request = viewModel.currentPaymentRequest {
+                                NavigationView {
+                                    // 2) Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
+                                    PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+                                        .ignoresSafeArea()
+                                        .navigationBarTitleDisplayMode(.inline)
+                                        .toolbar {
+                                            ToolbarItem(placement: .navigationBarLeading) {
+                                                BackButton {
+                                                    viewModel.currentPaymentRequest = nil
+                                                    viewModel.paymentResult = nil
+                                                }
+                                            }
+                                        }
+                                }
+                            }
+                        }
+                    }
+                    .fullScreenCover(isPresented: Binding(get: { viewModel.addCardRequest != nil }, set: { _, _ in }), onDismiss: {
+                        viewModel.addCardRequest = nil
                     }) {
-                        if let request = viewModel.currentPaymentRequest {
+                        if let request = viewModel.addCardRequest {
                             NavigationView {
-                                // 2) Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
+                                // 2) Create PaymentWebView with contentType addCard once addCardRequest is made
+                                PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .addCard)
+                                    .ignoresSafeArea()
+                                    .navigationBarTitleDisplayMode(.inline)
+                                    .toolbar {
+                                        ToolbarItem(placement: .navigationBarLeading) {
+                                            BackButton {
+                                                viewModel.addCardRequest = nil
+                                            }
+                                        }
+                                    }
+                            }
+                        }
+                    }
+                    .fullScreenCover(isPresented: Binding(get: { viewModel.threeDSecureRequest != nil }, set: { _, _ in }), content: {
+                        if let request = viewModel.threeDSecureRequest {
+                            NavigationView {
                                 PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
                                     .ignoresSafeArea()
                                     .navigationBarTitleDisplayMode(.inline)
                                     .toolbar {
                                         ToolbarItem(placement: .navigationBarLeading) {
                                             BackButton {
-                                                viewModel.currentPaymentRequest = nil
-                                                viewModel.paymentResult = nil
+                                                viewModel.threeDSecureRequest = nil
                                             }
                                         }
                                     }
                             }
                         }
-                    }
-                }
-                .fullScreenCover(isPresented: Binding(get: { viewModel.addCardRequest != nil }, set: { _, _ in }), onDismiss: {
-                    viewModel.addCardRequest = nil
-                }) {
-                    if let request = viewModel.addCardRequest {
-                        NavigationView {
-                            // 2) Create PaymentWebView with contentType addCard once addCardRequest is made
-                            PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .addCard)
-                                .ignoresSafeArea()
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbar {
-                                    ToolbarItem(placement: .navigationBarLeading) {
-                                        BackButton {
-                                            viewModel.addCardRequest = nil
-                                        }
-                                    }
-                                }
+                    })
+                    .onChange(of: viewModel.paymentResult, perform: { newValue in
+                        guard let newValue = newValue else {
+                            return
                         }
-                    }
-                }
-                .fullScreenCover(isPresented: Binding(get: { viewModel.threeDSecureRequest != nil }, set: { _, _ in }), content: {
-                    if let request = viewModel.threeDSecureRequest {
-                        NavigationView {
-                            PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
-                                .ignoresSafeArea()
-                                .navigationBarTitleDisplayMode(.inline)
-                                .toolbar {
-                                    ToolbarItem(placement: .navigationBarLeading) {
-                                        BackButton {
-                                            viewModel.threeDSecureRequest = nil
-                                        }
-                                    }
-                                }
-                        }
-                    }
-                })
-                .onChange(of: viewModel.paymentResult, perform: { newValue in
-                    guard let newValue = newValue else {
-                        return
-                    }
-                    
-                    status = newValue.status
-                    showPaymentResultView.toggle()
-                })
-                .onChange(of: viewModel.tokenizedId, perform: { newValue in
-                    guard let newValue = newValue else { return }
-                    cardApi.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
-                        switch result {
-                        case .success(let success):
-                            print(success)
-                            let tokenizedCard = TokenizedCard(token: success.token, customer: TokenCustomer(networkAddress: success.customer?.networkAddress ?? "", countryCode: success.customer?.countryCode ?? ""), type: success.card?.type ?? "", partialPan: success.card?.partialPan ?? "", expireYear: success.card?.expireYear ?? "", expireMonth: success.card?.expireMonth ?? "", cvcRequired: success.card?.cvcRequired?.rawValue ?? "", bin: success.card?.bin ?? "", funding: success.card?.funding?.rawValue ?? "", countryCode: success.card?.countryCode ?? "", category: success.card?.category?.rawValue ?? "", cardFingerprint: success.card?.cardFingerprint ?? "", panFingerprint: success.card?.panFingerprint ?? "")
-                            viewModel.addCardToDb(tokenizedCard)
-                        case .failure(let failure):
-                            print(failure)
-                            viewModel.isCardSaved = false
-                        }
-                    }
-                })
-                .onChange(of: viewModel.isCardSaved, perform: { newValue in
-                    guard let value = newValue else { return }
-                    if value {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                            savedCards = viewModel.savedCards
-                        }
-                    } else {
-                    }
-                })
-                .onAppear {
-                    
-                    savedCards = viewModel.savedCards
-                    
-                    paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
-                        switch result {
-                        case .success(let data):
-
-                            //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
-                            //                        print(String(data: body, encoding: .utf8)!)
-                            //                    }
-                            providers = data.providers ?? []
-                            groups = data.groups ?? []
-                            let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
-                            "\nhref: \(data.href ?? "")" +
-                            "\nreference: \(data.reference ?? "")" +
-                            "\n\nterms: \(data.terms ?? "")" +
-                            "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
-                            "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
-                            //                    +
-                            //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
-                            print(contentText)
-                        case .failure(let error):
-                            print(error)
-                            //                    contentText = (error as? any PaytrailError)?.description ?? ""
+                        
+                        status = newValue.status
+                        showPaymentResultView.toggle()
+                    })
+                    .onChange(of: viewModel.tokenizedId, perform: { newValue in
+                        guard let newValue = newValue else { return }
+                        showProgressView = true
+                        cardApi.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
+                            showProgressView = false
+                            switch result {
+                            case .success(let success):
+                                print(success)
+                                let tokenizedCard = TokenizedCard(token: success.token, customer: TokenCustomer(networkAddress: success.customer?.networkAddress ?? "", countryCode: success.customer?.countryCode ?? ""), type: success.card?.type ?? "", partialPan: success.card?.partialPan ?? "", expireYear: success.card?.expireYear ?? "", expireMonth: success.card?.expireMonth ?? "", cvcRequired: success.card?.cvcRequired?.rawValue ?? "", bin: success.card?.bin ?? "", funding: success.card?.funding?.rawValue ?? "", countryCode: success.card?.countryCode ?? "", category: success.card?.category?.rawValue ?? "", cardFingerprint: success.card?.cardFingerprint ?? "", panFingerprint: success.card?.panFingerprint ?? "")
+                                viewModel.addCardToDb(tokenizedCard)
+                            case .failure(let failure):
+                                print(failure)
+                                viewModel.isCardSaved = false
+                            }
                         }
                     })
-                    
-                    //                    paymentApis.getGroupedPaymentProviders(of: merchant.merchantId, secret: merchant.secret, amount: Int(amount)) { result in
-                    //                        switch result {
-                    //                        case .success(let success):
-                    //                            providers = success.providers ?? []
-                    //                            groups = success.groups ?? []
-                    //                            print(providers)
-                    //                            print(groups)
-                    //                        case .failure(let failure):
-                    //                            print(failure)
-                    //                        }
-                    //                    }
-                }
-                
-                HStack(alignment: .center) {
-                    TextButton(text: "Cancel", theme: .light()) {
-                        mode.wrappedValue.dismiss()
+                    .onChange(of: viewModel.isCardSaved, perform: { newValue in
+                        guard let value = newValue else { return }
+                        if value {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                savedCards = viewModel.savedCards
+                            }
+                        } else {
+                        }
+                    })
+                    .onAppear {
+                        
+                        savedCards = viewModel.savedCards
+                        
+                        paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
+                            switch result {
+                            case .success(let data):
+                                
+                                //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
+                                //                        print(String(data: body, encoding: .utf8)!)
+                                //                    }
+                                providers = data.providers ?? []
+                                groups = data.groups ?? []
+                                let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
+                                "\nhref: \(data.href ?? "")" +
+                                "\nreference: \(data.reference ?? "")" +
+                                "\n\nterms: \(data.terms ?? "")" +
+                                "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
+                                "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
+                                //                    +
+                                //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
+                                print(contentText)
+                            case .failure(let error):
+                                print(error)
+                                //                    contentText = (error as? any PaytrailError)?.description ?? ""
+                            }
+                        })
+                        
+                        //                    paymentApis.getGroupedPaymentProviders(of: merchant.merchantId, secret: merchant.secret, amount: Int(amount)) { result in
+                        //                        switch result {
+                        //                        case .success(let success):
+                        //                            providers = success.providers ?? []
+                        //                            groups = success.groups ?? []
+                        //                            print(providers)
+                        //                            print(groups)
+                        //                        case .failure(let failure):
+                        //                            print(failure)
+                        //                        }
+                        //                    }
                     }
-                    Spacer()
+                    
+                    HStack(alignment: .center) {
+                        TextButton(text: "Cancel", theme: .light()) {
+                            mode.wrappedValue.dismiss()
+                        }
+                        Spacer()
+                    }
+                    .padding(.horizontal, 24)
+                    .padding(.top, 16)
+                    
+                    NavigationLink("", destination: PaymentResultView(items: $items, status: $status, isShowing: $isShowing), isActive: $showPaymentResultView)
+                    
                 }
-                .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .navigationBarHidden(true)
                 
-                NavigationLink("", destination: PaymentResultView(items: $items, status: $status, isShowing: $isShowing), isActive: $showPaymentResultView)
-                
+                VStack {
+                    ProgressView()
+                        .controlSize(.large)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .background(Color.clear)
+                .visible(showProgressView)
             }
-            .navigationBarHidden(true)
-        
         }
     }
 }
