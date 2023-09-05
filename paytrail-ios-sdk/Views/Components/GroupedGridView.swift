@@ -33,9 +33,10 @@ struct GroupedGridView<Content>: View where Content: View {
         VStack(alignment: .leading, spacing: UIConstants.gridSpacing.rawValue) {
             if !headerTitle.isEmpty {
                 // TODO: Consdier to load the font correctly or use the system one
-                Text(headerTitle)
-                    .font(.custom("RockwellStd-Bold", size: themes.fontSize))
-//                    .bold()
+                Text("**\(headerTitle)**")
+                // TODO: Figure out if we can load custom font here
+                //                    .font(.custom("RockwellStd-Bold", size: themes.fontSize))
+                    .font(.system(size: themes.fontSize))
                     .foregroundColor(themes.foreground)
             }
             LazyVGrid(columns: columns, spacing: UIConstants.itemHorizontalSpacing.rawValue) {

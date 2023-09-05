@@ -96,7 +96,7 @@ open class PaytrailPaymentAPIs {
         return request
     }
     
-    public func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .fi, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
+    public func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
         
         let networkService: NetworkService = NormalPaymentNetworkService()
         

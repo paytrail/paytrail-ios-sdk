@@ -18,8 +18,8 @@ public struct PaytrailThemes {
     let fontSize: CGFloat
     
     public struct FontSize {
-        static let small: CGFloat = 20
-        static let large: CGFloat = 24
+        static let small: CGFloat = 16
+        static let large: CGFloat = 20
         static func custom(_ size: CGFloat) -> CGFloat { size }
     }
     
