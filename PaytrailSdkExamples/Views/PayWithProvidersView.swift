@@ -133,29 +133,41 @@ struct PayWithProvidersView: View {
                                                      invoicingAddress: fullAddress
                     )
                     
-                    paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
+//                    paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, completion: { result in
+//                        switch result {
+//                        case .success(let data):
+//
+//                            //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
+//                            //                        print(String(data: body, encoding: .utf8)!)
+//                            //                    }
+//                            providers = data.providers ?? []
+//                            groups = data.groups ?? []
+//                            let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
+//                            "\nhref: \(data.href ?? "")" +
+//                            "\nreference: \(data.reference ?? "")" +
+//                            "\n\nterms: \(data.terms ?? "")" +
+//                            "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
+//                            "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
+//                            //                    +
+//                            //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
+//                            print(contentText)
+//                        case .failure(let error):
+//                            print(error)
+//                            //                    contentText = (error as? any PaytrailError)?.description ?? ""
+//                        }
+//                    })
+                    
+                    paymentApis.getGroupedPaymentProviders(of: merchant.merchantId, secret: merchant.secret, amount: Int(amount)) { result in
                         switch result {
-                        case .success(let data):
-                            
-                            //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
-                            //                        print(String(data: body, encoding: .utf8)!)
-                            //                    }
-                            providers = data.providers ?? []
-                            groups = data.groups ?? []
-                            let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
-                            "\nhref: \(data.href ?? "")" +
-                            "\nreference: \(data.reference ?? "")" +
-                            "\n\nterms: \(data.terms ?? "")" +
-                            "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
-                            "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
-                            //                    +
-                            //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
-                            print(contentText)
-                        case .failure(let error):
-                            print(error)
-                            //                    contentText = (error as? any PaytrailError)?.description ?? ""
+                        case .success(let success):
+                            providers = success.providers ?? []
+                            groups = success.groups ?? []
+                            print(providers)
+                            print(groups)
+                        case .failure(let failure):
+                            print(failure)
                         }
-                    })
+                    }
                 }
                 
                 HStack(alignment: .center) {

@@ -20,12 +20,14 @@ public struct PaymentMethodGroup: Codable, Hashable {
     let name : String?
     let icon : String?
     let svg : String?
+    let providers: [PaymentMethodProvider]?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"
         case name = "name"
         case icon = "icon"
         case svg = "svg"
+        case providers = "providers"
     }
 
     public init(from decoder: Decoder) throws {
@@ -34,6 +36,7 @@ public struct PaymentMethodGroup: Codable, Hashable {
         name = try values.decodeIfPresent(String.self, forKey: .name)
         icon = try values.decodeIfPresent(String.self, forKey: .icon)
         svg = try values.decodeIfPresent(String.self, forKey: .svg)
+        providers = try values.decodeIfPresent([PaymentMethodProvider].self, forKey: .providers)
     }
 
 }

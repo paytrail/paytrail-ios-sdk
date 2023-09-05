@@ -21,7 +21,7 @@ import Foundation
 ///  - id: String? // ID of the provider
 ///  - parameters: [Parameter]? // See Parameter
 /// 
-public struct PaymentMethodProvider: Codable, Equatable, Identifiable {
+public struct PaymentMethodProvider: Codable, Equatable, Identifiable, Hashable {
     public let url : String?
     public let icon : String?
     public let svg : String?

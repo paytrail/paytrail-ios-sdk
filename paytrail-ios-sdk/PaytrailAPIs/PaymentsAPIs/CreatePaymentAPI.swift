@@ -95,5 +95,38 @@ open class PaytrailPaymentAPIs {
         request.httpBody = body
         return request
     }
+    
+    public func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .fi, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
+        
+        let networkService: NetworkService = NormalPaymentNetworkService()
+        
+        let path = ApiPaths.getPaymentGroupedProviders
+        let headers = [
+            ParameterKeys.checkoutAccount: merchantId,
+            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
+            ParameterKeys.checkoutMethod: CheckoutMethod.get,
+            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+            ParameterKeys.checkoutNonce: UUID().uuidString
+        ]
+        
+        let signature = hmacSignature(secret: secret, headers: headers, body: nil)
+        
+        let queryItems = [
+            "amount": "\(amount)",
+            "groups": groups.map { $0.rawValue }.joined(separator: ","),
+            "language": language.rawValue
+        ]
+        
+        let speicalHeader = [ParameterKeys.signature: signature]
+        let dataRequest: GetGroupedPaymentProvidersRequest = GetGroupedPaymentProvidersRequest(queryItems: queryItems, path: path, headers: headers, specialHeader: speicalHeader)
+        networkService.request(dataRequest) { result in
+            switch result {
+            case .success(let success):
+                completion(.success(success))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 
 }

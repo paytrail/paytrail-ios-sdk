@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		DC078A372AA5FDC7004284FA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DC501FB02A25FEE2004AD49D /* Assets.xcassets */; };
+		DC078A392AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */; };
+		DC078A3A2AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */; };
+		DC078A3B2AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */; };
+		DC078A3D2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
+		DC078A3E2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
+		DC078A3F2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
 		DC3689182A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC3689192A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC36891A2A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
@@ -238,6 +244,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodGroupDataResponse.swift; sourceTree = "<group>"; };
+		DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGroupedPaymentProvidersRequest.swift; sourceTree = "<group>"; };
 		DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaytrailMerchant.swift; sourceTree = "<group>"; };
 		DC36891B2A31D66700FB2D71 /* PaymentImageDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentImageDataRequest.swift; sourceTree = "<group>"; };
 		DC3689212A33312300FB2D71 /* PaymentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentWebView.swift; sourceTree = "<group>"; };
@@ -358,6 +366,7 @@
 				DC3689732A431D8E00FB2D71 /* CardTokenizationRequest.swift */,
 				DC3689922A4AD8EE00FB2D71 /* CreateTokenPaymentDataRequest.swift */,
 				DC3689DA2A94DEF200FB2D71 /* PayAndAddCardDataRequest.swift */,
+				DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */,
 			);
 			path = Requests;
 			sourceTree = "<group>";
@@ -593,6 +602,7 @@
 				DC3689292A37440100FB2D71 /* PaymentStatus.swift */,
 				DC3689492A3C9AE600FB2D71 /* Currency.swift */,
 				DC3689B02A52E13A00FB2D71 /* PaymentResult.swift */,
+				DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */,
 			);
 			path = CreatePayment;
 			sourceTree = "<group>";
@@ -821,6 +831,7 @@
 				DC36896C2A4319D300FB2D71 /* Card.swift in Sources */,
 				DC3689C22A56BCE000FB2D71 /* GroupedGridView.swift in Sources */,
 				DC3689262A373D0900FB2D71 /* UrlStringHandler.swift in Sources */,
+				DC078A392AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */,
 				DC3689E42A98A49C00FB2D71 /* ShoppingCartView.swift in Sources */,
 				DC3689182A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */,
 				DC3689C62A56E40000FB2D71 /* PaytrailThemes.swift in Sources */,
@@ -829,6 +840,7 @@
 				DC3689D72A94D78F00FB2D71 /* PayAndAddCardRequestResponse.swift in Sources */,
 				DC501F3C2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
 				DC3689F02A98DAAE00FB2D71 /* ShoppingItem.swift in Sources */,
+				DC078A3D2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */,
 				DC3689DF2A97876800FB2D71 /* PTLogger.swift in Sources */,
 				DC3689EC2A98D5F300FB2D71 /* ShoppingCartItemView.swift in Sources */,
 				DC501FCA2A263D3F004AD49D /* HMACCaculator.swift in Sources */,
@@ -877,6 +889,8 @@
 			files = (
 				DC36898D2A499C0000FB2D71 /* BackButton.swift in Sources */,
 				DC368A0F2A9E2CF600FB2D71 /* AppCheckboxStyle.swift in Sources */,
+				DC078A3E2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */,
+				DC078A3A2AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */,
 				DC501FC72A263249004AD49D /* PaymentErrorResponse.swift in Sources */,
 				DC3689B92A54199500FB2D71 /* PayWithProvidersView.swift in Sources */,
 				DC3689DC2A94DEF200FB2D71 /* PayAndAddCardDataRequest.swift in Sources */,
@@ -992,11 +1006,13 @@
 				DC36899E2A4C550000FB2D71 /* PaytrailError.swift in Sources */,
 				DC501FAF2A25FEDF004AD49D /* PayWithProvidersView.swift in Sources */,
 				DC501FC32A2606F1004AD49D /* NetworkService.swift in Sources */,
+				DC078A3F2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */,
 				DC36897C2A43305500FB2D71 /* TokenizedCard.swift in Sources */,
 				DC3689502A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */,
 				DC36896E2A4319D300FB2D71 /* Card.swift in Sources */,
 				DC3689362A38709D00FB2D71 /* GroupedGrid.swift in Sources */,
 				DC3689592A41BD8200FB2D71 /* PaytrailCardTokenAPIs.swift in Sources */,
+				DC078A3B2AA721DC004284FA /* PaymentMethodGroupDataResponse.swift in Sources */,
 				DC368A1C2AA2206100FB2D71 /* PaymentResultView.swift in Sources */,
 				DC3689F62A98E9ED00FB2D71 /* IconButton.swift in Sources */,
 				DC501FC02A2606E8004AD49D /* PTApplePay.swift in Sources */,

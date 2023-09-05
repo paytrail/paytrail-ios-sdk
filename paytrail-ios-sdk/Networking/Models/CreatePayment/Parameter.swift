@@ -16,7 +16,7 @@ import Foundation
 ///  - name: String? // Name of the form input, e.g. VALUUTTALAJI
 ///  - value: String? // Value of the form input, e.g. EUR
 ///
-public struct Parameter: Codable {
+public struct Parameter: Codable, Hashable {
     let name : String?
     let value : String?
 

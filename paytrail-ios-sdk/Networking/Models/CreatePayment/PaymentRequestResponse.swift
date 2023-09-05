@@ -20,7 +20,7 @@ import Foundation
 /// - groups: [PaymentMethodGroup]? // Contains data about the payment method groups. Contains only the groups found in the response's providers. See PaymentGroup
 /// - providers: [PaymentMethodProvider]? // See PaymentMethodProvider
 ///
-public struct PaymentRequestResponse : Codable {
+public struct PaymentRequestResponse: Codable {
     let transactionId : String?
     let href : String?
     let reference : String?
