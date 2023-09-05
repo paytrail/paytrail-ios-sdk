@@ -174,12 +174,12 @@ struct PayWithProvidersView: View {
                                     .navigationBarTitleDisplayMode(.inline)
                                     .toolbar {
                                         ToolbarItem(placement: .navigationBarLeading) {
-                                            BackButton {                                    viewModel.currentPaymentRequest = nil
+                                            BackButton {
+                                                viewModel.currentPaymentRequest = nil
                                                 viewModel.paymentResult = nil
                                             }
                                         }
                                     }
-                                
                             }
                         }
                     }
@@ -327,6 +327,7 @@ extension PayWithProvidersView {
             print("payment status changed: \(paymentResult.status.rawValue)")
             self.paymentResult = paymentResult
             currentPaymentRequest = nil // Exit payment
+            threeDSecureRequest = nil
         }
         
         func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
