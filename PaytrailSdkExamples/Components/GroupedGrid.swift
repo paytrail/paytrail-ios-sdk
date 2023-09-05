@@ -13,16 +13,17 @@ struct GroupedGrid<Content>: View where Content: View {
     @State var headerTitle: String = ""
     @ViewBuilder var content: () -> Content
     private let columns = [
-        GridItem(.adaptive(minimum: 100))
+//        GridItem(.flexible(minimum: 150, maximum: 200))
+        GridItem(.adaptive(minimum: 150))
+
     ]
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             if !headerTitle.isEmpty {
                 Text("**\(headerTitle)**")
-//                    .bold()
             }
-            LazyVGrid(columns: columns, spacing: 20) {
+            LazyVGrid(columns: columns, spacing: 8) {
                 content()
             }
         }

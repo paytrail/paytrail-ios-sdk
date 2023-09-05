@@ -14,6 +14,9 @@
 		DC078A3D2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
 		DC078A3E2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
 		DC078A3F2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */; };
+		DC078A412AA76342004284FA /* PaymentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A402AA76342004284FA /* PaymentCardView.swift */; };
+		DC078A422AA76342004284FA /* PaymentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A402AA76342004284FA /* PaymentCardView.swift */; };
+		DC078A432AA76342004284FA /* PaymentCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC078A402AA76342004284FA /* PaymentCardView.swift */; };
 		DC3689182A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC3689192A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
 		DC36891A2A2E1DD800FB2D71 /* PaytrailMerchant.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */; };
@@ -246,6 +249,7 @@
 /* Begin PBXFileReference section */
 		DC078A382AA721DC004284FA /* PaymentMethodGroupDataResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentMethodGroupDataResponse.swift; sourceTree = "<group>"; };
 		DC078A3C2AA724F7004284FA /* GetGroupedPaymentProvidersRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetGroupedPaymentProvidersRequest.swift; sourceTree = "<group>"; };
+		DC078A402AA76342004284FA /* PaymentCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentCardView.swift; sourceTree = "<group>"; };
 		DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaytrailMerchant.swift; sourceTree = "<group>"; };
 		DC36891B2A31D66700FB2D71 /* PaymentImageDataRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentImageDataRequest.swift; sourceTree = "<group>"; };
 		DC3689212A33312300FB2D71 /* PaymentWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentWebView.swift; sourceTree = "<group>"; };
@@ -383,6 +387,7 @@
 				DC3689FB2A9DED8D00FB2D71 /* HeaderView.swift */,
 				DC368A042A9DF23600FB2D71 /* AppBackgroundView.swift */,
 				DC368A082A9E1BE300FB2D71 /* InfoTextField.swift */,
+				DC078A402AA76342004284FA /* PaymentCardView.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -860,6 +865,7 @@
 				DC501F992A24D92D004AD49D /* Parameter.swift in Sources */,
 				DC501F8D2A24D6C6004AD49D /* PaymentMethodProvider.swift in Sources */,
 				DC501F932A24D7E0004AD49D /* PaymentMethodGroup.swift in Sources */,
+				DC078A412AA76342004284FA /* PaymentCardView.swift in Sources */,
 				DC3689632A43041800FB2D71 /* PaymentDelegate.swift in Sources */,
 				DC501F962A24D858004AD49D /* PTApplePay.swift in Sources */,
 				DC3689DB2A94DEF200FB2D71 /* PayAndAddCardDataRequest.swift in Sources */,
@@ -914,6 +920,7 @@
 				DC3689752A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */,
 				DC36894B2A3C9AE600FB2D71 /* Currency.swift in Sources */,
 				DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC078A422AA76342004284FA /* PaymentCardView.swift in Sources */,
 				DC3689992A4ADA0000FB2D71 /* TokenPaymentRequestResponse.swift in Sources */,
 				DC501FCB2A263D3F004AD49D /* HMACCaculator.swift in Sources */,
 				DC3689E02A97876800FB2D71 /* PTLogger.swift in Sources */,
@@ -998,6 +1005,7 @@
 				DC501FC12A2606EB004AD49D /* Parameter.swift in Sources */,
 				DC36896A2A430A9700FB2D71 /* TokenizationRequestResponse.swift in Sources */,
 				DC3689B72A52FD0900FB2D71 /* TokenizationResult.swift in Sources */,
+				DC078A432AA76342004284FA /* PaymentCardView.swift in Sources */,
 				DC3689A62A4C67E800FB2D71 /* TokenPaymentNetworkService.swift in Sources */,
 				DC3689F22A98DAAE00FB2D71 /* ShoppingItem.swift in Sources */,
 				DC3689D92A94D78F00FB2D71 /* PayAndAddCardRequestResponse.swift in Sources */,
