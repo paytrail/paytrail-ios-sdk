@@ -27,6 +27,7 @@ struct ShoppingCartView: View {
         items.remove(at: index)
         items.insert(newItem, at: index)
     }
+    
     var body: some View {
         NavigationView {
             VStack(alignment: .leading, spacing: 10) {
