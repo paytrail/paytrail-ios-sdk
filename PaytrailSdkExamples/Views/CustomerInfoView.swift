@@ -126,7 +126,7 @@ struct CustomerInfoView: View {
                     .disabled(!isTermsAgreed)
                 }
                 .padding(.horizontal, 24)
-                .padding(.top, 16)
+                .padding(.vertical, 16)
             
                 NavigationLink("", destination: PaymentWallView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentWall)
             }

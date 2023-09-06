@@ -14,12 +14,13 @@ struct HeaderView: View {
     var body: some View {
         HStack(spacing: 4) {
             // Logo
-            Icon(name: "logo", size: 46)
+            Icon(name: "logo", size: 40)
             Spacer()
             Icon(name: "shopping-cart", size: 20)
             Text("\(itemCount)")
                 .foregroundColor(Color.black)
         }
+        .padding(.top, 8)
     }
 }
 

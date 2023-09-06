@@ -312,7 +312,7 @@ struct PaymentWallView: View {
                         Spacer()
                     }
                     .padding(.horizontal, 24)
-                    .padding(.top, 16)
+                    .padding(.vertical, 16)
                     
                     NavigationLink("", destination: PaymentResultView(items: $items, status: $status, isShowing: $isShowing), isActive: $showPaymentResultView)
                     
