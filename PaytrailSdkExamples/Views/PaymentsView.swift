@@ -84,7 +84,7 @@ struct PaymentsView: View {
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
                 
-                NavigationLink("", destination: PayWithProvidersView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
+                NavigationLink("", destination: PaymentWallView(items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPayWithProvidersView)
             }
             .navigationBarHidden(true)
         }

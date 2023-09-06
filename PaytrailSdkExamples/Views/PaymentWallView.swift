@@ -8,7 +8,7 @@
 import SwiftUI
 import RealmSwift
 
-struct PayWithProvidersView: View {
+struct PaymentWallView: View {
     
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
     
@@ -45,7 +45,7 @@ struct PayWithProvidersView: View {
                                                    reference: "3759170",
                                                    amount: amount,
                                                    currency: .eur,
-                                                   language: .fi,
+                                                   language: .en,
                                                    items: productItems,
                                                    customer: customer!,
                                                    redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
@@ -57,7 +57,7 @@ struct PayWithProvidersView: View {
                                          reference: "3759170",
                                          amount: amount,
                                          currency: .eur,
-                                         language: .fi,
+                                         language: .en,
                                          items: productItems,
                                          customer: customer!,
                                          redirectUrls: CallbackUrls(success: "https://www.paytrail.com/succcess", cancel: "https://www.paytrail.com/fail"),
@@ -119,45 +119,6 @@ struct PayWithProvidersView: View {
                                             }
                                         }
                                     }
-                                    //                                Button {
-                                    //                                    showProgressView = true
-                                    //                                    let payload = createPayload(from: card.token)
-                                    //                                    let authType: PaytrailCardTokenAPIs.PaymentAuthorizationType = .charge
-                                    //                                    cardApi.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
-                                    //                                        showProgressView = false
-                                    //                                        switch result {
-                                    //                                        case .success(let success):
-                                    //                                            //                                        statusString = "Payment success: \(success.transactionId ?? "")"
-                                    //                                            DispatchQueue.main.async {
-                                    //                                                if authType == .authorizationHold {
-                                    //                                                    //                                                viewModel.transcationOnHold = (success.transactionId!, payload)
-                                    //                                                    //                                                commitOnHoldAmount = String(payload.amount)
-                                    //                                                } else {
-                                    //                                                    status = .ok
-                                    //                                                    //                                                mode.wrappedValue.dismiss()
-                                    //                                                    //                                                isShowing = false
-                                    //                                                    showPaymentResultView = true
-                                    //                                                }
-                                    //                                            }
-                                    //                                            print(success)
-                                    //                                        case .failure(let failure):
-                                    //                                            print(failure)
-                                    //                                            if let failure = failure as? PaytrailTokenError,
-                                    //                                               let threeDSecureUrl = failure.payload?.threeDSecureUrl,
-                                    //                                               let url = URL(string: threeDSecureUrl) {
-                                    //                                                //                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
-                                    //                                                let request = URLRequest(url: url)
-                                    //                                                DispatchQueue.main.async {
-                                    //                                                    viewModel.threeDSecureRequest = request
-                                    //                                                }
-                                    //                                            }
-                                    //                                        }
-                                    //                                    }
-                                    //                                } label: {
-                                    //                                    Text("**\(card.type) \(card.partialPan)**")
-                                    //                                        .foregroundColor(Color.blue)
-                                    //                                }
-                                    
                                 }
                                 
                             }
@@ -361,7 +322,7 @@ struct PayWithProvidersView: View {
     }
 }
 
-extension PayWithProvidersView {
+extension PaymentWallView {
     class ViewModel: ObservableObject, PaymentDelegate {
         @Published var paymentResult: PaymentResult?
         @Published var currentPaymentRequest: URLRequest?
