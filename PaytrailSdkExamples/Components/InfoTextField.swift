@@ -41,10 +41,11 @@ struct InfoTextField: View {
                     Spacer()
                 }
             }
-
-            Divider()
-                .frame(minHeight: 3)
-                .overlay(isFocused ? focusedColor : unfocusedColor)
+            VStack {
+                Divider()
+                    .frame(minHeight: 3)
+                    .overlay(isFocused ? focusedColor : unfocusedColor)
+            }
         }
     }
 }
