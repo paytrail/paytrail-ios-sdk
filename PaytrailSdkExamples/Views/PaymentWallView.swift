@@ -39,7 +39,6 @@ struct PaymentWallView: View {
     @State var savedCards: [TokenizedCard] = []
     private let cardApi = PaytrailCardTokenAPIs()
     
-    
     private func createPayload(from token: String = "") -> PaymentRequestBody {
         return !token.isEmpty ? PaymentRequestBody(stamp: UUID().uuidString,
                                                    reference: "3759170",

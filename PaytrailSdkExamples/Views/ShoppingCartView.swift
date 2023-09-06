@@ -77,11 +77,10 @@ struct ShoppingCartView: View {
                 // Footer view
                 HStack(alignment: .center) {
                     Spacer()
-                    // Order button
+                    Spacer()
                     TextButton(text: "Continue", theme: .fill()) {
                         showCustomerDetailsView.toggle()
                     }
-                    Spacer()
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 16)

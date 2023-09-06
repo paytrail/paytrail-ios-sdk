@@ -22,8 +22,10 @@ struct PaymentCardView: View {
                 Text("****")
                     .font(.system(size: 16))
                     .frame(alignment: .centerFirstTextBaseline)
+                    .foregroundColor(Color("magenta"))
                 Text("**\(card.partialPan)**")
                     .font(.system(size: 16))
+                    .foregroundColor(Color("magenta"))
                 //                Spacer()
             }
             .padding(.trailing, 16)
@@ -31,10 +33,10 @@ struct PaymentCardView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(Color.white)
                     .shadow(
-                        color: Color.gray.opacity(0.5),
-                        radius: 3,
-                        x: 2,
-                        y: 2
+                        color: Color.gray.opacity(0.3),
+                        radius: 8,
+                        x: 0,
+                        y: 0
                      )
             )
         }
