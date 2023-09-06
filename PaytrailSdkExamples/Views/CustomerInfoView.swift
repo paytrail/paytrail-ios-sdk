@@ -26,7 +26,7 @@ struct CustomerInfoView: View {
     @State private var country: String = ""
     @State private var isTermsAgreed: Bool = false
     
-    @State private var showPaymentsView: Bool = false
+    @State private var showPaymentWall: Bool = false
     @Binding var isShowing: Bool
     
     private func prefillData() {
@@ -120,15 +120,14 @@ struct CustomerInfoView: View {
                     Spacer()
                     TextButton(text: "To Payments", theme: .fill()) {
                         createCustomer()
-                        showPaymentsView.toggle()
+                        showPaymentWall.toggle()
                     }
                     .disabled(!isTermsAgreed)
                 }
                 .padding(.horizontal, 24)
                 .padding(.top, 16)
             
-                NavigationLink("", destination: PaymentsView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentsView)
-
+                NavigationLink("", destination: PaymentWallView( items: $items, customer: $customer, fullAddress: $fullAddress, isShowing: $isShowing), isActive: $showPaymentWall)
             }
             .navigationBarHidden(true)
             .onAppear {

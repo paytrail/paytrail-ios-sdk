@@ -364,6 +364,7 @@
 		DC078A442AA89582004284FA /* Deprecated */ = {
 			isa = PBXGroup;
 			children = (
+				DC368A112A9F7D6400FB2D71 /* PaymentsView.swift */,
 				DC3689AC2A4DBA0D00FB2D71 /* ProductCheckoutView.swift */,
 				DC36895A2A41E4C700FB2D71 /* AddCardView.swift */,
 			);
@@ -509,7 +510,6 @@
 				DC501FAE2A25FEDF004AD49D /* PaymentWallView.swift */,
 				DC3689E32A98A49C00FB2D71 /* ShoppingCartView.swift */,
 				DC3689FF2A9DF06F00FB2D71 /* CustomerInfoView.swift */,
-				DC368A112A9F7D6400FB2D71 /* PaymentsView.swift */,
 				DC368A192AA2206100FB2D71 /* PaymentResultView.swift */,
 			);
 			path = Views;
