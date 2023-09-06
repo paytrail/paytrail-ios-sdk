@@ -69,7 +69,7 @@ struct PaymentWallView: View {
     var body: some View {
         AppBackgroundView {
             ZStack(alignment: .center) {
-                VStack(alignment: .leading) {
+                VStack(alignment: .leading, spacing: 0) {
                     HeaderView(itemCount: items.count)
                         .padding(.horizontal, 24)
                         .padding(.bottom, 24)
@@ -77,9 +77,18 @@ struct PaymentWallView: View {
                     
                     ScrollView {
                         VStack(alignment: .leading, spacing: 0) {
+                            VStack {
+                                CartSummaryView(items: items)
+                                    .padding(.horizontal, 24)
+                                    .padding(.bottom, 16)
+                            }
+                            .background(Color.white)
+                            .padding(.horizontal, -24)
+                            
                             Text("**Pay with saved cards**")
                                 .font(.system(size: 24))
-                                .padding(.vertical, 24)
+                                .padding(.bottom, 24)
+                                .padding(.top, 24)
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             
                             GroupedGrid(headerTitle: "") {
