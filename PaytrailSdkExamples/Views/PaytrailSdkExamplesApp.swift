@@ -11,10 +11,8 @@ import SwiftUI
 struct PaytrailSdkExamplesApp: App {
     var body: some Scene {
         WindowGroup {
-//            ProductCheckoutView()
             ShoppingCartView()
-//            CustomerInfoView(items: .constant([
-//            ]))
+                .preferredColorScheme(.light)
         }
     }
 }

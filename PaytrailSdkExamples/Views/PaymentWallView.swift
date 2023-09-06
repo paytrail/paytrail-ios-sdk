@@ -89,6 +89,7 @@ struct PaymentWallView: View {
                                 .padding(.bottom, 24)
                                 .padding(.top, 24)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color.black)
                             
                             GroupedGrid(headerTitle: "") {
                                 ForEach(savedCards, id: \.self) { card in
@@ -147,6 +148,7 @@ struct PaymentWallView: View {
                                 .font(.system(size: 24))
                                 .padding(.vertical, 10)
                                 .frame(maxWidth: .infinity, alignment: .leading)
+                                .foregroundColor(Color.black)
                             
                             Text("By selecting a payment method, you agree to our payment service terms & conditions.")
                                 .font(.system(size: 12))

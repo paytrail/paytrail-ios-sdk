@@ -71,6 +71,7 @@ struct PaymentResultView: View {
                     Spacer()
                     Text("**\(headerText)**")
                         .font(.system(size: 24))
+                        .foregroundColor(Color.black)
                     //                    .bold()
                     Spacer()
                 }
@@ -86,6 +87,8 @@ struct PaymentResultView: View {
                             .multilineTextAlignment(.center)
                             .padding(.vertical, 12)
                             .padding(.horizontal, 24)
+                            .foregroundColor(Color.black)
+
                         TextButton(text: bodyButonText, theme: .fill()) {
                             mode.wrappedValue.dismiss()
                             isShowing = false

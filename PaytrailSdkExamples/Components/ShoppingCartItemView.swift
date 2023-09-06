@@ -17,7 +17,9 @@ struct ShoppingCartItemView: View {
                 Icon(name: item.image, size: 80)
                 VStack(alignment: .leading, spacing: 16) {
                     Text(item.productName)
+                        .foregroundColor(Color.black)
                     Text("\(item.price) \(item.currency)")
+                        .foregroundColor(Color.black)
                 }
                 Spacer()
                 IconButton(name: "close", size: 24) {
@@ -36,6 +38,8 @@ struct ShoppingCartItemView: View {
                     })
                     Text("\(item.units)")
                         .frame(width: 60)
+                        .foregroundColor(Color.black)
+                    
                     IconButton(name: "plus", size: 32, action: {
                         let newUnits = item.units + 1 <= item.upperLimit ? item.units + 1 : item.upperLimit
                         item.updateUnits(of: newUnits)

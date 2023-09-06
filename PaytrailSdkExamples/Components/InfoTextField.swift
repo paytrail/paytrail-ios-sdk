@@ -30,6 +30,8 @@ struct InfoTextField: View {
                         RoundedRectangle(cornerRadius: 4)
                             .fill(Color.white)
                     )
+                    .foregroundColor(Color.black)
+
                 HStack {
                     Text(placeholder)
                         .font(.system(size: 12))

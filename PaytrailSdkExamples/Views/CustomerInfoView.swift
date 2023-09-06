@@ -64,6 +64,7 @@ struct CustomerInfoView: View {
                         Text("**Customer Details**")
                             .font(.system(size: 24))
                             .padding(.vertical, 10)
+                            .foregroundColor(Color.black)
                         // Customer infos
                         InfoTextField(placeholder: "First name", text: $firstName) {
                         }

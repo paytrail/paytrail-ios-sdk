@@ -18,6 +18,7 @@ struct CartSummaryView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("**Cart summary**")
+                .foregroundColor(Color.black)
                 .font(.system(size: 20))
                 .padding(.bottom, 8)
             
@@ -25,13 +26,17 @@ struct CartSummaryView: View {
                 HStack {
                     Text("\(item.units)")
                         .font(.system(size: 14))
+                        .foregroundColor(Color.black)
                     Text("x")
                         .font(.system(size: 14))
+                        .foregroundColor(Color.black)
                     Text("\(item.productName)")
                         .font(.system(size: 14))
+                        .foregroundColor(Color.black)
                     Spacer()
                     Text("\(item.price) €")
                         .font(.system(size: 14))
+                        .foregroundColor(Color.black)
                 }
             }
                         
