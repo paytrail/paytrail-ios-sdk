@@ -9,48 +9,64 @@ import Foundation
 import UIKit
 
 public class PaymentProvidersUIView: UIView {
+    typealias ProviderWithImage = (PaymentMethodProvider, UIImage)
     
     private let paymentApis = PaytrailPaymentAPIs()
     let themes: PaytrailThemes = .init(viewMode: .normal())
     private var providerImages: [UIImage] = []
+    
+    private var providerWithImages: [ProviderWithImage] = []
 
-    var providers: [PaymentMethodProvider] = []
-    var groups: [PaymentMethodGroup] = []
+    public var providers: [PaymentMethodProvider]
+    public var groups: [PaymentMethodGroup]
     var currentPaymentRequest: URLRequest?
     
-    private struct Constants {
-        static let providerWidth: CGFloat = 100
-        static let providerHeight: CGFloat = 56
-        static let providerCornerRadius: CGFloat = 8
-        static let providerShadowRadius: CGFloat = 4
-        static let providerImagePadding: CGFloat = 8
-    }
+    private var tableView: UITableView = UITableView()
+    private var contentFrame: CGRect
     
-    private weak var tableView: UITableView!
-    
-    public override init(frame: CGRect) {
+    public init(frame: CGRect, providers: [PaymentMethodProvider], groups: [PaymentMethodGroup]) {
         
+        self.providers = providers
+        self.groups = groups
+        self.contentFrame = frame
         super.init(frame: frame)
-        tableView.register(ProviderCell.self, forCellReuseIdentifier: "providerCell")
-        
-        paymentApis.renderPaymentProviderImage(by: "") { [weak self] result in
-            guard let self = self else { return }
-            switch result {
-            case .success(let success):
-                self.providerImages.append(success)
-            case .failure(let failure):
-                PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
-                self.providerImages.append(UIImage(systemName: "exclamationmark.square") ?? UIImage())
+
+        for provider in providers {
+            paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { [weak self] result in
+                guard let self = self else { return }
+                switch result {
+                case .success(let success):
+                    DispatchQueue.main.async {
+                        self.providerWithImages.append((provider, success))
+                        self.tableView.reloadData()
+                    }
+                   
+                case .failure(let failure):
+                    PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
+                    DispatchQueue.main.async {
+                        let placeHolder = UIImage(systemName: "exclamationmark.square") ?? UIImage()
+                        self.providerWithImages.append((provider, placeHolder))
+                        self.tableView.reloadData()
+                    }
+                }
             }
         }
+        
+        tableView = UITableView(frame: contentFrame)
+        tableView.layer.backgroundColor = UIColor.blue.cgColor
+        tableView.separatorStyle = .none
+        self.addSubview(tableView)
+
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(ProviderCell.self, forCellReuseIdentifier: "providerCell")
+
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
-    
+
 }
 
 extension PaymentProvidersUIView: UITableViewDelegate, UITableViewDataSource {
@@ -71,18 +87,37 @@ extension PaymentProvidersUIView: UITableViewDelegate, UITableViewDataSource {
     
     public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "providerCell", for: indexPath) as! ProviderCell
-        cell.providerImageView = UIImageView(image: providerImages[indexPath.row])
+        if providerWithImages.count == providers.count {
+            let providerSet = providerWithImages.filter { $0.0.group == groups[indexPath.section].id }
+            if cell.providerImageView == nil {
+            }
+            cell.providerImageView = UIImageView(image: providerSet[indexPath.row].1)
+
+        }
         return cell
+    }
+    
+    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 100
     }
 }
 
 public class ProviderCell: UITableViewCell {
-    
-    var providerImageView: UIImageView!
+    var providerImageView: UIImageView!{
+        didSet {
+            guard let imageView = providerImageView else { return }
+            self.addSubview(imageView)
+        }
+    }
     
     public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+    }
+    
+    public override func prepareForReuse() {
+        super.prepareForReuse()
+        guard let imageView = providerImageView else { return }
+        imageView.removeFromSuperview()
     }
     
     required init?(coder: NSCoder) {
