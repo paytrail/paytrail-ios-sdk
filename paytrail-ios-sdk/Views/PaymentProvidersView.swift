@@ -8,13 +8,14 @@
 import SwiftUI
 
 public struct PaymentProvidersView: View {
+    typealias UniqueProviderImage = (id: String, UIImage)
     
     private let paymentApis = PaytrailPaymentAPIs()
     let themes: PaytrailThemes
     @Binding var providers: [PaymentMethodProvider]
     let groups: [PaymentMethodGroup]
     @Binding var currentPaymentRequest: URLRequest?
-    @State private var providerImages: [UIImage] = []
+    @State var providerImages: [UniqueProviderImage] = []
     
     private struct Constants {
         static let providerWidth: CGFloat = 100
@@ -35,7 +36,7 @@ public struct PaymentProvidersView: View {
                                 currentPaymentRequest = request
                                 
                             } label: {
-                                Image(uiImage: providerImages[index])
+                                Image(uiImage: providerImages[index].1)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .padding(Constants.providerImagePadding)
@@ -64,10 +65,11 @@ public struct PaymentProvidersView: View {
                 paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { result in
                     switch result {
                     case .success(let success):
-                        providerImages.append(success)
+                        providerImages.append((UUID().uuidString, success))
                     case .failure(let failure):
                         PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
-                        providerImages.append(UIImage(systemName: "exclamationmark.square") ?? UIImage())
+                        let defaultImage = UIImage(systemName: "exclamationmark.square") ?? UIImage()
+                        providerImages.append((UUID().uuidString, defaultImage))
                     }
                 }
             }
