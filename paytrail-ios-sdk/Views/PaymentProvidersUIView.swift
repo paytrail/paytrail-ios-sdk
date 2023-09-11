@@ -21,7 +21,6 @@ public class PaymentProvidersUIView: UIView {
     public var groups: [PaymentMethodGroup]
     var currentPaymentRequest: URLRequest?
     
-    private var tableView: UITableView = UITableView()
     private var contentFrame: CGRect
     
     private var collectionView: UICollectionView!
@@ -32,7 +31,7 @@ public class PaymentProvidersUIView: UIView {
         self.groups = groups
         self.contentFrame = frame
         super.init(frame: frame)
-
+        self.backgroundColor = UIColor.clear
         for provider in providers {
             paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { [weak self] result in
                 guard let self = self else { return }
@@ -40,7 +39,6 @@ public class PaymentProvidersUIView: UIView {
                 case .success(let success):
                     DispatchQueue.main.async {
                         self.providerWithImages.append((provider, success))
-                        self.tableView.reloadData()
                         self.collectionView.reloadData()
                     }
                    
@@ -49,29 +47,16 @@ public class PaymentProvidersUIView: UIView {
                     DispatchQueue.main.async {
                         let placeHolder = UIImage(systemName: "exclamationmark.square") ?? UIImage()
                         self.providerWithImages.append((provider, placeHolder))
-                        self.tableView.reloadData()
                         self.collectionView.reloadData()
                     }
                 }
             }
         }
         
-//        tableView = UITableView(frame: contentFrame)
-//        tableView.layer.backgroundColor = UIColor.blue.cgColor
-//        tableView.separatorStyle = .none
-//        self.addSubview(tableView)
-//
-//        tableView.dataSource = self
-//        tableView.delegate = self
-//        tableView.register(ProviderCell.self, forCellReuseIdentifier: "providerCell")
-        
-//        let flowLayout = UICollectionViewFlowLayout()
-//        flowLayout.itemSize = CGSize(width: 100, height: 100)
-//        flowLayout.scrollDirection = .vertical
         let gridLayout = GridFlowLayout()
         gridLayout.headerReferenceSize = CGSize(width: contentFrame.width, height: 50)
         collectionView = UICollectionView(frame: contentFrame, collectionViewLayout: gridLayout)
-
+        collectionView.backgroundColor = .clear
         self.addSubview(collectionView)
         
         collectionView.dataSource = self
@@ -87,39 +72,6 @@ public class PaymentProvidersUIView: UIView {
 
 }
 
-extension PaymentProvidersUIView: UITableViewDelegate, UITableViewDataSource {
-    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let rows = providers.filter { $0.group == groups[section].id }
-        return rows.count
-    }
-    
-    public func numberOfSections(in tableView: UITableView) -> Int {
-        groups.count
-    }
-    
-    public func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let header = UILabel()
-        header.text = groups[section].name
-        return header
-    }
-    
-    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "providerCell", for: indexPath) as! ProviderCell
-        if providerWithImages.count == providers.count {
-            let providerSet = providerWithImages.filter { $0.0.group == groups[indexPath.section].id }
-            if cell.providerImageView == nil {
-            }
-            cell.providerImageView = UIImageView(image: providerSet[indexPath.row].1)
-
-        }
-        return cell
-    }
-    
-    public func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 100
-    }
-}
-
 extension PaymentProvidersUIView: UICollectionViewDelegate, UICollectionViewDataSource {
     public func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         let rows = providers.filter { $0.group == groups[section].id }
@@ -128,18 +80,6 @@ extension PaymentProvidersUIView: UICollectionViewDelegate, UICollectionViewData
     
     public func numberOfSections(in collectionView: UICollectionView) -> Int {
         groups.count
-    }
-    
-    public func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        groups[section].name
-    }
-    
-    public func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        50
-    }
-
-    public func tableView(_ tableView: UITableView, estimatedHeightForRowAt indexPath: IndexPath) -> CGFloat {
-        100
     }
     
     public func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
@@ -156,55 +96,42 @@ extension PaymentProvidersUIView: UICollectionViewDelegate, UICollectionViewData
             let providerSet = providerWithImages.filter { $0.0.group == groups[indexPath.section].id }
 
             cell.providerImageView = UIImageView(image: providerSet[indexPath.row].1)
-            cell.providerImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 80)
+            cell.providerImageView.frame = CGRect(x: 0, y: 0, width: 100, height: 56)
+            cell.providerImageView.backgroundColor = .white
             cell.providerImageView.contentMode = .scaleAspectFit
-            cell.providerImageView.layer.borderColor = UIColor.blue.cgColor
-            cell.providerImageView.layer.borderWidth = 1
+            cell.providerImageView.layer.cornerRadius = 8
         }
         return cell
     }
     
 }
 
-public class ProviderCell: UITableViewCell {
-    var providerImageView: UIImageView!{
-        didSet {
-            guard let imageView = providerImageView else { return }
-            self.addSubview(imageView)
-        }
-    }
-    
-    public override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: style, reuseIdentifier: reuseIdentifier)
-    }
-    
-    public override func prepareForReuse() {
-        super.prepareForReuse()
-        guard let imageView = providerImageView else { return }
-        imageView.removeFromSuperview()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-}
-
 public class ProviderCollectionCell: UICollectionViewCell {
     var providerImageView: UIImageView!{
         didSet {
             guard let imageView = providerImageView else { return }
-            self.addSubview(imageView)
+            outerView!.addSubview(imageView)
+            self.addSubview(outerView!)
         }
     }
+    private var outerView: UIView!
 
     public override init(frame: CGRect) {
         super.init(frame: frame)
+        outerView = UIView(frame: CGRect(x: 0, y: 0, width: 100, height: 56))
+        outerView.clipsToBounds = false
+        outerView.layer.shadowColor = UIColor.gray.cgColor
+        outerView.layer.shadowOpacity = 0.3
+        outerView.layer.shadowOffset = CGSize.zero
+        outerView.layer.shadowRadius = 4
+        outerView.layer.shadowPath = UIBezierPath(roundedRect: outerView.bounds, cornerRadius: 8).cgPath
     }
     
     public override func prepareForReuse() {
         super.prepareForReuse()
         guard let imageView = providerImageView else { return }
         imageView.removeFromSuperview()
+        outerView!.removeFromSuperview()
     }
     
     required init?(coder: NSCoder) {
@@ -254,15 +181,14 @@ class GridFlowLayout: UICollectionViewFlowLayout {
      Sets up the layout for the collectionView. 1pt distance between each cell and 1pt distance between each row plus use a vertical layout
      */
     func setupLayout() {
-        minimumInteritemSpacing = 10
-        minimumLineSpacing = 10
+        minimumInteritemSpacing = 1
+        minimumLineSpacing = 1
         scrollDirection = .vertical
     }
     
     /// here we define the width of each cell, creating a 2 column layout. In case you would create 3 columns, change the number 2 to 3
     var itemWidth: CGFloat {
-//        return collectionView!.frame.width / 3 - 1
-        100
+        return (collectionView!.frame.width / 3) - 1
     }
     
     override var itemSize: CGSize {
@@ -279,3 +205,5 @@ class GridFlowLayout: UICollectionViewFlowLayout {
         return collectionView!.contentOffset
     }
 }
+
+
