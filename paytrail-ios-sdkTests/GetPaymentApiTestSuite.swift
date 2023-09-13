@@ -10,13 +10,11 @@ import XCTest
 
 final class GetPaymentApiTestSuite: XCTestCase {
     
-    var paymentsAPIs: PaytrailPaymentAPIs!
     var merchant: PaytrailMerchant!
     var transactionId: String!
     var transactionIdInvalid: String!
 
     override func setUpWithError() throws {
-        paymentsAPIs = PaytrailPaymentAPIs()
         merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         transactionId = "cfaa43a2-0c4e-11ee-829b-a75b998e8f55"
         transactionIdInvalid = "cac671c0-0b78-11ee-aa4c-9beeff41cc48"
@@ -52,7 +50,7 @@ final class GetPaymentApiTestSuite: XCTestCase {
     
     private func getPaymentAsync(_ transactionId: String) async -> Result<Payment, Error> {
         await withCheckedContinuation({ continuation in
-            paymentsAPIs.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: transactionId) { result in
+            PaytrailPaymentAPIs.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)
             }
         })

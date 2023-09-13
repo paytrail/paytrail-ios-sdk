@@ -49,7 +49,7 @@ public struct PaymentRequestBody : Codable {
     let usePricesWithoutVat: Bool?
     let token: String?
     
-    init(stamp: String,
+    public init(stamp: String,
          reference: String,
          amount: Int64,
          currency: Currency,
@@ -101,7 +101,7 @@ public struct Customer: Codable {
     let phone: String?
     let vatId: String?
     
-    init(email: String, firstName: String? = nil, lastName: String? = nil, phone: String? = nil, vatId: String? = nil) {
+    public init(email: String, firstName: String? = nil, lastName: String? = nil, phone: String? = nil, vatId: String? = nil) {
         self.email = email
         self.firstName = firstName
         self.lastName = lastName
@@ -138,7 +138,8 @@ public struct Item: Codable, Equatable {
     let reference: String?
     let orderId: String?
     let commission: Commission?
-    init(unitPrice: Int64, units: Int64, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
+    
+    public init(unitPrice: Int64, units: Int64, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
         self.unitPrice = unitPrice
         self.units = units
         self.vatPercentage = vatPercentage
@@ -180,7 +181,7 @@ public struct Commission: Codable {
 public struct CallbackUrls: Codable {
     let success : String
     let cancel : String
-    init(success: String, cancel: String) {
+    public init(success: String, cancel: String) {
         self.success = success
         self.cancel = cancel
     }
@@ -219,6 +220,7 @@ public enum Language: String, Codable {
 public enum PaymentType: String, Codable {
     case mobile, bank, creditcard, credit, other
 }
+
 
 
 

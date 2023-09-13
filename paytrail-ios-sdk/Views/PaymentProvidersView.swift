@@ -8,9 +8,7 @@
 import SwiftUI
 
 public struct PaymentProvidersView: View {
-    
-    private let paymentApis = PaytrailPaymentAPIs()
-    
+        
     public let themes: PaytrailThemes
     @Binding public var providers: [PaymentMethodProvider]
     public let groups: [PaymentMethodGroup]
@@ -36,7 +34,7 @@ public struct PaymentProvidersView: View {
     private func loadImages() {
         guard providerImages.count == 0 else { return }
         for provider in providers {
-            paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { result in
+            PaytrailPaymentAPIs.renderPaymentProviderImage(by: provider.icon ?? "") { result in
                 switch result {
                 case .success(let success):
                     providerImages.append(success)
@@ -56,7 +54,7 @@ public struct PaymentProvidersView: View {
                     ForEach(0..<providerImages.count, id: \.self) { index in
                         if providers[index].group == group.id {
                             Button {
-                                guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
+                                guard let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: providers[index]) else { return }
                                 currentPaymentRequest = request
                             } label: {
                                 Image(uiImage: providerImages[index])

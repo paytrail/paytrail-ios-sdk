@@ -15,7 +15,7 @@ public extension PaytrailPaymentAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: transactionId, the id of the transaction
     ///   - completion: Result<Payment, Error>
-    func getPayment(of merchantId: String, secret: String, transactionId: String, completion: @escaping (Result<Payment, Error>) -> Void) {
+    class func getPayment(of merchantId: String, secret: String, transactionId: String, completion: @escaping (Result<Payment, Error>) -> Void) {
         let networkService: NetworkService = NormalPaymentNetworkService()
         
         let path = "\(ApiPaths.payments)/\(transactionId)"

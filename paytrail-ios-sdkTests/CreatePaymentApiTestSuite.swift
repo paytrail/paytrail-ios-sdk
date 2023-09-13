@@ -10,7 +10,6 @@ import XCTest
 
 final class CreatePaymentApiTestSuite: XCTestCase {
     
-    var paymentsAPIs: PaytrailPaymentAPIs!
     var merchant: PaytrailMerchant! // Normal merchant
     var merchantSIS: PaytrailMerchant! // Shop-in-shops merchant
     var payload: PaymentRequestBody!
@@ -24,7 +23,6 @@ final class CreatePaymentApiTestSuite: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        paymentsAPIs = PaytrailPaymentAPIs()
         merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         merchantSIS = PaytrailMerchant(merchantId: "695861", secret: "MONISAIPPUAKAUPPIAS")
         payload = PaymentRequestBody(stamp: UUID().uuidString,
@@ -169,7 +167,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             return
         }
 
-        let request = paymentsAPIs.initiatePaymentRequest(from: provider)
+        let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: provider)
         XCTAssert(request?.url != nil && request?.httpBody != nil, "Valid payment request")
     }
     
@@ -180,13 +178,13 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             return
         }
         
-        let request = paymentsAPIs.initiatePaymentRequest(from: provider)
+        let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: provider)
         XCTAssert(request == nil, "Request is nil due to invalid provider data")
     }
     
     private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
-            paymentsAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
+            PaytrailPaymentAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })
@@ -194,7 +192,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     
     private func renderPaymentProviderImageAsync(_ url: String) async -> Result<UIImage, Error> {
         await withCheckedContinuation({ continuation in
-            paymentsAPIs.renderPaymentProviderImage(by: url) { result in
+            PaytrailPaymentAPIs.renderPaymentProviderImage(by: url) { result in
                 continuation.resume(returning: result)
             }
         })

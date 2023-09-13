@@ -31,7 +31,6 @@ struct PaymentWallView: View {
     @State private var groups: [PaymentMethodGroup] = []
     @State private var providerImages: [UIImage] = []
     @StateObject var viewModel = ViewModel()
-    private let paymentApis = PaytrailPaymentAPIs()
     private let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
     @State private var showPaymentResultView: Bool = false
     @State private var showProgressView: Bool = false
@@ -267,7 +266,7 @@ struct PaymentWallView: View {
                             
                             savedCards = viewModel.savedCards
                             
-                            paymentApis.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
+                            PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
                                 switch result {
                                 case .success(let data):
                                     

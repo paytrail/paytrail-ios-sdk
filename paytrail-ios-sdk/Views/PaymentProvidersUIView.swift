@@ -11,7 +11,6 @@ import UIKit
 public class PaymentProvidersUIView: UIView {
     typealias ProviderWithImage = (PaymentMethodProvider, UIImage)
     
-    private let paymentApis = PaytrailPaymentAPIs()
     let themes: PaytrailThemes = .init(viewMode: .normal())
     private var providerImages: [UIImage] = []
     
@@ -33,7 +32,7 @@ public class PaymentProvidersUIView: UIView {
         super.init(frame: frame)
         self.backgroundColor = UIColor.clear
         for provider in providers {
-            paymentApis.renderPaymentProviderImage(by: provider.icon ?? "") { [weak self] result in
+            PaytrailPaymentAPIs.renderPaymentProviderImage(by: provider.icon ?? "") { [weak self] result in
                 guard let self = self else { return }
                 switch result {
                 case .success(let success):

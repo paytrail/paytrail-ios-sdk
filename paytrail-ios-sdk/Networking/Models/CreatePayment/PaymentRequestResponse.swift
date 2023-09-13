@@ -21,13 +21,13 @@ import Foundation
 /// - providers: [PaymentMethodProvider]? // See PaymentMethodProvider
 ///
 public struct PaymentRequestResponse: Codable {
-    let transactionId : String?
-    let href : String?
-    let reference : String?
-    let terms : String?
-    let groups : [PaymentMethodGroup]?
-    let providers : [PaymentMethodProvider]?
-    let customProviders : CustomProvider?
+    public let transactionId : String?
+    public let href : String?
+    public let reference : String?
+    public let terms : String?
+    public let groups : [PaymentMethodGroup]?
+    public let providers : [PaymentMethodProvider]?
+    public let customProviders : CustomProvider?
 
     enum CodingKeys: String, CodingKey {
         case transactionId = "transactionId"
@@ -51,3 +51,4 @@ public struct PaymentRequestResponse: Codable {
     }
 
 }
+
