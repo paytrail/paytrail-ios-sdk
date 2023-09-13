@@ -1,28 +1,26 @@
 //
-//  PaymentProvidersView.swift
+//  PaymentProvidersVCView.swift
 //  paytrail-ios-sdk
 //
-//  Created by shiyuan on 5.7.2023.
+//  Created by shiyuan on 13.9.2023.
 //
 
 import SwiftUI
 
-public struct PaymentProvidersView: View {
+public struct PaymentProvidersVCView: View {
     
     private let paymentApis = PaytrailPaymentAPIs()
-    
     public let themes: PaytrailThemes
-    @Binding public var providers: [PaymentMethodProvider]
+    public let providers: [PaymentMethodProvider]
     public let groups: [PaymentMethodGroup]
-    @Binding public var currentPaymentRequest: URLRequest?
-    
+    public var delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
     @State private var providerImages: [UIImage] = []
     
-    public init(themes: PaytrailThemes, providers: Binding<[PaymentMethodProvider]>, groups: [PaymentMethodGroup], paymentRequest: Binding<URLRequest?>) {
+    public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {
         self.themes = themes
-        self._providers = providers
+        self.providers = providers
         self.groups = groups
-        self._currentPaymentRequest = paymentRequest
+        self.delegate = delegate
     }
     
     private struct Constants {
@@ -57,7 +55,8 @@ public struct PaymentProvidersView: View {
                         if providers[index].group == group.id {
                             Button {
                                 guard let request = paymentApis.initiatePaymentRequest(from: providers[index]) else { return }
-                                currentPaymentRequest = request
+                                delegate?.onPaymentRequestSelected(of: request)
+                                
                             } label: {
                                 Image(uiImage: providerImages[index])
                                     .resizable()
@@ -83,15 +82,18 @@ public struct PaymentProvidersView: View {
             }
             
         }
-        .onChange(of: providers) { _ in
-            loadImages()
+        .onAppear {
+            loadImages() // Load images here when used in an UIViewController
         }
     }
 }
 
-struct PaymentProvidersView_Previews: PreviewProvider {
+struct PaymentProvidersVCView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: .constant([]), groups: [], paymentRequest: .constant(nil))
+        PaymentProvidersVCView(themes: PaytrailThemes(viewMode: .normal()), providers: [], groups: [], delegate: nil)
     }
 }
 
+public protocol PaymentProvidersVCViewDelegate {
+    func onPaymentRequestSelected(of request: URLRequest)
+}

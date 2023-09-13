@@ -18,12 +18,12 @@ public struct PaytrailThemes {
     let fontSize: CGFloat
     
     public struct FontSize {
-        static let small: CGFloat = 16
-        static let large: CGFloat = 20
-        static func custom(_ size: CGFloat) -> CGFloat { size }
+        public static let small: CGFloat = 16
+        public static let large: CGFloat = 20
+        public static func custom(_ size: CGFloat) -> CGFloat { size }
     }
     
-    init(viewMode: PaytrailViewMode, fontSize: CGFloat = FontSize.small) {
+    public init(viewMode: PaytrailViewMode, fontSize: CGFloat = FontSize.small) {
         self.viewMode = viewMode
         self.fontSize = fontSize
     }
@@ -64,3 +64,4 @@ public struct PaytrailThemes {
         }
     }
 }
+
