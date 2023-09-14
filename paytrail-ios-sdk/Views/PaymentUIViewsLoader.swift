@@ -1,6 +1,6 @@
 //
 //  PaymentUIViewsLoader.swift
-//  PaytrailExample
+//  paytrail-ios-sdk
 //
 //  Created by shiyuan on 14.9.2023.
 //
