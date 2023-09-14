@@ -33,6 +33,13 @@ public struct PaymentWebView: UIViewRepresentable {
         case addCard
     }
     
+    public init(request: URLRequest, delegate: PaymentDelegate?, merchant: PaytrailMerchant, contentType: ContentType = .normalPayment) {
+        self.request = request
+        self.merchant = merchant
+        self.delegate = delegate
+        self.contentType = contentType
+    }
+    
     public func makeUIView(context: Context) -> WKWebView {
         let wKWebView = WKWebView()
         wKWebView.navigationDelegate = context.coordinator
