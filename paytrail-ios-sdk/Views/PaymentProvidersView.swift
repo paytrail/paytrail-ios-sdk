@@ -74,7 +74,7 @@ public struct PaymentProvidersView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .padding(Constants.providerImagePadding)
                             }
-                            .frame(width: Constants.providerWidth, height: Constants.providerHeight)
+                            .frame(width: themes.itemSize, height: Constants.providerHeight)
                             .background(
                                 RoundedRectangle(cornerRadius: Constants.providerCornerRadius)
                                     .fill(themes.background)

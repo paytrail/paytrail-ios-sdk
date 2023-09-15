@@ -25,6 +25,7 @@ public enum PaytrailViewMode {
 public struct PaytrailThemes {
     public let viewMode: PaytrailViewMode
     public let fontSize: CGFloat
+    public let itemSize: CGFloat
     
     public struct FontSize {
         public static let small: CGFloat = 16
@@ -32,9 +33,15 @@ public struct PaytrailThemes {
         public static func custom(_ size: CGFloat) -> CGFloat { size }
     }
     
-    public init(viewMode: PaytrailViewMode, fontSize: CGFloat = FontSize.small) {
+    public struct ItemSize {
+        public static let small: CGFloat = 70
+        public static let large: CGFloat = 100
+    }
+    
+    public init(viewMode: PaytrailViewMode, fontSize: CGFloat = FontSize.small, itemSize: CGFloat = ItemSize.large) {
         self.viewMode = viewMode
         self.fontSize = fontSize
+        self.itemSize = itemSize
     }
     
     var background: Color {

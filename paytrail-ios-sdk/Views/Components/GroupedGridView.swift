@@ -8,9 +8,11 @@
 import SwiftUI
 
 
-/// GroupedGridView<Content> made to show the list of Payment Providers
+/// GroupedGridView<Content>
 ///
-/// Content: the desired content views to be grided with each view having a minimal width of 100 in CGFloat
+/// An internal grid view for displaying the provider image views
+///
+///
 struct GroupedGridView<Content>: View where Content: View {
 
     @State var headerTitle: String = ""
@@ -19,23 +21,21 @@ struct GroupedGridView<Content>: View where Content: View {
     @ViewBuilder var content: () -> Content
         
     private enum UIConstants: CGFloat {
-        case itemMinWidth = 100
         case gridSpacing = 30
         case itemHorizontalSpacing = 20
         case gridDividerHeight = 1.5
     }
     
-    private let columns = [
-        GridItem(.adaptive(minimum: UIConstants.itemMinWidth.rawValue))
-    ]
+    private var columns: [GridItem] {
+        [ GridItem(.adaptive(minimum: themes.itemSize)) ]
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: UIConstants.gridSpacing.rawValue) {
             if !headerTitle.isEmpty {
-                // TODO: Consdier to load the font correctly or use the system one
                 Text("**\(headerTitle)**")
-                // TODO: Figure out if we can load custom font here
-                //                    .font(.custom("RockwellStd-Bold", size: themes.fontSize))
+                // NOTE: MSDK does not support customized font at the moment
+                // .font(.custom("RockwellStd-Bold", size: themes.fontSize))
                     .font(.system(size: themes.fontSize))
                     .foregroundColor(themes.foreground)
             }

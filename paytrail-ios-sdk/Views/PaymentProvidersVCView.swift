@@ -28,7 +28,6 @@ public protocol PaymentProvidersVCViewDelegate {
 /// - groups: [PaymentMethodGroup] - groups data
 /// - delegate: PaymentProvidersVCViewDelegate? - PaymentProvidersVCViewDelegate taking care of payment provider selections
 ///
-
 struct PaymentProvidersVCView: View {
     
     let themes: PaytrailThemes
@@ -84,7 +83,7 @@ struct PaymentProvidersVCView: View {
                                     .aspectRatio(contentMode: .fit)
                                     .padding(Constants.providerImagePadding)
                             }
-                            .frame(width: Constants.providerWidth, height: Constants.providerHeight)
+                            .frame(width: themes.itemSize, height: Constants.providerHeight)
                             .background(
                                 RoundedRectangle(cornerRadius: Constants.providerCornerRadius)
                                     .fill(themes.background)
