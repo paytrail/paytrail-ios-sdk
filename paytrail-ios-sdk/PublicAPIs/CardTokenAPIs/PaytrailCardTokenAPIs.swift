@@ -7,7 +7,7 @@
 
 import Foundation
 
-open class PaytrailCardTokenAPIs {
+public class PaytrailCardTokenAPIs {
     
     public enum PaymentTransactionType: String {
         case cit, mit
@@ -26,7 +26,7 @@ open class PaytrailCardTokenAPIs {
     ///   - callbackUrls: Callback Urls (optional) after add-card succeeded or failed
     ///   - language: The preferred language to load the add-card form, default EN
     /// - Returns: add-card-form URLRequest
-    public func initiateCardTokenizationRequest(of merchantId: String,
+    public class func initiateCardTokenizationRequest(of merchantId: String,
                                                 secret: String,
                                                 redirectUrls: CallbackUrls,
                                                 callbackUrls: CallbackUrls? = nil,
@@ -88,7 +88,7 @@ open class PaytrailCardTokenAPIs {
     ///   - merchantId: merchantId, i.e. account
     ///   - secret: merchant secret
     ///   - completion: Result<TokenizationRequestResponse, Error>
-    func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
+    public class func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
         
         // TODO: use another service
         let networkService: NetworkService = NormalPaymentNetworkService()
@@ -125,7 +125,7 @@ open class PaytrailCardTokenAPIs {
     ///   - transactionType: PaymentTransactionType, can be CIT or MIT
     ///   - authorizationType: PaymentAuthorizationType, can be 'authorizationHold' or 'charge'
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    func createTokenPayment(of merchantId: String,
+    public class func createTokenPayment(of merchantId: String,
                             secret: String,
                             payload: PaymentRequestBody,
                             transactionType: PaymentTransactionType,
@@ -168,7 +168,7 @@ open class PaytrailCardTokenAPIs {
     ///   - transactionId: onhold transactionId
     ///   - payload: onhold payment payload which can be different than the original
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    func commitAuthorizationHold(of merchantId: String,
+    public class func commitAuthorizationHold(of merchantId: String,
                                  secret: String,
                                  transactionId: String,
                                  payload: PaymentRequestBody,
@@ -208,7 +208,7 @@ open class PaytrailCardTokenAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: onhold transactionId
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    func revertAuthorizationHold(of merchantId: String,
+    public class func revertAuthorizationHold(of merchantId: String,
                                  secret: String,
                                  transactionId: String,
                                  completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
@@ -247,7 +247,7 @@ open class PaytrailCardTokenAPIs {
     ///   - secret: merchant secret
     ///   - payload: paylaod data, i.e. PaymentRequestBody
     ///   - completion: Result<PayAndAddCardRequestResponse, Error>) -> Void
-    func payAndAddCard(of merchantId: String,
+    public class func payAndAddCard(of merchantId: String,
                        secret: String,
                        payload: PaymentRequestBody,
                        completion: @escaping (Result<PayAndAddCardRequestResponse, Error>) -> Void) {
@@ -275,5 +275,4 @@ open class PaytrailCardTokenAPIs {
             }
         }
     }
-     
 }

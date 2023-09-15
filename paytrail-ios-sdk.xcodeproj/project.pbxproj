@@ -411,7 +411,7 @@
 			path = Components;
 			sourceTree = "<group>";
 		};
-		DC36892D2A374B6D00FB2D71 /* Views */ = {
+		DC36892D2A374B6D00FB2D71 /* PublicViews */ = {
 			isa = PBXGroup;
 			children = (
 				DC3689C02A56BC9500FB2D71 /* Components */,
@@ -421,7 +421,7 @@
 				DC078A532AB1C62A004284FA /* PaymentProvidersVCView.swift */,
 				DC078A5D2AB33BA1004284FA /* PaymentUIViewsLoader.swift */,
 			);
-			path = Views;
+			path = PublicViews;
 			sourceTree = "<group>";
 		};
 		DC36892E2A386BCC00FB2D71 /* Extensions */ = {
@@ -557,10 +557,10 @@
 		DC501F1F2A1F5DEF004AD49D /* paytrail-ios-sdk */ = {
 			isa = PBXGroup;
 			children = (
-				DC36892D2A374B6D00FB2D71 /* Views */,
+				DC36892D2A374B6D00FB2D71 /* PublicViews */,
 				DC501FA22A25EDA7004AD49D /* Utils */,
 				DC501F372A1FA152004AD49D /* Networking */,
-				DC501F3E2A20AB54004AD49D /* PaytrailAPIs */,
+				DC501F3E2A20AB54004AD49D /* PublicAPIs */,
 				DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */,
 				DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */,
 			);
@@ -588,7 +588,7 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
-		DC501F3E2A20AB54004AD49D /* PaytrailAPIs */ = {
+		DC501F3E2A20AB54004AD49D /* PublicAPIs */ = {
 			isa = PBXGroup;
 			children = (
 				DC3689552A41BD3F00FB2D71 /* CardTokenAPIs */,
@@ -596,7 +596,7 @@
 				DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */,
 				DC3689622A43041800FB2D71 /* PaymentDelegate.swift */,
 			);
-			path = PaytrailAPIs;
+			path = PublicAPIs;
 			sourceTree = "<group>";
 		};
 		DC501F782A24AD59004AD49D /* Models */ = {

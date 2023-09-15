@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-open class PaytrailPaymentAPIs {
+public class PaytrailPaymentAPIs {
         
     /// createPayment API to get payments
     /// - Parameters:
@@ -16,7 +16,7 @@ open class PaytrailPaymentAPIs {
     ///   - secret: merchant secret key, or aggregate merchant serect key in shop-in-shops
     ///   - payload: paylaod data,see PaymentRequestBody
     ///   - completion: Result<PaymentRequestResponse, Error>
-    open class func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+    public class func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
         let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
@@ -46,7 +46,7 @@ open class PaytrailPaymentAPIs {
     /// - Parameters:
     ///   - url: Payment provider image url
     ///   - completion: Result<UIImage, Error>) -> Void
-    open class func renderPaymentProviderImage(by url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
+    public class func renderPaymentProviderImage(by url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let imageRequest = PaymentImageDataRequest(url: url)
         let networkService: NetworkService = DefaultNetworkService()
         networkService.request(imageRequest) { result in
@@ -64,7 +64,7 @@ open class PaytrailPaymentAPIs {
     /// To be called to start a payment flow
     /// - Parameter provider: PaymentMethodProvider of the request
     /// - Returns: URLRequest for the given PaymentMethodProvider
-    open class func initiatePaymentRequest(from provider: PaymentMethodProvider) -> URLRequest? {
+    public class func initiatePaymentRequest(from provider: PaymentMethodProvider) -> URLRequest? {
         guard let urlString = provider.url, let url = URL(string: urlString) else {
             PTLogger.log(message: "Failed initiate payment request, reason: invalid Provider url", level: .error)
             return nil
@@ -94,7 +94,7 @@ open class PaytrailPaymentAPIs {
         return request
     }
     
-    open class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
+    public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
         
         let networkService: NetworkService = NormalPaymentNetworkService()
         
@@ -126,6 +126,5 @@ open class PaytrailPaymentAPIs {
             }
         }
     }
-
 }
 
