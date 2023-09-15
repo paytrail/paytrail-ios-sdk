@@ -103,10 +103,11 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         switch result {
         case .success(let success):
             XCTAssert(success.transactionId == nil && success.providers == nil)
-        case .failure(let failure as NSError):
+        case .failure(let failure):
             print(failure)
-            let message = (failure.userInfo["info"] as? PaymentErrorResponse)?.message ?? ""
-            XCTAssert(failure.code == 401 && message.lowercased().contains("invalid merchant"))
+            let paymentError = failure as? PaytrailPaymentError
+            let msg = paymentError?.payload?.message ?? ""
+            XCTAssert(paymentError?.code == 401 && msg.lowercased().contains("invalid merchant"))
         }
     }
     
@@ -117,10 +118,11 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         switch result {
         case .success(let success):
             XCTAssert(success.transactionId == nil && success.providers == nil)
-        case .failure(let failure as NSError):
+        case .failure(let failure):
             print(failure)
-            let message = (failure.userInfo["info"] as? PaymentErrorResponse)?.message ?? ""
-            XCTAssert(failure.code == 400 && message.lowercased().contains("validation failed"))
+            let paymentError = failure as? PaytrailPaymentError
+            let msg = paymentError?.payload?.message ?? ""
+            XCTAssert(paymentError?.code == 400 && msg.lowercased().contains("validation failed"))
         }
     }
     
@@ -142,9 +144,10 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         switch result {
         case .success(let success):
             XCTAssertTrue(success.size.equalTo(CGSize.zero))
-        case .failure(let failure as NSError):
+        case .failure(let failure):
             print(failure)
-            XCTAssert(failure.code == -1002, "Unsupported URL")
+            let paymentError = failure as? PaytrailGenericError
+            XCTAssert(paymentError?.payload?.code == -1002, "Unsupported URL")
         }
     }
     
@@ -154,9 +157,10 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         switch result {
         case .success(let success):
             XCTAssertTrue(success.size.equalTo(CGSize.zero))
-        case .failure(let failure as NSError):
+        case .failure(let failure):
             print(failure)
-            XCTAssert(failure.code == 403, "Invalid image json")
+            let paymentError = failure as? PaytrailGenericError
+            XCTAssert(paymentError?.code == 403, "Invalid image json")
         }
     }
     
