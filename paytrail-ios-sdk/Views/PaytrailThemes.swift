@@ -13,9 +13,18 @@ public enum PaytrailViewMode {
     case dark(background: Color = Color.black, foreground: Color = Color.white)
 }
 
+
+/// PaytrailThemes
+///
+/// Themes for the MSDK'S PaymentProvidersView. MSDK does not support customized font at the moment.
+///
+/// **Properties:**
+/// - viewMode: PaytrailViewMode - view mode of the PaymentProvidersView, You can set the desirous colors of normal or dark mode or use the defaults ones
+/// - fontSize: CGFloat - the font size of the PaymentProvidersView, default is small
+///
 public struct PaytrailThemes {
-    let viewMode: PaytrailViewMode
-    let fontSize: CGFloat
+    public let viewMode: PaytrailViewMode
+    public let fontSize: CGFloat
     
     public struct FontSize {
         public static let small: CGFloat = 16
@@ -52,15 +61,6 @@ public struct PaytrailThemes {
             return Color.gray.opacity(0.3)
         case .dark(_, _):
             return Color.white.opacity(0.3)
-        }
-    }
-    
-    var inverted: Bool {
-        switch viewMode {
-        case .normal(_, _):
-            return false
-        case .dark(_, _):
-            return true
         }
     }
 }

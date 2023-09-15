@@ -73,7 +73,6 @@ public struct PaymentProvidersView: View {
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .padding(Constants.providerImagePadding)
-                                    .invertColor(themes.inverted)
                             }
                             .frame(width: Constants.providerWidth, height: Constants.providerHeight)
                             .background(
