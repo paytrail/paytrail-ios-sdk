@@ -9,7 +9,7 @@ import Foundation
 
 public struct TokenPaymentRequestResponse: Codable {
     
-    let transactionId: String?
+    public let transactionId: String?
 
     enum CodingKeys: String, CodingKey {
         case transactionId = "transactionId"
@@ -23,8 +23,8 @@ public struct TokenPaymentRequestResponse: Codable {
 
 public struct TokenPaymentThreeDsReponse: Codable {
     
-    let transactionId: String?
-    let threeDSecureUrl: String?
+    public let transactionId: String?
+    public let threeDSecureUrl: String?
     
     var localizedDescription: String {
         guard let transactionId = transactionId, let threeDSecureUrl = threeDSecureUrl else {

@@ -14,7 +14,7 @@ public struct TokenizationResult: Equatable {
     public let status: PaymentStatus
     public let error: PaytrailTokenError?
     
-    init(tokenizationId: String, status: PaymentStatus, error: PaytrailTokenError? = nil) {
+    public init(tokenizationId: String, status: PaymentStatus, error: PaytrailTokenError? = nil) {
         self.tokenizationId = tokenizationId
         self.status = status
         self.error = error

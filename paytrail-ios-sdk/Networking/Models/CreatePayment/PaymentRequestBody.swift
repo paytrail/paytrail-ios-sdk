@@ -31,23 +31,23 @@ import Foundation
 ///  - token: String? // Payment card token received from request to /tokenization/{checkout-tokenization-id}
 
 public struct PaymentRequestBody : Codable {
-    let stamp : String
-    let reference : String
-    let amount : Int64
-    let currency : Currency
-    let language : Language
-    let items : [Item]
-    let customer : Customer
-    let redirectUrls : CallbackUrls
-    let callbackUrls : CallbackUrls?
-    let orderId: String?
-    let deliveryAddress: Address?
-    let invoicingAddress: Address?
-    let manualInvoiceActivation: Bool?
-    let callbackDelay: Int?
-    let groups: [PaymentType]?
-    let usePricesWithoutVat: Bool?
-    let token: String?
+    public let stamp : String
+    public let reference : String
+    public let amount : Int64
+    public let currency : Currency
+    public let language : Language
+    public let items : [Item]
+    public let customer : Customer
+    public let redirectUrls : CallbackUrls
+    public let callbackUrls : CallbackUrls?
+    public let orderId: String?
+    public let deliveryAddress: Address?
+    public let invoicingAddress: Address?
+    public let manualInvoiceActivation: Bool?
+    public let callbackDelay: Int?
+    public let groups: [PaymentType]?
+    public let usePricesWithoutVat: Bool?
+    public let token: String?
     
     public init(stamp: String,
          reference: String,
@@ -95,11 +95,11 @@ public struct PaymentRequestBody : Codable {
 ///  - phone: String? // Customer phone number
 ///  - vatId: String? // Company VAT ID in international format
 public struct Customer: Codable {
-    let email : String
-    let firstName: String?
-    let lastName: String?
-    let phone: String?
-    let vatId: String?
+    public let email : String
+    public let firstName: String?
+    public let lastName: String?
+    public let phone: String?
+    public let vatId: String?
     
     public init(email: String, firstName: String? = nil, lastName: String? = nil, phone: String? = nil, vatId: String? = nil) {
         self.email = email
@@ -126,18 +126,18 @@ public struct Customer: Codable {
 ///  - orderId: String? // Order ID. Used for eg. Collector payments order ID. If not given, merchant reference is used instead, maxLength: 60
 /// - commission: Commission? // See Commission
 public struct Item: Codable, Equatable {
-    let unitPrice: Int64
-    let units: Int64
-    let vatPercentage: Int
-    let productCode: String
-    let deliveryDate: String?
-    let description: String?
-    let category: String?
-    let merchant: String?
-    let stamp: String?
-    let reference: String?
-    let orderId: String?
-    let commission: Commission?
+    public let unitPrice: Int64
+    public let units: Int64
+    public let vatPercentage: Int
+    public let productCode: String
+    public let deliveryDate: String?
+    public let description: String?
+    public let category: String?
+    public let merchant: String?
+    public let stamp: String?
+    public let reference: String?
+    public let orderId: String?
+    public let commission: Commission?
     
     public init(unitPrice: Int64, units: Int64, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
         self.unitPrice = unitPrice
@@ -162,12 +162,12 @@ public struct Item: Codable, Equatable {
 /// Commission
 ///
 /// - Properties:
-///  - merchant: String // Merchant who get's the commission money. This merchant id can not be deleted, has to be active and has to have same reseller with the merchant who initiated/created the webtrade. MaxLength: 10
+///  - merchant: String // Merchant who get's the commission money. This merchant id can not be depublic leted, has to be active and has to have same reseller with the merchant who initiated/created the webtrade. MaxLength: 10
 ///  - amount: Int32 // Commission amount in currency minor unit, eg. EUR cents. VAT not applicable. This field is needed only for specific shop-in-shop payments, usually not needed. Max: 99999999
 public struct Commission: Codable {
-    let merchant: String
-    let amount: Int32
-    init(merchant: String, amount: Int32) {
+    public let merchant: String
+    public let amount: Int32
+    public init(merchant: String, amount: Int32) {
         self.merchant = merchant
         self.amount = amount
     }
@@ -179,8 +179,8 @@ public struct Commission: Codable {
 ///  - success: String //URL to call when payment is succesfully paid. Can called multiple times; one must ensure idempotency of this endpoint, maxLength: 300
 ///  - cancel: String // URL to call when payment is cancelled and not fulfilled. Can called multiple times; one must ensure idempotency of this endpoint, maxLength: 300
 public struct CallbackUrls: Codable {
-    let success : String
-    let cancel : String
+    public let success : String
+    public let cancel : String
     public init(success: String, cancel: String) {
         self.success = success
         self.cancel = cancel
@@ -196,13 +196,13 @@ public struct CallbackUrls: Codable {
 ///  - country: String // Country. Alpha-2 country code, e.g. 'SE'
 ///  - county: String? // County or top-level geographic subdivision, maxLength: 200
 public struct Address: Codable {
-    let streetAddress: String
-    let postalCode: String
-    let city: String
-    let country: String
-    let county: String?
+    public let streetAddress: String
+    public let postalCode: String
+    public let city: String
+    public let country: String
+    public let county: String?
     
-    init(streetAddress: String, postalCode: String, city: String, country: String, county: String? = nil){
+    public init(streetAddress: String, postalCode: String, city: String, country: String, county: String? = nil){
         self.streetAddress = streetAddress
         self.postalCode = postalCode
         self.city = city

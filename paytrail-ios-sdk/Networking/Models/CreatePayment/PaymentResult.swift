@@ -13,7 +13,7 @@ public struct PaymentResult: Equatable {
     public let status: PaymentStatus
     public let error: PaytrailPaymentError?
     
-    init(transactionId: String, status: PaymentStatus, error: PaytrailPaymentError? = nil) {
+    public init(transactionId: String, status: PaymentStatus, error: PaytrailPaymentError? = nil) {
         self.transactionId = transactionId
         self.status = status
         self.error = error
