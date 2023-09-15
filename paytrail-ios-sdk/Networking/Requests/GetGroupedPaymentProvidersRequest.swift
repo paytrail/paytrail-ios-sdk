@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GetGroupedPaymentProvidersRequest: DataRequest {
+struct GetGroupedPaymentProvidersRequest: DataRequest {
     
     typealias Response = PaymentMethodGroupDataResponse
     var queryItems: [String : String]

@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CreatePaymentDataRequest: DataRequest {
+struct CreatePaymentDataRequest: DataRequest {
     
     typealias Response = PaymentRequestResponse
     var headers: [String : String]

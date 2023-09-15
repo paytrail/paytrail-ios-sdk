@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct CardTokenizationRequest: DataRequest {
+struct CardTokenizationRequest: DataRequest {
     typealias Response = TokenizationRequestResponse
     
     var path: String

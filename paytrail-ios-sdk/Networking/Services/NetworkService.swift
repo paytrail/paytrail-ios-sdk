@@ -56,7 +56,6 @@ final class DefaultNetworkService: NetworkService {
                 return completion(.failure(PaytrailGenericError(type: .unknown, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: error as PaytrailGenericError.Payload)))
             }
             
-            //            PTLogger.log(message: "\(response)", level: .debug)
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
             
                 guard let _ = data else {

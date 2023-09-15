@@ -12,7 +12,6 @@ import SwiftUI
 ///
 /// An internal grid view for displaying the provider image views
 ///
-///
 struct GroupedGridView<Content>: View where Content: View {
 
     @State var headerTitle: String = ""

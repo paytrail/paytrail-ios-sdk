@@ -21,7 +21,10 @@ final class NormalPaymentNetworkService: NetworkService {
                 return completion(.failure(PaytrailGenericError(type: .createPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: error as PaytrailGenericError.Payload)))
             }
             
+            PTLogger.log(message: "Response: \(response.debugDescription)", level: .debug)
+
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
+                
                 
                 guard let error = data else {
                     let error = PaytrailPaymentError(type: .createPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil)

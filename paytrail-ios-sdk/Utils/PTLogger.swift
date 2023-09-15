@@ -8,7 +8,7 @@
 import Foundation
 import OSLog
 
-final public class PTLogger {
+public class PTLogger {
     
     public enum LogLevel: Int {
         case debug
@@ -32,5 +32,4 @@ final public class PTLogger {
             logger.error("Paytrail SDK(error): \(message)")
         }
     }
-    
 }

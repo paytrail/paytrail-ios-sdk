@@ -7,7 +7,7 @@
 
 import Foundation
 
-public struct GetPaymentDataRequest: DataRequest {
+struct GetPaymentDataRequest: DataRequest {
     
     typealias Response = Payment
     var queryItems: [String : String] = [:]

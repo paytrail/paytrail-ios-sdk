@@ -24,6 +24,8 @@ final class TokenPaymentNetworkService: NetworkService {
                 return completion(.failure(PaytrailGenericError(type: .createTokenPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: error as PaytrailGenericError.Payload)))
             }
             
+            PTLogger.log(message: "Response: \(response.debugDescription)", level: .debug)
+            
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
                 
                 guard let error = data else {
