@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+
+/// PaymentProvidersView
+///
+/// A SwiftUI view for showing the available pre-ordered Payment Providers. For a counterpart for an UIViewController, see 'PaymentUIViewsLoader'
+///
+/// **Properties:**
+/// - themes: PaytrailThemes - the current theme for the view, default .normal()
+/// - providers: Binding<[PaymentMethodProvider]> - providers data
+/// - groups: [PaymentMethodGroup] - groups data
+/// - currentPaymentRequest: Binding<URLRequest?> - current selected payment URLRequest if any
+///
+
 public struct PaymentProvidersView: View {
         
     public let themes: PaytrailThemes
@@ -16,7 +28,7 @@ public struct PaymentProvidersView: View {
     
     @State private var providerImages: [UIImage] = []
     
-    public init(themes: PaytrailThemes, providers: Binding<[PaymentMethodProvider]>, groups: [PaymentMethodGroup], paymentRequest: Binding<URLRequest?>) {
+    public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: Binding<[PaymentMethodProvider]>, groups: [PaymentMethodGroup], paymentRequest: Binding<URLRequest?>) {
         self.themes = themes
         self._providers = providers
         self.groups = groups

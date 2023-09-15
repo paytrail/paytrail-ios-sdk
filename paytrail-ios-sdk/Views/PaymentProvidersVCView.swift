@@ -7,15 +7,37 @@
 
 import SwiftUI
 
-public struct PaymentProvidersVCView: View {
+
+/// PaymentProvidersVCViewDelegate
+///
+/// A public protocol for PaymentProvidersVCView
+///
+public protocol PaymentProvidersVCViewDelegate {
+    /// onPaymentRequestSelected
+    /// - Parameter request: current selected payment provider URLRequest
+    func onPaymentRequestSelected(of request: URLRequest)
+}
+
+/// PaymentProvidersVCView
+///
+/// A counterpart of 'PaymentProvdidersView' to be used in an UIViewController, see 'PaymentUIViewsLoader'
+///
+/// **Properties:**
+/// - themes: PaytrailThemes - the current theme for the view, default .normal()
+/// - providers: [PaymentMethodProvider] - providers data
+/// - groups: [PaymentMethodGroup] - groups data
+/// - delegate: PaymentProvidersVCViewDelegate? - PaymentProvidersVCViewDelegate taking care of payment provider selections
+///
+
+struct PaymentProvidersVCView: View {
     
-    public let themes: PaytrailThemes
-    public let providers: [PaymentMethodProvider]
-    public let groups: [PaymentMethodGroup]
-    public var delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
+    let themes: PaytrailThemes
+    let providers: [PaymentMethodProvider]
+    let groups: [PaymentMethodGroup]
+    let delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
     @State private var providerImages: [UIImage] = []
     
-    public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {
+    init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {
         self.themes = themes
         self.providers = providers
         self.groups = groups
@@ -46,7 +68,7 @@ public struct PaymentProvidersVCView: View {
         }
     }
 
-    public var body: some View {
+    var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             ForEach(groups, id: \.self) { group in
                 GroupedGridView(headerTitle: group.name ?? "", hasDivider: false, themes: themes) {
@@ -91,8 +113,4 @@ struct PaymentProvidersVCView_Previews: PreviewProvider {
     static var previews: some View {
         PaymentProvidersVCView(themes: PaytrailThemes(viewMode: .normal()), providers: [], groups: [], delegate: nil)
     }
-}
-
-public protocol PaymentProvidersVCViewDelegate {
-    func onPaymentRequestSelected(of request: URLRequest)
 }
