@@ -7,8 +7,12 @@
 
 import Foundation
 
+
+/// Response data model for the card token payment requests
+///
 public struct TokenPaymentRequestResponse: Codable {
     
+    /// Transaction id of the token payment
     public let transactionId: String?
 
     enum CodingKeys: String, CodingKey {
@@ -21,9 +25,15 @@ public struct TokenPaymentRequestResponse: Codable {
     }
 }
 
+
+/// Response data model for the card token payment 3DS, which is treated as a soft decline with status code 403. App needs to redirect user to the 3DS secure page to finish the token payment.
+///
 public struct TokenPaymentThreeDsReponse: Codable {
     
+    /// Transaction id of the token payment
     public let transactionId: String?
+    
+    /// 3DS secure URL to redirect to
     public let threeDSecureUrl: String?
     
     var localizedDescription: String {

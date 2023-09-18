@@ -7,6 +7,9 @@
 
 import Foundation
 
+
+/// TokenCustomerDetails data model representing a customer
+/// 
 public struct TokenCustomerDetails: Codable {
 
     /** Customer IP address */

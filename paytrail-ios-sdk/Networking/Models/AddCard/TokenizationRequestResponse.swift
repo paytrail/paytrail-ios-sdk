@@ -7,11 +7,18 @@
 
 import Foundation
 
+
+/// Response data model of card tokenization request.
+///
 public struct TokenizationRequestResponse: Codable {
 
     /** Token used to make authorization holds & charges on card */
     public var token: String
+    
+    /// TokenCustomerDetails of the customer
     public var customer: TokenCustomerDetails?
+    
+    /// Card object representing the payment card, can be saved locally for card token payment
     public var card: Card?
 
     public init(token: String, customer: TokenCustomerDetails? = nil, card: Card? = nil) {

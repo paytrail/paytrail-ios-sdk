@@ -8,6 +8,8 @@
 import Foundation
 
 
+/// Card data model representing a payment card, retrieved after a successful card tokenization request.
+///
 public struct Card: Codable {
 
     /** Card type, for example ‘Visa’ */

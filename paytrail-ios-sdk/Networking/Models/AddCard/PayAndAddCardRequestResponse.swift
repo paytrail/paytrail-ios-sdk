@@ -7,9 +7,15 @@
 
 import Foundation
 
+
+/// Response data model for pay and add card request. See API 'payAndAddCard(of:secret:payload:completion:)'.
+///
 public struct PayAndAddCardRequestResponse: Codable {
 
+    /// Transaction id of the token payment
     public var transactionId: String?
+    
+    /// Redirect URL of the token payment
     public var redirectUrl: String?
 
     public enum CodingKeys: String, CodingKey, CaseIterable {
