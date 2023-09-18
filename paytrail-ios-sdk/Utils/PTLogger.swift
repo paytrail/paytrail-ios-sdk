@@ -8,6 +8,8 @@
 import Foundation
 import OSLog
 
+/// MSDK logger that has 3 levels: debug, warning, and error
+///
 public class PTLogger {
     
     public enum LogLevel: Int {
@@ -18,8 +20,14 @@ public class PTLogger {
     
     private static let logger = Logger()
     
-    static var globalLevel: LogLevel = .debug
+    /// The global MSDK log level
+    public static var globalLevel: LogLevel = .debug
     
+    
+    /// Logging MSDK message based on the globalLevel
+    /// - Parameters:
+    ///   - message: message to be logged
+    ///   - level: on what log level to show
     static func log(message: String, level: LogLevel) {
         switch level {
         case .debug:

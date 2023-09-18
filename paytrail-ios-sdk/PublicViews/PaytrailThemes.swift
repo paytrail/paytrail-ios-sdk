@@ -8,23 +8,27 @@
 import Foundation
 import SwiftUI
 
+
+
+/// PaytrailViewMode for setting the basic forground and background colors
 public enum PaytrailViewMode {
     case normal(background: Color = Color.white, foreground: Color = Color.black)
     case dark(background: Color = Color.black, foreground: Color = Color.white)
 }
 
-
 /// PaytrailThemes
 ///
 /// Themes for the MSDK'S PaymentProvidersView. MSDK does not support customized font at the moment.
 ///
-/// **Properties:**
-/// - viewMode: PaytrailViewMode - view mode of the PaymentProvidersView, You can set the desirous colors of normal or dark mode or use the defaults ones
-/// - fontSize: CGFloat - the font size of the PaymentProvidersView, default is small
-///
 public struct PaytrailThemes {
+    
+    ///  PaytrailViewMode - view mode of the PaymentProvidersView, You can set the desirous colors of normal or dark mode or use the defaults ones
     public let viewMode: PaytrailViewMode
+    
+    /// The font size of the PaymentProvidersView, default is small
     public let fontSize: CGFloat
+    
+    /// The item size (width) in 'PaymentProvidersView', default is large
     public let itemSize: CGFloat
     
     public struct FontSize {

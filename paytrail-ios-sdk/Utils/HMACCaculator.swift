@@ -9,6 +9,14 @@ import Foundation
 import CryptoKit
 import CommonCrypto
 
+
+/// Calculate HMAC signature of combined HTTP headers and body string. Rule: headers 'checkout-' with prefix are picked and sorted alphabetically; body data is encoded to string in UTF8. HMAC algorithm: SHA256.
+///
+/// - Parameters:
+///   - secret: The secret used to calculate HMAC, i.e. the merchant's secret key
+///   - headers: HTTP headers needed for calculation
+///   - body: HTTP body needed for calculation
+/// - Returns: The HMAC signature string
 public func hmacSignature(secret: String, headers: [String: String], body: Data?) -> String {
     var headerArray: Array<String> = []
     headerArray = headers.filter { (key, value) in
@@ -26,14 +34,11 @@ public func hmacSignature(secret: String, headers: [String: String], body: Data?
     
     let message = headerArray.joined(separator: "\n")
     PTLogger.log(message: "Signature message: \(message)", level: .debug)
-    let hmac = hmacCaculator(secret: secret, message: message)
-    PTLogger.log(message: "HMAC: \(hmac)", level: .debug)
-    return hmac
-}
-
-func hmacCaculator(secret: String, message: String) -> String {
+    
     var digest = [UInt8](repeating: 0, count: Int(CC_SHA256_DIGEST_LENGTH))
     CCHmac(CCHmacAlgorithm(kCCHmacAlgSHA256), secret, secret.count, message, message.count, &digest)
     let data = Data(digest)
-    return data.map { String(format: "%02hhx", $0) }.joined()
+    let hmac = data.map { String(format: "%02hhx", $0) }.joined()
+    PTLogger.log(message: "HMAC: \(hmac)", level: .debug)
+    return hmac
 }

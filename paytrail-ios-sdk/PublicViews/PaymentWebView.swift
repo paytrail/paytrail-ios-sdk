@@ -15,17 +15,18 @@ import WebKit
 ///
 /// A customised WebView for SwiftUI For handling payment web view responses. To use it in an UIViewController, see 'PaymentUIViewsLoader'
 ///
-/// **Properties:**
-/// - request: URLRequest - the URLRequest of the payment provider
-/// - delegate: PaymentDelegate? - PaymentDelegate for handling payment reponses
-/// - merchant: PaytrailMerchant - Current merchant needed for signature validation
-/// - contentType: ContentType - normalPayment or addCard for loading and handling each type of view accordingly
-///
 public struct PaymentWebView: UIViewRepresentable {
     
+    /// URLRequest of the payment provider
     public let request: URLRequest
+    
+    /// PaymentDelegate for handling payment reponses
     public let delegate: PaymentDelegate?
+    
+    /// Current merchant needed for signature validation
     public let merchant: PaytrailMerchant
+    
+    /// ContentType - normalPayment or addCard for loading and handling each type of view accordingly
     public let contentType: ContentType
     
     public enum ContentType {

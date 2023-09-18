@@ -10,9 +10,10 @@ import SwiftUI
 
 /// PaymentProvidersVCViewDelegate
 ///
-/// A public protocol for PaymentProvidersVCView
+/// A public protocol for PaymentProvidersVCView handling subsequent payment request
 ///
 public protocol PaymentProvidersVCViewDelegate {
+    
     /// onPaymentRequestSelected
     /// - Parameter request: current selected payment provider URLRequest
     func onPaymentRequestSelected(of request: URLRequest)
@@ -20,20 +21,23 @@ public protocol PaymentProvidersVCViewDelegate {
 
 /// PaymentProvidersVCView
 ///
-/// A counterpart of 'PaymentProvdidersView' to be used in an UIViewController, see 'PaymentUIViewsLoader'
-///
-/// **Properties:**
-/// - themes: PaytrailThemes - the current theme for the view, default .normal()
-/// - providers: [PaymentMethodProvider] - providers data
-/// - groups: [PaymentMethodGroup] - groups data
-/// - delegate: PaymentProvidersVCViewDelegate? - PaymentProvidersVCViewDelegate taking care of payment provider selections
+/// A counterpart of 'PaymentProvdidersView' to be used in an UIViewController, see 'PaymentUIViewsLoader'. The view is loaded in 'PaymentUIViewsLoader' so no need to use on its own.
 ///
 struct PaymentProvidersVCView: View {
     
+    /// PaytrailThemes - the current theme for the view, default .normal()
     let themes: PaytrailThemes
+    
+    /// [PaymentMethodProvider] needed for the view
     let providers: [PaymentMethodProvider]
+    
+    /// [PaymentMethodGroup] needed for the view
     let groups: [PaymentMethodGroup]
+    
+    /// PaymentProvidersVCViewDelegate taking care of payment provider selections
     let delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
+    
+    /// Provider images array, loaded after the view appears
     @State private var providerImages: [UIImage] = []
     
     init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {

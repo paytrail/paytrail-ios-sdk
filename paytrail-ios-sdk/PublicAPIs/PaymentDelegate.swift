@@ -11,11 +11,13 @@ import Foundation
 ///
 /// Protocol for handling Payment responses
 public protocol PaymentDelegate {
-    
     /// Handle payment status change
     /// - Parameter status: status string of a payment flow, see PaymentStatus
-    ///
     func onPaymentStatusChanged(_ paymentResult: PaymentResult)
+    
+    
+    /// onCardTokenizedIdReceived
+    /// - Parameter tokenizationResult: TokenizationResult after card token id is received
     func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult)
 }
 

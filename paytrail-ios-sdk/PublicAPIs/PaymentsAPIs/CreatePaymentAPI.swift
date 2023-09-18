@@ -94,6 +94,15 @@ public class PaytrailPaymentAPIs {
         return request
     }
     
+    
+    /// getGroupedPaymentProviders API for returning a group of providers without initiating a payment
+    /// - Parameters:
+    ///   - merchantId: Merchant ID in string
+    ///   - secret: Merchant Secret in string
+    ///   - amount: The amount for returninig a provider. Note: some providers are only available when amount meets the minimal requirement
+    ///   - groups: PaymentType of providers to be returned
+    ///   - language: Preferred language, default Language.en
+    ///   - completion: Result<PaymentMethodGroupDataResponse, Error>
     public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
         
         let networkService: NetworkService = NormalPaymentNetworkService()

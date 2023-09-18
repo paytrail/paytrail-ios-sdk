@@ -12,7 +12,7 @@ import Foundation
 ///
 /// Response for a successful payment request. Merchant ecom site can then either redirectthe user to the URL given in href, or render the payment provider forms onsite. For each payment method an HTML form needs to be rendered using the parameters returned for each payment method provider.
 ///
-///- Properties:
+/// **Properties:**
 /// - transactionId: String? // Checkout assigned transaction ID for the payment.
 /// - href: String? // Unique URL to hosted payment gateway.
 /// - reference: String? // The bank reference used for the payments.

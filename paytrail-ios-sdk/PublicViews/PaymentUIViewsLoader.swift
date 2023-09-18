@@ -11,7 +11,7 @@ import SwiftUI
 
 extension UIViewController {
     
-    /// loadPaymentUIWebView for loading a PaymentWebView (SwiftUI view) in an UIViewController.
+    /// For loading a PaymentWebView (SwiftUI view) in an UIViewController.
     /// - Parameters:
     ///   - request: URLRequest of the PaymentWebView
     ///   - merchant: PaytrailMerchant
@@ -29,7 +29,7 @@ extension UIViewController {
     }
     
     
-    /// loadPaymentProvidersUIView for loading a PaymentProvidersVCView (SwiftUI view) in an UIViewController
+    /// For loading a PaymentProvidersVCView (SwiftUI view) in an UIViewController
     /// - Parameters:
     ///   - providers: [PaymentMethodProvider]
     ///   - groups: [PaymentMethodGroup]

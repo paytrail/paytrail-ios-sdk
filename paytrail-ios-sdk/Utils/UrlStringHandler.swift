@@ -7,7 +7,7 @@
 
 import Foundation
 
-public func getQueryItems(_ urlString: String) -> [String: String] {
+func getQueryItems(_ urlString: String) -> [String: String] {
     var queryItems: [String: String] = [:]
     var components: NSURLComponents? = nil
     

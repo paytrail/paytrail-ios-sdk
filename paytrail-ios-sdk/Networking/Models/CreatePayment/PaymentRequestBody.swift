@@ -9,17 +9,17 @@ import Foundation
 
 /// PaymentRequestBody
 ///
-/// - Required Properties:
-///  - stamp : String // Merchant specific unique stamp, e.g. an UUID. Max length: 200
-///  - reference : String // Merchant reference for the payment. Max length: 200
-///  - amount : Int // Total amount of the payment (sum of items), VAT should be included in amount unless `usePricesWithoutVat` is set to true
-///  - currency : Currency // Currency string, e.g. "EUR"
-///  - language : Language // Alpha-2 language code string for the payment process, e.g. "FI"
-///  - items : [Item] // Payment item array, see Item
-///  - customer: Customer // Customer, see Customer
-///  - redirectUrls : CallbackUrls // Redirect Urls, see CallbackUrls
+/// **Required Properties:**
+///  - stamp : Merchant specific unique stamp, e.g. an UUID. Max length: 200
+///  - reference : Merchant reference for the payment. Max length: 200
+///  - amount : Total amount of the payment (sum of items), VAT should be included in amount unless `usePricesWithoutVat` is set to true
+///  - currency : Currency string, e.g. "EUR"
+///  - language : Alpha-2 language code string for the payment process, e.g. "FI"
+///  - items : Payment item array, see Item
+///  - customer: Customer, see Customer
+///  - redirectUrls : Redirect Urls, see CallbackUrls
 ///
-/// - Optional Properties:
+/// **Optional Properties:**
 ///  - callbackUrls : CallbackUrls? // see CallbackUrls
 ///  - orderId: String? // Order ID. Used for eg. Collector payments order ID. If not given, merchant reference is used instead. Max length: 60
 ///  - deliveryAddress: Address? // Delivery address, see Address
