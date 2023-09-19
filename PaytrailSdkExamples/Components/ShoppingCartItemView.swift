@@ -68,6 +68,6 @@ struct ShoppingCartItemView: View {
 
 struct ShoppingCartItemView_Previews: PreviewProvider {
     static var previews: some View {
-        ShoppingCartItemView(item: .constant(ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella Umbrella Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000)))
+        ShoppingCartItemView(item: .constant(ShoppingItem(id: UUID().uuidString, productName: "Paytrail Umbrella Umbrella Umbrella", description: "", units: 1, price: Int(15.00), image: "umbrella", currency: "€", upperLimit: 10000)))
     }
 }

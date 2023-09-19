@@ -7,6 +7,10 @@
 
 import Foundation
 
+
+/// Payment data model returned from an existing payment transaction,
+/// see API 'getPayment(of:secret:transactionId:completion:)'.
+///
 public struct Payment: Codable {
 
     /** Transaction ID */

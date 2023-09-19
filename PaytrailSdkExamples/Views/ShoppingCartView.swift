@@ -10,8 +10,8 @@ import SwiftUI
 struct ShoppingCartView: View {
     
     @State private var items: [ShoppingItem] = [
-        ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int64(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
-        ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int64(20.00), image: "bottle", currency: "€", upperLimit: 5000)
+        ShoppingItem(id: "#1234", productName: "Paytrail Umbrella", description: "", units: 1, price: Int(15.00), image: "umbrella", currency: "€", upperLimit: 10000),
+        ShoppingItem(id: "#5678", productName: "Paytrail drinking bottle", description: "", units: 1, price: Int(20.00), image: "bottle", currency: "€", upperLimit: 5000)
     ]
         
     @State private var showCustomerDetailsView: Bool = false

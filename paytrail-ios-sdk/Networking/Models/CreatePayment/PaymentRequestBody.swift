@@ -33,7 +33,7 @@ import Foundation
 public struct PaymentRequestBody : Codable {
     public let stamp : String
     public let reference : String
-    public let amount : Int64
+    public let amount : Int
     public let currency : Currency
     public let language : Language
     public let items : [Item]
@@ -51,7 +51,7 @@ public struct PaymentRequestBody : Codable {
     
     public init(stamp: String,
          reference: String,
-         amount: Int64,
+         amount: Int,
          currency: Currency,
          language: Language,
          items: [Item],
@@ -126,8 +126,8 @@ public struct Customer: Codable {
 ///  - orderId: String? // Order ID. Used for eg. Collector payments order ID. If not given, merchant reference is used instead, maxLength: 60
 /// - commission: Commission? // See Commission
 public struct Item: Codable, Equatable {
-    public let unitPrice: Int64
-    public let units: Int64
+    public let unitPrice: Int
+    public let units: Int
     public let vatPercentage: Int
     public let productCode: String
     public let deliveryDate: String?
@@ -139,7 +139,7 @@ public struct Item: Codable, Equatable {
     public let orderId: String?
     public let commission: Commission?
     
-    public init(unitPrice: Int64, units: Int64, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
+    public init(unitPrice: Int, units: Int, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
         self.unitPrice = unitPrice
         self.units = units
         self.vatPercentage = vatPercentage

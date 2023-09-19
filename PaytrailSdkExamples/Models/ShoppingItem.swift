@@ -12,7 +12,7 @@ struct ShoppingItem: Identifiable, Equatable {
     let productName: String
     let description: String
     var units: Int
-    let price: Int64
+    let price: Int
     let image: String
     let currency: String
     let upperLimit: Int
@@ -26,8 +26,8 @@ struct ShoppingItem: Identifiable, Equatable {
     }
     
     func toProductItem(shoppingItem: Self) -> Item {
-        Item(unitPrice: Int64(self.price * 100),
-             units: Int64(self.units),
+        Item(unitPrice: self.price * 100,
+             units: self.units,
              vatPercentage: 24,
              productCode: self.id,
              description: self.productName

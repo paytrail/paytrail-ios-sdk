@@ -17,7 +17,7 @@ struct PaymentWallView: View {
     @Binding var fullAddress: Address?
     @Binding var isShowing: Bool
     
-    var amount: Int64 {
+    var amount: Int {
         productItems.map { $0.unitPrice * $0.units }.reduce(0,+)
     }
     
