@@ -25,6 +25,7 @@ public protocol PaymentProvidersVCViewDelegate {
 ///
 struct PaymentProvidersVCView: View {
     
+    /// A PaymentMethodProvider with UIImage
     struct ProviderWithImage: Hashable {
         let provider: PaymentMethodProvider
         let image: UIImage

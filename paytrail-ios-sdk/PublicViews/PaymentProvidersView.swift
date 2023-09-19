@@ -13,7 +13,8 @@ import SwiftUI
 /// A SwiftUI view for showing the available pre-ordered Payment Providers. For a counterpart for an UIViewController, see 'PaymentUIViewsLoader'
 ///
 public struct PaymentProvidersView: View {
-        
+    
+    /// A PaymentMethodProvider with UIImage
     struct ProviderWithImage: Hashable {
         let provider: PaymentMethodProvider
         let image: UIImage
