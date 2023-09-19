@@ -7,6 +7,11 @@
 
 import Foundation
 
+
+/// PaymentStatus
+///
+/// PaymentStatus enum representing the different statuses of a payment
+///
 public enum PaymentStatus: String, Codable {
     case new
     case ok

@@ -7,11 +7,18 @@
 
 import Foundation
 
+
+/// PaymentMethodGroupDataResponse
+///
+/// PaymentMethodGroupDataResponse data model returned from the API 'PaymentMethodGroupDataResponse'
+///
 public struct PaymentMethodGroupDataResponse: Codable {
     
+    /// PaymentMethodGroup array if any
     public let groups : [PaymentMethodGroup]?
+    
+    /// PaymentMethodProvider array if any
     public let providers : [PaymentMethodProvider]?
-
 
     enum CodingKeys: String, CodingKey {
         case groups

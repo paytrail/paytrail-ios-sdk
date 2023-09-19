@@ -8,6 +8,8 @@
 import Foundation
 
 
+/// TokenCustomerDetails
+///
 /// TokenCustomerDetails data model representing a customer
 /// 
 public struct TokenCustomerDetails: Codable {

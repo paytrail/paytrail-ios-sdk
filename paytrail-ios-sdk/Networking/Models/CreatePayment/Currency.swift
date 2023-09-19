@@ -7,6 +7,11 @@
 
 import Foundation
 
+
+/// Currency
+///
+/// Currency enum. Currently only supports EUR
+///
 public enum Currency: String, Codable, CaseIterable {
     case eur = "EUR"
 }

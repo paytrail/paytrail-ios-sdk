@@ -7,7 +7,14 @@
 
 import Foundation
 
+
+/// PTApplePay
+///
+/// PTApplePay data model for Apple Pay only appearing in a CustomProvider
+///
 public struct PTApplePay : Codable {
+    
+    /// parameters for Apple Pay
     let parameters : [Parameter]?
 
     enum CodingKeys: String, CodingKey {

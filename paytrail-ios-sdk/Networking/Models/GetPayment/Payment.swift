@@ -8,29 +8,49 @@
 import Foundation
 
 
+/// Payment
+///
 /// Payment data model returned from an existing payment transaction,
 /// see API 'getPayment(of:secret:transactionId:completion:)'.
 ///
 public struct Payment: Codable {
 
-    /** Transaction ID */
+    ///  Assigned transaction ID for the payment
     public var transactionId: String?
-    /** Transaction status */
+    
+    /// Transaction status - new, ok, fail, pending, or delayed.
     public var status: PaymentStatus?
+    
+    /// Total amount of the payment in currency's minor units, e.g. for Euros use cents
     public var amount: Int?
+    
+    /// Currency, only support EUR at the moment
     public var currency: Currency?
+    
+    /// Merchant unique identifier for the order
     public var stamp: String?
+    
+    /// Order reference
     public var reference: String?
+    
+    /// Transaction creation timestamp
     public var createdAt: String?
-    /** If transaction is in status 'new', link to the hosted payment gateway */
+
+    /// If transaction is in status 'new', link to the hosted payment gateway
     public var href: String?
-    /** If processed, the name of the payment method provider */
+    
+    /// If processed, the name of the payment method provider
     public var provider: String?
-    /** If paid, the filing code issued by the payment method provider if any */
+    
+    /// If paid, the filing code issued by the payment method provider if any
     public var filingCode: String?
-    /** Timestamp when the transaction was paid */
+    
+    /// Timestamp when the transaction was paid
     public var paidAt: String?
     
+    /// If payment is settled, corresponding settlement reference is included
+    public var settlementReference: String?
+
     public init(transactionId: String? = nil,
                 status: PaymentStatus? = nil,
                 amount: Int? = nil,
@@ -41,7 +61,8 @@ public struct Payment: Codable {
                 href: String? = nil,
                 provider: String? = nil,
                 filingCode: String? = nil,
-                paidAt: String? = nil) {
+                paidAt: String? = nil,
+                settlementReference: String? = nil) {
         self.transactionId = transactionId
         self.status = status
         self.amount = amount
@@ -53,6 +74,7 @@ public struct Payment: Codable {
         self.provider = provider
         self.filingCode = filingCode
         self.paidAt = paidAt
+        self.settlementReference = settlementReference
     }
 
     public enum CodingKeys: String, CodingKey, CaseIterable {

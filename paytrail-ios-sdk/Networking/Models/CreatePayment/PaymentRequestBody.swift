@@ -7,6 +7,8 @@
 
 import Foundation
 
+/// PaymentRequestBody
+///
 /// PaymentRequestBody data model for APIs 'createPayment(of:secret:payload:completion:)' and 'createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)'. The latter API requires a car token.
 ///
 public struct PaymentRequestBody : Codable {
@@ -99,6 +101,8 @@ public struct PaymentRequestBody : Codable {
     }
 }
 
+/// Customer
+///
 /// Customer data model representing a Customer, belonging to PaymentRequestBody
 ///
 public struct Customer: Codable {
@@ -131,6 +135,8 @@ public struct Customer: Codable {
     }
 }
 
+/// Item
+///
 /// Item data model representing a purchased item, belonging to PaymentRequestBody.
 ///
 public struct Item: Codable, Equatable {
@@ -191,6 +197,8 @@ public struct Item: Codable, Equatable {
     }
 }
 
+/// Commission
+///
 /// Commission data model representing a Commission, belonging to a PaymentRequestBody
 ///
 public struct Commission: Codable {
@@ -207,6 +215,8 @@ public struct Commission: Codable {
     }
 }
 
+/// CallbackUrls
+///
 /// CallbackUrls data model representing a set of callback or redirect urls, belonging to a PaymentRequestBody
 ///
 public struct CallbackUrls: Codable {
@@ -223,6 +233,8 @@ public struct CallbackUrls: Codable {
     }
 }
 
+/// Address
+///
 /// Address data model representing a delivery or an invoicing address, belonging to a PaymentRequestBody
 ///
 public struct Address: Codable {
@@ -252,6 +264,8 @@ public struct Address: Codable {
 }
 
 
+/// Language
+///
 /// Language enum, currently only supporting en, fi, and sv
 ///
 public enum Language: String, Codable {
@@ -260,6 +274,8 @@ public enum Language: String, Codable {
     case sv = "SV"
 }
 
+/// PaymentType
+///
 /// PaymentType enum, currently including 5 types
 /// 
 public enum PaymentType: String, Codable {

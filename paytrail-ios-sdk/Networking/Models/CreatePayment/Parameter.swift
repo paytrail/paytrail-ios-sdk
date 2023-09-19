@@ -10,14 +10,14 @@ import Foundation
 
 /// Parameter
 ///
-/// Parameter of a PaymentMethodProvider
-///
-/// - Properties:
-///  - name: String? // Name of the form input, e.g. VALUUTTALAJI
-///  - value: String? // Value of the form input, e.g. EUR
+/// Parameter data model of a PaymentMethodProvider, or of a PTApplePay
 ///
 public struct Parameter: Codable, Hashable {
+    
+    /// Name of the parameter
     let name : String?
+    
+    /// Value of the parameter
     let value : String?
 
     enum CodingKeys: String, CodingKey {
@@ -30,5 +30,4 @@ public struct Parameter: Codable, Hashable {
         name = try values.decodeIfPresent(String.self, forKey: .name)
         value = try values.decodeIfPresent(String.self, forKey: .value)
     }
-
 }

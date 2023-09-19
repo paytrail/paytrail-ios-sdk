@@ -8,6 +8,8 @@
 import Foundation
 
 
+/// TokenizationRequestResponse
+///
 /// Response data model of card tokenization request.
 ///
 public struct TokenizationRequestResponse: Codable {

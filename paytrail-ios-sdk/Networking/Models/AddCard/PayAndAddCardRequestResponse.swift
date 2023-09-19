@@ -8,6 +8,8 @@
 import Foundation
 
 
+/// PayAndAddCardRequestResponse
+///
 /// Response data model for pay and add card request. See API 'payAndAddCard(of:secret:payload:completion:)'.
 ///
 public struct PayAndAddCardRequestResponse: Codable {

@@ -9,17 +9,23 @@ import Foundation
 
 /// PaymentMethodGroup
 ///
-/// - Properties:
-///  - id: String? // ID of the group, see PaymentType
-///  - name: String? // Localized name of the group
-///  - icon: String? // URL to the group PNG icon
-///  - svg: String? // URL to the group SVG icon (recommended to be used instead if PNG)
+/// An data model equivalent to the data model 'PaymentMethodGroupData' in Paytrail's web SDK. See https://docs.paytrail.com/#/?id=paymentmethodgroupdata
 ///
 public struct PaymentMethodGroup: Codable, Hashable {
+    
+    /// ID of the group
     let id : String?
+    
+    /// Localized name of the group
     let name : String?
+    
+    /// URL to PNG version of the group icon
     let icon : String?
+    
+    /// URL to SVG version of the group icon. Using the SVG icon is preferred
     let svg : String?
+    
+    /// PaymentMethodProvider array if available
     let providers: [PaymentMethodProvider]?
 
     enum CodingKeys: String, CodingKey {

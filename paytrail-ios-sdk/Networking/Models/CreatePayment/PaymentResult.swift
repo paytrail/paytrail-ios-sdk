@@ -7,10 +7,20 @@
 
 import Foundation
 
+
+/// PaymentResult
+///
+/// PaymentResult data model created in PaymentWebView after a payment response.
+///
 public struct PaymentResult: Equatable {
-        
+    
+    /// Transaction id of a payment
     public let transactionId: String
+    
+    /// Status of a payment
     public let status: PaymentStatus
+    
+    /// Error of a payment if any
     public let error: PaytrailPaymentError?
     
     public init(transactionId: String, status: PaymentStatus, error: PaytrailPaymentError? = nil) {

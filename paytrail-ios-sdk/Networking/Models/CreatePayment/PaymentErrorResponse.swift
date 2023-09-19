@@ -7,8 +7,17 @@
 
 import Foundation
 
+
+/// PaymentErrorResponse
+///
+/// PaymentErrorResponse data model containing a status and a message
+///
 public struct PaymentErrorResponse: Codable {
+    
+    /// Status of the reponse
     let status: String?
+    
+    /// Error message
     let message: String?
     
     var localizedDescription: String {

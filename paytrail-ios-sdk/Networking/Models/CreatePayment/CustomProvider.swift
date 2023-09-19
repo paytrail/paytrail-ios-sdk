@@ -7,7 +7,14 @@
 
 import Foundation
 
+
+/// CustomProvider
+///
+/// Providers which require custom implementation. Currently used only by Apple Pay.
+///
 public struct CustomProvider: Codable {
+    
+    /// PTApplePay object
     let applepay : PTApplePay?
 
     enum CodingKeys: String, CodingKey {

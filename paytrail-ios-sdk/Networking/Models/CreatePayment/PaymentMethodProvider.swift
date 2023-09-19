@@ -10,24 +10,29 @@ import Foundation
 
 /// PaymentMethodProvider
 ///
-/// Each payment method provider object describes an HTML form. The payment method parameters need to be posted to defined url in application/x-www-form-urlencoded format.
-///
-/// - Properties:
-///  - url: String? // Form action url
-///  - icon: String? // URL to payment method PNG icon
-///  - svg: String? // RL to payment method SVG icon (recommended to be used instead if PNG)
-///  - name: String? // Display name of the payment method
-///  - group: String? // Payment method group type, see PaymentType
-///  - id: String? // ID of the provider
-///  - parameters: [Parameter]? // See Parameter
+/// PaymentMethodProvider data model used in MSDK'S PaymentProvidersView. Feel free to use it in your own views.
 /// 
 public struct PaymentMethodProvider: Codable, Equatable, Identifiable, Hashable {
+    
+    /// Target URL to load in a webview. Use POST as method.
     public let url : String?
+    
+    /// URL to PNG version of the provider icon
     public let icon : String?
+    
+    /// URL to SVG version of the provider icon. Using the SVG icon is preferred.
     public let svg : String?
+    
+    /// Display name of the provider.
     public let name : String?
+    
+    /// Provider group id. Provider groups allow presenting same type of providers in separate groups which usually makes it easier for the customer to select a payment method.
     public let group : String?
+    
+    /// ID of the provider
     public let id : String?
+    
+    /// Array of header fields
     public let parameters : [Parameter]?
 
     enum CodingKeys: String, CodingKey {

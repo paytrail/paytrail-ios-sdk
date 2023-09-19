@@ -8,6 +8,8 @@
 import Foundation
 
 
+/// TokenizationResult
+///
 /// TokenizationResult after adding a card on PaymentWebView, see API 'initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:)'.
 ///
 public struct TokenizationResult: Equatable {
