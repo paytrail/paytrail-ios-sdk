@@ -25,6 +25,11 @@ public protocol PaymentProvidersVCViewDelegate {
 ///
 struct PaymentProvidersVCView: View {
     
+    struct ProviderWithImage: Hashable {
+        let provider: PaymentMethodProvider
+        let image: UIImage
+    }
+    
     /// PaytrailThemes - the current theme for the view, default .normal()
     let themes: PaytrailThemes
     
@@ -37,8 +42,8 @@ struct PaymentProvidersVCView: View {
     /// PaymentProvidersVCViewDelegate taking care of payment provider selections
     let delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
     
-    /// Provider images array, loaded after the view appears
-    @State private var providerImages: [UIImage] = []
+    /// ProviderWithImage array, loaded once the providers data is provided
+    @State private var providersWithImages: [ProviderWithImage] = []
     
     init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {
         self.themes = themes
@@ -56,16 +61,16 @@ struct PaymentProvidersVCView: View {
     }
     
     private func loadImages() {
-        guard providerImages.count == 0 else { return }
+        guard providersWithImages.count == 0 else { return }
         for provider in providers {
             PaytrailPaymentAPIs.renderPaymentProviderImage(by: provider.icon ?? "") { result in
                 switch result {
                 case .success(let success):
-                    providerImages.append(success)
+                    providersWithImages.append(ProviderWithImage(provider: provider, image: success))
                 case .failure(let failure):
                     PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
                     let defaultImage = UIImage(systemName: "exclamationmark.square") ?? UIImage()
-                    providerImages.append(defaultImage)
+                    providersWithImages.append(ProviderWithImage(provider: provider, image: defaultImage))
                 }
             }
         }
@@ -75,14 +80,13 @@ struct PaymentProvidersVCView: View {
         VStack(alignment: .leading, spacing: 30) {
             ForEach(groups, id: \.self) { group in
                 GroupedGridView(headerTitle: group.name ?? "", hasDivider: false, themes: themes) {
-                    ForEach(0..<providerImages.count, id: \.self) { index in
-                        if providers[index].group == group.id {
+                    ForEach(providersWithImages, id: \.self) { providerWithImage in
+                        if providerWithImage.provider.group == group.id {
                             Button {
-                                guard let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: providers[index]) else { return }
+                                guard let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: providerWithImage.provider) else { return }
                                 delegate?.onPaymentRequestSelected(of: request)
-                                
                             } label: {
-                                Image(uiImage: providerImages[index])
+                                Image(uiImage: providerWithImage.image)
                                     .resizable()
                                     .aspectRatio(contentMode: .fit)
                                     .padding(Constants.providerImagePadding)
@@ -96,10 +100,9 @@ struct PaymentProvidersVCView: View {
                                         radius: Constants.providerShadowRadius,
                                         x: 0,
                                         y: 0
-                                     )
+                                    )
                             )
                         }
-                        
                     }
                 }
             }
