@@ -94,7 +94,7 @@ struct PaymentWallView: View {
                                     PaymentCardView(card: card) {
                                         showProgressView = true
                                         let payload = createPayload(from: card.token)
-                                        let authType: PaytrailCardTokenAPIs.PaymentAuthorizationType = .charge
+                                        let authType: PaymentAuthorizationType = .charge
                                         PaytrailCardTokenAPIs.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
                                             showProgressView = false
                                             switch result {

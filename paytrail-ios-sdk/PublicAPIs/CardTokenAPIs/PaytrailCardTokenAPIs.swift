@@ -7,17 +7,35 @@
 
 import Foundation
 
+
+/// PaymentTransactionType
+///
+/// PaymentTransactionType enum used in PaytrailCardTokenAPIs
+///
+public enum PaymentTransactionType: String {
+    
+    /// Customer initiated transaction
+    case cit
+    
+    /// Merchant initiated transaction
+    case mit
+}
+
+/// PaymentAuthorizationType
+///
+/// PaymentAuthorizationType enum containing 2 types of token authorization
+///
+public enum PaymentAuthorizationType: String {
+    
+    /// Token payment authorization will be on hold untill the app complete the transaction
+    case authorizationHold = "authorization-hold"
+    
+    /// Token payment will be charged right away
+    case charge
+}
+
 public class PaytrailCardTokenAPIs {
     
-    public enum PaymentTransactionType: String {
-        case cit, mit
-    }
-    
-    public enum PaymentAuthorizationType: String {
-        case authorizationHold = "authorization-hold"
-        case charge
-    }
-        
     /// initiateCardTokenizationRequest API to create an add-card-form request
     /// - Parameters:
     ///   - merchantId: merchant id, i.e. account
