@@ -1,4 +1,4 @@
-# ``paytrail_ios_sdk``
+# ``paytrail_ios_sdk Guide [Draft 0.1]``
 
 Paytrail_ios_sdk is a framework created to incapsulate the Paytrail web APIs for the iOS mobile development so that developers can easily integrate the Paytrail payment solutions without the need of creating the incapsulation of their own.
 
@@ -36,11 +36,50 @@ Paytrail_ios_sdk is a framework created to incapsulate the Paytrail web APIs for
 
 ![CreatePayment](Resources/Create_payment_api_flow.svg)
 
+** SwiftUI Code Examples:**  
+```
+// Create a normal payment
+PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
+    switch result {
+    case .success(let data):
+        // Save providers and groups data
+        providers = data.providers ?? []
+        groups = data.groups ?? []
+    case .failure(let error):
+        // Handle error here
+    }
+})
+```  
 
-- ``Symbol``
-- What is the normal payment flow? 
-- What APIs are called?
-- Provide sample code
+```
+// Create a PaymentProvidersView with providers and group data
+PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: PaytrailThemes.ItemSize.large),providers: $providers, groups: groups, paymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
+    viewModel.currentPaymentRequest = request // Bind payment URLRequest
+}))
+```
+
+```
+// Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling a PaymentResult
+if let request = viewModel.currentPaymentRequest {
+    NavigationView {
+        PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+            .ignoresSafeArea()
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ...
+            }
+    }
+}
+
+...
+
+// Implement onPaymentStatusChanged(_:) from PaymentDelegate
+func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
+    // Handle PaymentResult here
+}
+
+```
+
 
 ### Card Tokenization and Payment
 - ``Symbol``

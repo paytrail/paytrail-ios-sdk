@@ -326,6 +326,7 @@ struct PaymentWallView: View {
             }
         }
     }
+    
 }
 
 extension PaymentWallView {
