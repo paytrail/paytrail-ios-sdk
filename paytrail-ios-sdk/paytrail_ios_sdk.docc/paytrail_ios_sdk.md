@@ -24,17 +24,17 @@ Paytrail_ios_sdk is a framework created to incapsulate the Paytrail web APIs for
 
 ### Create Normal Payment
 
-**Required APIs and Views:**  
+**Required APIs and Views**  
 
 ``createPayment(of:secret:payload:completion:)`` | ``initiatePaymentRequest(from:)`` | ``renderPaymentProviderImage(by:completion:)`` | ``PaymentProvidersView`` | ``loadPaymentProvidersUIView(with:groups:delegate:)`` | ``PaymentWebView`` | ``loadPaymentUIWebView(from:merchant:delegate:)``
 
-**Required Data Models:**  
+**Required Data Models**  
 
 ``PaymentRequestBody`` | ``PaymentRequestResponse`` | ``PaymentMethodProvider`` | ``PaymentResult``
 
-**Flow Chart:**  
+**APIs Sequence Diagram**  
 
-![CreatePayment](Resources/Create_payment_api_flow.jpg)
+![CreatePayment](Resources/Create_payment_api_flow.svg)
 
 
 - ``Symbol``
