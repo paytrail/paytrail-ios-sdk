@@ -36,7 +36,8 @@ Paytrail_ios_sdk is a framework created to incapsulate the Paytrail web APIs for
 
 ![CreatePayment](Resources/Create_payment_api_flow.svg)
 
-** SwiftUI Code Examples:**  
+**Code Examples:**  
+
 ```
 // Create a normal payment
 PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
