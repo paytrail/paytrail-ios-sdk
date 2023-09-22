@@ -81,13 +81,16 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 
 ```
 
-
 ### Card Tokenization and Payment
-- ``Symbol``
-- What is the card tokenization flow? 
-- and token payment flow?
-- What APIs are called
-- Provide sample code
+**Required APIs and Views:**
+``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(of:merchantId:secret:completion:)`` | ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(of:secret:transactionId:completion:)`` | `` PaymentWebView``
+
+**Required Data Models**
+``TokenizationRequestResponse`` | ``TokenPaymentRequestResponse`` | ``PaymentResult`` | ``PaymentDelegate`` | ``TokenizationResult``
+
+**Card Tokenization APIs Sequence Diagram**  
+
+![AddCard](Resources/Add_card_apis_flow.svg)
 
 ### Add Card and Pay
 - ``Symbol``
