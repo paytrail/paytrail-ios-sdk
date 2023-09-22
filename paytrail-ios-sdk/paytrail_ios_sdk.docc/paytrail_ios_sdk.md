@@ -82,15 +82,61 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 ```
 
 ### Card Tokenization and Payment
-**Required APIs and Views:**
+**Required APIs and Views:**  
+
 ``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(of:merchantId:secret:completion:)`` | ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(of:secret:transactionId:completion:)`` | `` PaymentWebView``
 
-**Required Data Models**
+**Required Data Models**  
+
 ``TokenizationRequestResponse`` | ``TokenPaymentRequestResponse`` | ``PaymentResult`` | ``PaymentDelegate`` | ``TokenizationResult``
 
 **Card Tokenization APIs Sequence Diagram**  
 
 ![AddCard](Resources/Add_card_apis_flow.svg)
+
+**Code Samples:**  
+
+```
+// 1) Initiate add card request when click on the 'Add card' button
+TextButton(text: "Add card", theme: .fill()) {
+    viewModel.clean()
+    // 1) Initiate add card request
+    viewModel.addCardRequest = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://client.com/success", cancel: "https://client.com/failure"))
+}
+```
+
+```
+// 2) Implement onCardTokenizedIdReceived(_:) from PaymentDelegate
+func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
+    guard tokenizationResult.error == nil, tokenizationResult.status == .ok else {
+        // Handle tokenization error
+        return
+    }
+    // Save card tokenizationId
+    viewModel.tokenizedId = tokenizationResult.tokenizationId
+}
+```
+
+```
+...
+// 3) Call getToken(:::) API when there is 'tokenizedId'
+.onChange(of: viewModel.tokenizedId, perform: { newValue in
+    guard let newValue = newValue else { return }
+    showProgressView = true
+    PaytrailCardTokenAPIs.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
+        showProgressView = false
+        switch result {
+        case .success(let tokenizedCard):
+            // Save tokenizedCard to the local DB
+            viewModel.addCardToDb(tokenizedCard)
+        case .failure(let failure):
+            // Handle getToken failure
+        }
+    }
+})
+```
+
+
 
 ### Add Card and Pay
 - ``Symbol``
