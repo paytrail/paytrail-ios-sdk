@@ -145,7 +145,7 @@
 //                            
 //                            guard let transacationOnHold = viewModel.transcationOnHold else { return }
 //                            
-//                            cardApi.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+//                            PaytrailCardTokenAPIs.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
 //                                switch result {
 //                                case .success(let success):
 //                                    DispatchQueue.main.async {
@@ -183,7 +183,7 @@
 //                    Button {
 //                        guard let transacationOnHold = viewModel.transcationOnHold else { return }
 //                        
-//                        cardApi.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
+//                        PaytrailCardTokenAPIs.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
 //                            switch result {
 //                            case .success(let success):
 //                                DispatchQueue.main.async {
