@@ -81,14 +81,14 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 
 ```
 
-### Card Tokenization and Payment
+### Card Tokenization, aka Add Card
 **Required APIs and Views:**  
 
-``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(of:merchantId:secret:completion:)`` | ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(of:secret:transactionId:completion:)`` | `` PaymentWebView``
+``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(of:merchantId:secret:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 
-``TokenizationRequestResponse`` | ``TokenPaymentRequestResponse`` | ``PaymentResult`` | ``PaymentDelegate`` | ``TokenizationResult``
+``TokenizationRequestResponse`` | ``PaymentResult`` | ``PaymentDelegate`` | ``TokenizationResult``
 
 **Card Tokenization APIs Sequence Diagram**  
 
@@ -136,6 +136,19 @@ func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
 })
 ```
 
+### Create a Token Payment
+
+**Required APIs and Views:**  
+
+ ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(of:secret:transactionId:completion:)`` | `` PaymentWebView``
+
+**Required Data Models**  
+
+``PaymentRequestBody`` | ``TokenPaymentRequestResponse`` | ``TokenPaymentThreeDsReponse`` | ``PaymentDelegate`` | ``PaymentResult``
+
+**Token Payment APIs Sequence Diagram**  
+
+![AddCard](Resources/Token_payment.svg)
 
 
 ### Add Card and Pay
