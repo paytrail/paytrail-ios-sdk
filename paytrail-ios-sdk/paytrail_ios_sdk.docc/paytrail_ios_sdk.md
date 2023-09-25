@@ -205,6 +205,11 @@ ForEach(savedCards, id: \.self) { card in
 ```
 
 ```
+// Implement onPaymentStatusChanged(_:) from PaymentDelegate
+func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
+    self.paymentResult = paymentResult
+}
+
 ...
 // Handle PaymentReuslt
 .onChange(of: viewModel.paymentResult, perform: { newValue in
