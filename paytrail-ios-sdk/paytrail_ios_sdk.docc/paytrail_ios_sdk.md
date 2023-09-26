@@ -260,10 +260,21 @@ Button {
 
 
 ### Add Card and Pay
-- ``Symbol``
-- What is add card and pay flow?
-- What APIs are called?
-- Provide sample code
+
+**Required APIs and Views**  
+
+``payAndAddCard(of:secret:payload:completion:)`` | `` PaymentWebView``
+
+**Required Data Models**  
+
+``PaymentRequestBody`` | ``PayAndAddCardRequestResponse`` | ``PaymentResult``
+
+**Add Card and Pay API Sequence Diagram**  
+
+![AddCard](Resources/add_card_pay_api_flow.svg)
+
+**Code Examples**  
+
 
 ### Miscellaneous
 
