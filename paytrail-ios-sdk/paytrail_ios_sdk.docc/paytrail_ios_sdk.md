@@ -275,6 +275,52 @@ Button {
 
 **Code Examples**  
 
+```
+// Button for triggering pay and add card
+Button {
+    viewModel.clean()
+    PaytrailCardTokenAPIs.payAndAddCard(of: merchant.merchantId, secret: merchant.secret, payload: createPayload()) { result in
+        switch result {
+        case .success(let success):
+            // Handle success here
+            DispatchQueue.main.async {
+                if let url = URL(string: urlString) {
+                    // Create payAndAddCardRequest with redirectUrl to be loaded in the PaymentWebView
+                    viewModel.payAndAddCardRequest = URLRequest(url: url)
+                }
+            }
+        case .failure(let failure):
+            // Handle failure here
+        }
+    }
+} label: {
+    Text("Pay and Add a new card")
+        .bold()
+}
+```
+
+```
+...
+// Load PaymentWebView when there is payAndAddCardRequest
+if let request = viewModel.payAndAddCardRequest {
+    NavigationView {
+        // Treat pay and add card as normal payment
+        PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .normalPayment)
+            .ignoresSafeArea()
+            .navigationBarTitleDisplayMode(.inline)
+                ...
+            }
+    }
+}
+```
+
+```
+// Implement onPaymentStatusChanged(_:) from PaymentDelegate
+func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
+    // Handle PaymentResult here
+}
+```
+
 
 ### Miscellaneous
 

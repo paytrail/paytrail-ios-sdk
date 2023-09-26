@@ -62,7 +62,7 @@
 //                    
 //                    Button {
 //                        viewModel.clean()
-//                        cardApi.payAndAddCard(of: merchant.merchantId, secret: merchant.secret, payload: createPayload()) { result in
+//                        PaytrailCardTokenAPIs.payAndAddCard(of: merchant.merchantId, secret: merchant.secret, payload: createPayload()) { result in
 //                            switch result {
 //                            case .success(let success):
 //                                print(success)
