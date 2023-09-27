@@ -324,7 +324,23 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 
 ### Misc
 
+#### API Authentication
+
+**PaytrailMerchant**
+
+ A ``PaytrailMerchant`` with ``merchantId`` and ``secret`` is required for each API call. For *shop-in-shop payment*, a shop-in-shop ``merchantId`` is also required for each purchased item, check out data model ``Item``.
+ 
+ **HMAC Signature**
+
+Each API call has a HMAC SHA256 ``signature`` field signing for autheticaiton, which is calculated from the rest of the HTTP header fields and HTTP request body. An API call will *only succeed* when the HMAC signature passes the verification on services.paytrail.com. 
+
+A client app does not need to sign the HMAC signature manually unless they decide to integrate their own APIs communicating with services.paytrail.com. To create your own HMAC signature, check out API ``hmacSignature(secret:headers:body:)``.
+
+
 #### MSDK Logging
+
+**PTLogger**
+
 MSDK ``PTLogger`` has three levels of logging: ``.debug``, ``.warning``, and ``.error``. By default, ``.warning`` level is set for the MSDK's logs, meaning a client app will receive all the warning and error logs. When logging level is set to ``.debug``, MSDK will log all the necessary debug infos including HTTP requests and responses, and HMAC signatures for each API call authentication. 
 
 To toggle ``.debug`` logging, simply set ``PTLogger.globalLevel`` to ``.debug`` in a place of the client app, usually in the ``AppDelegate``: 
