@@ -358,13 +358,43 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 ```
 
-#### HMAC Signature
-- How to get and varify HMAC Signature
+#### MSDK Views in UIViewController
 
-#### Usage of MSDK Views in an UIViewController
-- How to use the MSDK views in a VC
-- Create your own Views for the MSDK
-- Provide sample code
+**Load Payment Providers UIView**
+
+API ``loadPaymentProvidersUIView(with:groups:delegate:)`` returns a grouped providers ``UIView`` which is the exact counterpart of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``: 
+
+```
+...
+
+paymentProvidersView = loadPaymentProvidersUIView(with: providers, groups: groups, delegate: self)
+
+NSLayoutConstraint.activate([
+    paymentProvidersView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: providersViewLeftConstraint),
+    paymentProvidersView.rightAnchor.constraint(equalTo: self.view.rightAnchor, constant: providersViewRightConstraint),
+    paymentProvidersView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: providersViewTopConstraint),
+    paymentProvidersView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+])
+```
+
+**Load Payment Web View**
+
+API ``loadPaymentUIWebView(from:merchant:delegate:)`` returns a payment web view ``UIView`` which wraps the SwiftUI view of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``:
+
+```
+...
+
+paymentWebview = loadPaymentUIWebView(from: request, merchant: merchant, delegate: self)
+
+// A web view by default takes the whole of its parent view
+NSLayoutConstraint.activate([
+    paymentWebview.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+    paymentWebview.topAnchor.constraint(equalTo: view.topAnchor),
+    paymentWebview.leftAnchor.constraint(equalTo: view.leftAnchor),
+    paymentWebview.rightAnchor.constraint(equalTo: view.rightAnchor)
+])
+```
+
 
 #### Known Issues
 - Explain the current PaymentWebView issue if it is stil valid
