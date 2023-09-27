@@ -21,7 +21,7 @@ public class PTLogger {
     private static let logger = Logger()
     
     /// The global MSDK log level
-    public static var globalLevel: LogLevel = .debug
+    public static var globalLevel: LogLevel = .warning
     
     
     /// Logging MSDK message based on the globalLevel

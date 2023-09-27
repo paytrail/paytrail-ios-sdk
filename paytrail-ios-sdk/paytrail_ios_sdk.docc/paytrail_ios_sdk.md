@@ -322,11 +322,25 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 ```
 
 
-### Miscellaneous
+### Misc
 
-Toggle Logging
-- ``Symbol``
-- How enable Logging for debug
+#### MSDK Logging
+MSDK ``PTLogger`` has three levels of logging: ``.debug``, ``.warning``, and ``.error``. By default, ``.warning`` level is set for the MSDK's logs, meaning a client app will receive all the warning and error logs. When logging level is set to ``.debug``, MSDK will log all the necessary debug infos including HTTP requests and responses, and HMAC signatures for each API call authentication. 
+
+To toggle ``.debug`` logging, simply set ``PTLogger.globalLevel`` to ``.debug`` in a place of the client app, usually in the ``AppDelegate``: 
+
+```
+import paytrail_ios_sdk
+
+class AppDelegate: NSObject, UIApplicationDelegate {
+    func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+        ...
+        // Toggle MSDK debug logging
+        PTLogger.globalLevel = .debug
+        return true
+    }
+}
+```
 
 #### HMAC Signature
 - How to get and varify HMAC Signature
