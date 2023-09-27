@@ -395,11 +395,43 @@ NSLayoutConstraint.activate([
 ])
 ```
 
-
 #### Known Issues
-- Explain the current PaymentWebView issue if it is stil valid
-- Others
+
+**PaymentWebView**
+
+``PaymentWebView`` is bascailly a wrapper of a ``WKWebView`` which has issue with XCode 14 when called emitting a [Security] breach log:
+
+```
+[Security] This method should not be called on the main thread as it may lead to UI unresponsiveness.
+```
+
+This is *not MSDK's issue* but essentially a known issue (r. 94019453) of poor interaction among WKWebView, Security framework, and and Xcode feature. See: https://developer.apple.com/forums/thread/714467?answerId=734799022#734799022
+
+**HMAC Signature verification on API HTTP responses**
+
+Currently MSDK's *HMAC Signature verification on API HTTP responses is missing*, which however does not affect APIs' functionalities. It is only due to security reason that all the HTTP responses should be signature verified.
+
+This will be added in the future release.
+
+**Apple Pay**
+
+Current MSDK *does not support* native Apple Pay feature, however, ``PaymentRequestResponse`` contains ``CustomProvider`` necessary Apple Pay parameters in case the client app needs to have their own implementation.
+
+Apple Pay support *may come* in the future release.
 
 
-## Reference
-Refer to Paytrail's web API docs and other necessary ones
+## References
+
+**Create a normal payment** | https://docs.paytrail.com/#/?id=create
+
+**Payment card tokenization** | https://docs.paytrail.com/#/?id=adding-tokenizing-cards
+
+**Create a token payment** | https://docs.paytrail.com/#/?id=adding-tokenizing-cards
+
+**Pay and add card** | https://docs.paytrail.com/#/?id=pay-and-add-card
+
+**Authentication** | https://docs.paytrail.com/#/?id=authentication
+
+**HAMC signature online calculator** | https://dinochiesa.github.io/hmachash/index.html
+
+**Apple pay** | https://docs.paytrail.com/#/?id=apple-pay
