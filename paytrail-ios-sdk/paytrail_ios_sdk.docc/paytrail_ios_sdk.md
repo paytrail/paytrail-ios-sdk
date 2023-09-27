@@ -1,14 +1,14 @@
 # ``paytrail_ios_sdk Guide [Draft 0.1]``
 
-Paytrail_ios_sdk is a framework created to incapsulate the Paytrail web APIs for the iOS mobile development so that developers can easily integrate the Paytrail payment solutions without the need of creating the incapsulation of their own.
+**Paytrail_ios_sdk** is a framework created to incapsulate the Paytrail web APIs for the iOS mobile development so that developers can easily integrate the Paytrail payment solutions without the need of creating the incapsulation of their own.
 
 ## What does the framework contain? 
-**Payment APIs:**
+**Payment APIs**
 - *Create payment* => ``createPayment(of:secret:payload:completion:)``: create a normal payment transcation
 - *Get payment* => ``getPayment(of:secret:transactionId:completion:)``: retrieve an exisiting payment
 - *Get grouped payment providers* => ``getGroupedPaymentProviders(of:secret:amount:groups:language:completion:)``: retrieve a set of grouped payment providers without the need of creating a payment in the first place
 
-**Token Payment APIs:**
+**Token Payment APIs**
 - *Get token* => ``getToken(of:merchantId:secret:completion:)``: retrieve the token of a payment card to be saved and used in token payment
 - *Create token payment* => ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)``: create a token payment transaction by the retrieved card token
 - *Commit a token authorization hold* => ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)``: commit a onhold token authorization
