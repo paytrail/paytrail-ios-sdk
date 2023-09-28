@@ -16,7 +16,7 @@ Pod::Spec.new do |spec|
   #
 
   spec.name         = "paytrail-ios-sdk"
-  spec.version      = "0.0.2"
+  spec.version      = "0.2.0"
   spec.summary      = "Paytrail Mobile SDK for iOS"
 
   # This description is used to generate tags and improve search results.
