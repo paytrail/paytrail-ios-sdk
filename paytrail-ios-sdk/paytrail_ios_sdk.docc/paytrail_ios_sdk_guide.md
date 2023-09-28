@@ -34,7 +34,7 @@
 
 **APIs Sequence Diagram**  
 
-![CreatePayment](Resources/Create_payment_api_flow.svg)
+![CreatePayment](Resources/create_payment_api_flow.svg)
 
 **Code Examples**  
 
@@ -92,7 +92,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 
 **Card Tokenization APIs Sequence Diagram**  
 
-![AddCard](Resources/Add_card_apis_flow.svg)
+![AddCard](Resources/add_card_apis_flow.svg)
 
 **Code Examples**  
 
@@ -148,7 +148,7 @@ func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
 
 **Token Payment APIs Sequence Diagram**  
 
-![AddCard](Resources/Token_payment_apis_flow.svg)
+![TokenPayment](Resources/token_payment_apis_flow.svg)
 
 **Code Examples**  
 
@@ -259,7 +259,7 @@ Button {
 ```
 
 
-### Add Card and Pay
+### Pay and Add Card
 
 **Required APIs and Views**  
 
@@ -271,7 +271,7 @@ Button {
 
 **Add Card and Pay API Sequence Diagram**  
 
-![AddCard](Resources/add_card_pay_api_flow.svg)
+![PayAndAddCard](Resources/pay_add_card_api_flow.svg)
 
 **Code Examples**  
 
