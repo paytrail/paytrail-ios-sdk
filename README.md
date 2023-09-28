@@ -22,15 +22,30 @@ Add the line below in your project's ``Podfile``
 
 ```
 pod 'paytrail-ios-sdk'
-
 ```
 
 You can also *specify the branch* to install from
 
 ```
 pod 'paytrail-ios-sdk', :git => 'https://github.com/paytrail/paytrail-ios-sdk.git', :branch => 'feature/documentation'
+```
+
+### Swift Package Manager
+
+To add a Swift package dependency to your project, follow the [guide here](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
+
+**Package location:**
 
 ```
+https://github.com/paytrail/paytrail-ios-sdk.git
+```
+**Exact version:**
+
+```
+0.2
+```
+
+
 
 ### Examples
 

@@ -105,7 +105,7 @@ public struct PaymentWebView: UIViewRepresentable {
                             let transactionId = items[ParameterKeys.checkoutTransactionId],
                             let signature = items[ParameterKeys.signature],
                             signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
-                        if let transactionId = items[ParameterKeys.checkoutTransactionId] {
+                        if let transactionId = items[ParameterKeys.checkoutTransactionId], let _ = items[ParameterKeys.checkoutStatus]  {
                             PTLogger.log(message: "Signature mismatch, failing payment", level: .error)
                             // Return payment status fail when signatures mismatch
                             let result = PaymentResult(transactionId: transactionId, status: .fail, error: PaytrailPaymentError(type: .invalidSignature, code: 404))
