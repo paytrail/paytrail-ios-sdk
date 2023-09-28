@@ -34,15 +34,15 @@ pod 'paytrail-ios-sdk', :git => 'https://github.com/paytrail/paytrail-ios-sdk.gi
 
 To add a Swift package dependency to your project, follow the [guide here](https://developer.apple.com/documentation/xcode/adding-package-dependencies-to-your-app).
 
-**Package location:**
+**Package Lcation:**
 
 ```
 https://github.com/paytrail/paytrail-ios-sdk.git
 ```
-**Exact version:**
+**Version Rules:**
 
 ```
-0.2
+Exact 0.2.0
 ```
 
 
