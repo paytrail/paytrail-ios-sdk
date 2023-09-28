@@ -17,7 +17,7 @@ Pod::Spec.new do |spec|
 
   spec.name         = "paytrail-ios-sdk"
   spec.version      = "0.0.2"
-  spec.summary      = "Paytrail mobile SDK for iOS"
+  spec.summary      = "Paytrail Mobile SDK for iOS"
 
   # This description is used to generate tags and improve search results.
   #   * Think: What does it do? Why did you write it? What is the focus?
@@ -25,7 +25,7 @@ Pod::Spec.new do |spec|
   #   * Write the description between the DESC delimiters below.
   #   * Finally, don't worry about the indent, CocoaPods strips it!
   spec.description  = <<-DESC
-  Paytrail iOS SDK provding various functionalities for easy mobile payments.
+  Paytrail iOS SDK providing various functionalities for easy mobile payments.
                    DESC
 
   spec.homepage     = "https://github.com/paytrail/paytrail-ios-sdk"
@@ -80,7 +80,7 @@ Pod::Spec.new do |spec|
   #  Supports git, hg, bzr, svn and HTTP.
   #
 
-  spec.source       = { :git => "https://github.com/paytrail/paytrail-ios-sdk/tree/feature/network-layer.git", :tag => "#{spec.version}" }
+  spec.source       = { :git => "https://github.com/paytrail/paytrail-ios-sdk.git", :tag => "#{spec.version}" }
 
 
   # ――― Source Code ―――――――――――――――――――――――――――――――――――――――――――――――――――――――――――――― #
