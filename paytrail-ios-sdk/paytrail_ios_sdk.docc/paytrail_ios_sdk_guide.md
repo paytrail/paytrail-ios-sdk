@@ -397,15 +397,18 @@ NSLayoutConstraint.activate([
 
 #### Known Issues
 
-**PaymentWebView**
+**WKWebView**
 
-``PaymentWebView`` is bascailly a wrapper of a ``WKWebView`` which has issue with XCode 14 when called emitting a [Security] breach log:
+*The issue has been resolved by Apple in Xcode 15.0(15A240d).*
+
+``PaymentWebView`` is bascailly a wrapper of a ``WKWebView`` which has issue with Xcode 14 when called emitting a [Security] breach log:
 
 ```
 [Security] This method should not be called on the main thread as it may lead to UI unresponsiveness.
 ```
 
 This is *not MSDK's issue* but essentially a known issue (r. 94019453) of poor interaction among WKWebView, Security framework, and and Xcode feature. See: https://developer.apple.com/forums/thread/714467?answerId=734799022#734799022
+
 
 **HMAC Signature verification on API HTTP responses**
 

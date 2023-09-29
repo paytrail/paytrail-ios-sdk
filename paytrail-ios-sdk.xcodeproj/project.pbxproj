@@ -94,8 +94,6 @@
 		DC36897E2A4988B800FB2D71 /* CardTokenApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897D2A4988B800FB2D71 /* CardTokenApiTestSuite.swift */; };
 		DC3689812A499B0400FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689802A499B0400FB2D71 /* RealmSwift */; };
 		DC3689832A499B0B00FB2D71 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689822A499B0B00FB2D71 /* Realm */; };
-		DC3689852A499B5C00FB2D71 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689842A499B5C00FB2D71 /* Realm */; };
-		DC3689872A499B5C00FB2D71 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = DC3689862A499B5C00FB2D71 /* RealmSwift */; };
 		DC3689882A499B9200FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
 		DC3689892A499B9300FB2D71 /* TokenizedCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC36897B2A43305500FB2D71 /* TokenizedCard.swift */; };
 		DC36898A2A499BD600FB2D71 /* PaymentWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC3689212A33312300FB2D71 /* PaymentWebView.swift */; };
@@ -343,8 +341,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DC3689872A499B5C00FB2D71 /* RealmSwift in Frameworks */,
-				DC3689852A499B5C00FB2D71 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,8 +699,6 @@
 			);
 			name = "paytrail-ios-sdk";
 			packageProductDependencies = (
-				DC3689842A499B5C00FB2D71 /* Realm */,
-				DC3689862A499B5C00FB2D71 /* RealmSwift */,
 			);
 			productName = "paytrail-ios-sdk";
 			productReference = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */;
@@ -1212,7 +1206,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1244,7 +1238,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1440,16 +1434,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
 			productName = Realm;
-		};
-		DC3689842A499B5C00FB2D71 /* Realm */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = Realm;
-		};
-		DC3689862A499B5C00FB2D71 /* RealmSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DC3689772A432E6700FB2D71 /* XCRemoteSwiftPackageReference "realm-swift" */;
-			productName = RealmSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

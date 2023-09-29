@@ -10,7 +10,7 @@ For the SDK's APIs guide, please check out [Paytrail iOS SDK Guide](paytrail-ios
 
 | Requirement | Minimal version |
 | ------ | ------ |
-| iOS | 15.4 |
+| iOS | 15 |
 | Swift | 5 |
 | CocoaPods | 1.11.3 |
 
@@ -42,9 +42,8 @@ https://github.com/paytrail/paytrail-ios-sdk.git
 **Version Rules:**
 
 ```
-Exact 0.2.0
+Branch main
 ```
-
 
 
 ### Examples
