@@ -98,26 +98,20 @@ struct PaymentWallView: View {
                                         PaytrailCardTokenAPIs.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
                                             showProgressView = false
                                             switch result {
-                                            case .success(let success):
-                                                //                                        statusString = "Payment success: \(success.transactionId ?? "")"
+                                            case .success(_):
                                                 DispatchQueue.main.async {
                                                     if authType == .authorizationHold {
-                                                        //                                                viewModel.transcationOnHold = (success.transactionId!, payload)
-                                                        //                                                commitOnHoldAmount = String(payload.amount)
+                                                        // Handle payment on-hold
                                                     } else {
                                                         status = .ok
-                                                        //                                                mode.wrappedValue.dismiss()
-                                                        //                                                isShowing = false
                                                         showPaymentResultView = true
                                                     }
                                                 }
-                                                print(success)
                                             case .failure(let failure):
                                                 print(failure)
                                                 if let failure = failure as? PaytrailTokenError,
                                                    let threeDSecureUrl = failure.payload?.threeDSecureUrl,
                                                    let url = URL(string: threeDSecureUrl) {
-                                                    //                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
                                                     let request = URLRequest(url: url)
                                                     DispatchQueue.main.async {
                                                         viewModel.threeDSecureRequest = request
@@ -266,38 +260,17 @@ struct PaymentWallView: View {
                             PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
                                 switch result {
                                 case .success(let data):
-                                    
-                                    //                    if let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: data), options: .prettyPrinted) {
-                                    //                        print(String(data: body, encoding: .utf8)!)
-                                    //                    }
                                     providers = data.providers ?? []
                                     groups = data.groups ?? []
-                                    let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but success")" +
-                                    "\nhref: \(data.href ?? "")" +
-                                    "\nreference: \(data.reference ?? "")" +
-                                    "\n\nterms: \(data.terms ?? "")" +
+                                    let contentText = "transactionId: \(data.transactionId ?? "Unknown transactionId but succeeded")" +
                                     "\n\ngroups: \(data.groups?.compactMap { $0.name }.description ?? "")" +
                                     "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
-                                    //                    +
-                                    //                    "\ncustomProviders: \(data.customProviders?.applepay.debugDescription ?? "")"
                                     print(contentText)
                                 case .failure(let error):
+                                    // TODO: handel creatPayment error
                                     print(error)
-                                    //                    contentText = (error as? any PaytrailError)?.description ?? ""
                                 }
                             })
-                            
-                            //                    paymentApis.getGroupedPaymentProviders(of: merchant.merchantId, secret: merchant.secret, amount: Int(amount)) { result in
-                            //                        switch result {
-                            //                        case .success(let success):
-                            //                            providers = success.providers ?? []
-                            //                            groups = success.groups ?? []
-                            //                            print(providers)
-                            //                            print(groups)
-                            //                        case .failure(let failure):
-                            //                            print(failure)
-                            //                        }
-                            //                    }
                         }
                     }
                     
@@ -353,12 +326,11 @@ extension PaymentWallView {
             print("Checkout tokenized id received: \(tokenizationResult.tokenizationId)")
             addCardRequest = nil
             guard tokenizationResult.error == nil, tokenizationResult.status == .ok else {
-                print(tokenizationResult.error)
+                print(tokenizationResult.error as Any)
                 //  Take care of the tokenization error here if any
                 isCardSaved = false
                 return
             }
-            // TODO: save tokenizedId to DB once it is confirmed to do so
             self.tokenizedId = tokenizationResult.tokenizationId
         }
         
@@ -387,16 +359,10 @@ extension PaymentWallView {
         
         func clean() {
             addCardRequest = nil
-            //            payAndAddCardRequest = nil
             tokenizedId = nil
             isCardSaved = nil
             threeDSecureRequest = nil
+            // payAndAddCardRequest = nil
         }
     }
 }
-
-//struct ContentView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ContentView(amount: .constant("10"), status: .constant(.ok))
-//    }
-//}

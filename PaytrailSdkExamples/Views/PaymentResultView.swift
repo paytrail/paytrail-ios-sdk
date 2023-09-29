@@ -72,7 +72,6 @@ struct PaymentResultView: View {
                     Text("**\(headerText)**")
                         .font(.system(size: 24))
                         .foregroundColor(Color.black)
-                    //                    .bold()
                     Spacer()
                 }
                 .padding(.top, 10)
@@ -103,6 +102,7 @@ struct PaymentResultView: View {
                         
                         TextButton(text: bodyButonText, theme: .light()) {
                             mode.wrappedValue.dismiss()
+                            isShowing = false
                         }
                         .padding(.vertical, 12)
                         .padding(.horizontal, 24)
