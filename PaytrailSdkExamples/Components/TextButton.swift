@@ -60,6 +60,5 @@ struct TextButton: View {
 struct TextButton_Previews: PreviewProvider {
     static var previews: some View {
         TextButton(text: "Continue Shopping", theme: .light(), action: {})
-//            .disabled(true)
     }
 }

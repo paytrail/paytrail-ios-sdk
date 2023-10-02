@@ -13,7 +13,6 @@ struct GroupedGrid<Content>: View where Content: View {
     @State var headerTitle: String = ""
     @ViewBuilder var content: () -> Content
     private let columns = [
-//        GridItem(.flexible(minimum: 150, maximum: 200))
         GridItem(.adaptive(minimum: 150))
 
     ]

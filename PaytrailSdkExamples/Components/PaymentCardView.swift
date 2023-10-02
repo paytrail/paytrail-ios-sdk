@@ -26,7 +26,6 @@ struct PaymentCardView: View {
                 Text("**\(card.partialPan)**")
                     .font(.system(size: 16))
                     .foregroundColor(Color("magenta"))
-                //                Spacer()
             }
             .padding(.trailing, 16)
             .background(

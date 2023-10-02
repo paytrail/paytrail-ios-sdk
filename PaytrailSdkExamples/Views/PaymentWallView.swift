@@ -26,7 +26,6 @@ struct PaymentWallView: View {
     }
     
     @State private var status: PaymentStatus = .new
-    //    @State private var contentText: String = ""
     @State private var providers: [PaymentMethodProvider] = []
     @State private var groups: [PaymentMethodGroup] = []
     @State private var providerImages: [UIImage] = []
@@ -169,7 +168,7 @@ struct PaymentWallView: View {
                             }) {
                                 if let request = viewModel.currentPaymentRequest {
                                     NavigationView {
-                                        // 2) Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
+                                        // Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
                                         PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
                                             .ignoresSafeArea()
                                             .navigationBarTitleDisplayMode(.inline)
@@ -190,7 +189,7 @@ struct PaymentWallView: View {
                         }) {
                             if let request = viewModel.addCardRequest {
                                 NavigationView {
-                                    // 2) Create PaymentWebView with contentType addCard once addCardRequest is made
+                                    // Create PaymentWebView with contentType addCard once addCardRequest is made
                                     PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .addCard)
                                         .ignoresSafeArea()
                                         .navigationBarTitleDisplayMode(.inline)
@@ -207,6 +206,7 @@ struct PaymentWallView: View {
                         .fullScreenCover(isPresented: Binding(get: { viewModel.threeDSecureRequest != nil }, set: { _, _ in }), content: {
                             if let request = viewModel.threeDSecureRequest {
                                 NavigationView {
+                                    // Load PaymentWebView when there is threeDSecureRequest
                                     PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
                                         .ignoresSafeArea()
                                         .navigationBarTitleDisplayMode(.inline)
@@ -257,6 +257,7 @@ struct PaymentWallView: View {
                             
                             savedCards = viewModel.savedCards
                             
+                            // Create a normal payment on view appearing
                             PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
                                 switch result {
                                 case .success(let data):
@@ -314,7 +315,7 @@ extension PaymentWallView {
         var savedCards: [TokenizedCard] {
             getSavedCards()
         }
-        // 3) Handle payment callbacks
+        // Handle payment callbacks
         func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
             print("payment status changed: \(paymentResult.status.rawValue)")
             self.paymentResult = paymentResult

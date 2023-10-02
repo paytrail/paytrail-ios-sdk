@@ -50,7 +50,6 @@ struct CartSummaryView: View {
                 Text("**Total price**")
                     .font(.system(size: 20))
                     .foregroundColor(Color.black)
-                    //                                .bold()
                 Spacer()
                 Text("**\(sum) €**")
                     .font(.system(size: 20))

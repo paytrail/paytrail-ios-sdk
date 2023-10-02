@@ -62,7 +62,6 @@ struct ShoppingCartView: View {
                             Text("**Total price**")
                                 .font(.system(size: 20))
                                 .foregroundColor(Color.black)
-                                //                                .bold()
                             Spacer()
                             Text("**\(sum) €**")
                                 .font(.system(size: 20))
@@ -83,12 +82,14 @@ struct ShoppingCartView: View {
                     }
                 }
                 .padding(.horizontal, 24)
-//                .padding(.top, 16)
                 
                 NavigationLink("", destination: CustomerInfoView(items: $items, isShowing: $showCustomerDetailsView), isActive: $showCustomerDetailsView)
             }
             .background(Color("lightGray"))
             .navigationBarHidden(true)
+        }
+        .onAppear {
+            PTLogger.globalLevel = .debug
         }
     }
 }
