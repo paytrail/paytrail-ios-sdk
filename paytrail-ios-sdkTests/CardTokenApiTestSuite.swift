@@ -13,8 +13,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     var merchant: PaytrailMerchant!
     var tokenizedId: String!
     var tokenizedIdThreeDS: String!
-    var transactionType: PaytrailCardTokenAPIs.PaymentTransactionType!
-    var authorizationType: PaytrailCardTokenAPIs.PaymentAuthorizationType!
+    var transactionType: PaymentTransactionType!
+    var authorizationType: PaymentAuthorizationType!
     var committedTransactionId: String!
     var revertedTransactionId: String!
     
@@ -64,9 +64,10 @@ final class CardTokenApiTestSuite: XCTestCase {
         switch result {
         case .success(_):
             XCTFail("Failing due to invalid tokenized id")
-        case .failure(let failure as NSError):
+        case .failure(let failure):
             print(failure)
-            XCTAssert(failure.code == 400, "Invalid tokenized id")
+            let paymentError = failure as? PaytrailPaymentError
+            XCTAssert(paymentError?.code == 400, "Invalid tokenized id")
         }
     }
     
@@ -228,7 +229,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         case .failure(let failure):
             print(failure)
             let error = failure as? PaytrailPaymentError
-            XCTAssert(error?.code == 400, "Trade is already paid, cannot cancel.")
+            XCTAssert(error?.code == 404, "Transaction not found")
         }
     }
     
@@ -268,7 +269,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         })
     }
     
-    private func createTokenPaymentAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody, transactionType: PaytrailCardTokenAPIs.PaymentTransactionType, authorizationType: PaytrailCardTokenAPIs.PaymentAuthorizationType) async -> Result<TokenPaymentRequestResponse, Error> {
+    private func createTokenPaymentAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody, transactionType: PaymentTransactionType, authorizationType: PaymentAuthorizationType) async -> Result<TokenPaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.createTokenPayment(of: merchantId, secret: secret, payload: payload, transactionType: transactionType, authorizationType: authorizationType) { result in
                 continuation.resume(returning: result)
@@ -276,7 +277,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         })
     }
     
-    private func updateTransactionAndAuthType(_ transactionType: PaytrailCardTokenAPIs.PaymentTransactionType = .mit, authType: PaytrailCardTokenAPIs.PaymentAuthorizationType) {
+    private func updateTransactionAndAuthType(_ transactionType: PaymentTransactionType = .mit, authType: PaymentAuthorizationType) {
         self.transactionType = transactionType
         self.authorizationType = authType
     }
