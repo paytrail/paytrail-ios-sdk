@@ -21,7 +21,7 @@ For the SDK's APIs guide, please check out [Paytrail iOS SDK Guide](paytrail-ios
 Add the line below in your project's ``Podfile``
 
 ```
-pod 'paytrail-ios-sdk'
+pod 'paytrail-ios-sdk', git: 'https://github.com/paytrail/paytrail-ios-sdk.git'
 ```
 
 You can also *specify the branch* to install from
