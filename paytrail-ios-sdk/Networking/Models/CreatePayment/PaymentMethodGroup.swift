@@ -14,19 +14,19 @@ import Foundation
 public struct PaymentMethodGroup: Codable, Hashable {
     
     /// ID of the group
-    let id : String?
+    public let id : String?
     
     /// Localized name of the group
-    let name : String?
+    public let name : String?
     
     /// URL to PNG version of the group icon
-    let icon : String?
+    public let icon : String?
     
     /// URL to SVG version of the group icon. Using the SVG icon is preferred
-    let svg : String?
+    public let svg : String?
     
     /// PaymentMethodProvider array if available
-    let providers: [PaymentMethodProvider]?
+    public let providers: [PaymentMethodProvider]?
 
     enum CodingKeys: String, CodingKey {
         case id = "id"
