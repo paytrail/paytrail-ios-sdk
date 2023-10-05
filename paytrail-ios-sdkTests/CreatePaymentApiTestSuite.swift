@@ -11,7 +11,7 @@ import XCTest
 final class CreatePaymentApiTestSuite: XCTestCase {
     
     var merchant: PaytrailMerchant! // Normal merchant
-    var merchantSIS: PaytrailMerchant! // Shop-in-shops merchant
+//    var merchantSIS: PaytrailMerchant! // Shop-in-shops merchant
     var payload: PaymentRequestBody!
     var payloadInvalid: PaymentRequestBody!
     var payloadSIS: PaymentRequestBody!
@@ -23,8 +23,10 @@ final class CreatePaymentApiTestSuite: XCTestCase {
 
     override func setUpWithError() throws {
         // Put setup code here. This method is called before the invocation of each test method in the class.
-        merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
-        merchantSIS = PaytrailMerchant(merchantId: "695861", secret: "MONISAIPPUAKAUPPIAS")
+        PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+        
+        merchant = PaytrailMerchant.shared
+        //        merchantSIS = PaytrailMerchant(merchantId: "695861", secret: "MONISAIPPUAKAUPPIAS")
         payload = PaymentRequestBody(stamp: UUID().uuidString,
                                      reference: "3759170",
                                      amount: 1525,
@@ -87,7 +89,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     
     /// Test Success 200 - Payment create with Shop-in-Shops merchant credentials
     func testCreatePaymentSisSuccess() async {
-        let result = await createPaymentsAsync(merchantSIS.merchantId, secret: merchantSIS.secret, payload: payloadSIS)
+        let result = await createPaymentsAsync("695861", secret: "MONISAIPPUAKAUPPIAS", payload: payloadSIS)
         switch result {
         case .success(let success):
             XCTAssert(success.transactionId != nil && success.providers != nil)

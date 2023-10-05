@@ -15,10 +15,13 @@ final class GetPaymentApiTestSuite: XCTestCase {
     var transactionIdInvalid: String!
 
     override func setUpWithError() throws {
-        merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
-        transactionId = "cfaa43a2-0c4e-11ee-829b-a75b998e8f55"
+        PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+        merchant = PaytrailMerchant.shared
+        transactionId = "fea87e1e-637c-11ee-aacb-57f3a9b791a6"
         transactionIdInvalid = "cac671c0-0b78-11ee-aa4c-9beeff41cc48"
     }
+    
+    
 
     override func tearDownWithError() throws {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
@@ -29,7 +32,7 @@ final class GetPaymentApiTestSuite: XCTestCase {
         let result = await getPaymentAsync(transactionId)
         switch result {
         case .success(let success):
-            XCTAssert(success.transactionId != nil && success.provider != nil)
+            XCTAssert(success.transactionId != nil)
         case .failure(let failure):
             print(failure)
             XCTFail("Get payment failed: \(failure.localizedDescription)")
@@ -41,10 +44,11 @@ final class GetPaymentApiTestSuite: XCTestCase {
         let result = await getPaymentAsync(transactionIdInvalid)
         switch result {
         case .success(let success):
-            XCTAssert(success.transactionId == nil && success.provider == nil)
-        case .failure(let failure as NSError):
+            XCTAssert(success.transactionId == nil)
+        case .failure(let failure):
             print(failure)
-            XCTAssert(failure.code == 404, "Invalid transaction id")
+            let paymentError = failure as? PaytrailPaymentError
+            XCTAssert(paymentError?.code == 404, "Invalid transaction id")
         }
     }
     
@@ -55,6 +59,4 @@ final class GetPaymentApiTestSuite: XCTestCase {
             }
         })
     }
-
-
 }

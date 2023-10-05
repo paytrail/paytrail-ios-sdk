@@ -20,7 +20,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     
 
     override func setUpWithError() throws {
-        merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+        PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+        merchant = PaytrailMerchant.shared
         tokenizedId = "96f32ab1-8c1f-42f1-9c11-cce40cb648ac"
         tokenizedIdThreeDS = "17b8c4a0-9a2d-4bdd-8eb3-f2deacb96292"
         transactionType = .cit
@@ -247,7 +248,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     /// Test payAndAddCard failure case when the merchant id is invalid
     func testPayAndAddCardFailure() async {
-        let result = await payAndAddCardAync("", secret: merchant.secret, payload: createPaymentPayload())
+        let result = await payAndAddCardAync("123", secret: merchant.secret, payload: createPaymentPayload())
         switch result {
         case .success(_):
             XCTFail("Invalid merchant account given")
@@ -263,7 +264,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func getTokenAsync(_ tokenizedId: String, merchantId: String, secret: String) async -> Result<TokenizationRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.getToken(of: tokenizedId, merchantId: merchantId, secret: secret) { result in
+            PaytrailCardTokenAPIs.getToken(tokenizedId: tokenizedId, merchantId: merchantId, secret: secret) { result in
                 continuation.resume(returning: result)
             }
         })
