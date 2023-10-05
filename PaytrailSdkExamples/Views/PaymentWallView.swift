@@ -94,7 +94,7 @@ struct PaymentWallView: View {
                                         showProgressView = true
                                         let payload = createPayload(from: card.token)
                                         let authType: PaymentAuthorizationType = .charge
-                                        PaytrailCardTokenAPIs.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
+                                        PaytrailCardTokenAPIs.createTokenPayment(payload: payload, transactionType: .cit, authorizationType: authType) { result in
                                             showProgressView = false
                                             switch result {
                                             case .success(_):
@@ -126,7 +126,7 @@ struct PaymentWallView: View {
                             TextButton(text: "Add card", theme: .fill()) {
                                 viewModel.clean()
                                 // 1) Initiate add card request
-                                viewModel.addCardRequest = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
+                                viewModel.addCardRequest = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(redirectUrls: CallbackUrls(success: "https://qvik.com/success", cancel: "https://qvik.com/failure"))
                             }
                             .padding(.top, 24)
                         }
@@ -231,7 +231,7 @@ struct PaymentWallView: View {
                         .onChange(of: viewModel.tokenizedId, perform: { newValue in
                             guard let newValue = newValue else { return }
                             showProgressView = true
-                            PaytrailCardTokenAPIs.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
+                            PaytrailCardTokenAPIs.getToken(tokenizedId: newValue) { result in
                                 showProgressView = false
                                 switch result {
                                 case .success(let success):

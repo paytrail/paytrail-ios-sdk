@@ -15,7 +15,15 @@ public extension PaytrailPaymentAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: transactionId, the id of the transaction
     ///   - completion: Result<Payment, Error>
-    class func getPayment(of merchantId: String, secret: String, transactionId: String, completion: @escaping (Result<Payment, Error>) -> Void) {
+    class func getPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                          secret: String = PaytrailMerchant.shared.secret,
+                          transactionId: String,
+                          completion: @escaping (Result<Payment, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
+        
         let networkService: NetworkService = NormalPaymentNetworkService()
         
         let path = "\(ApiPaths.payments)/\(transactionId)"

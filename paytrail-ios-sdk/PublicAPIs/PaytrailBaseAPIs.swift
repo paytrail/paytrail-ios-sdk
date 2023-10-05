@@ -14,9 +14,11 @@ public protocol PaytrailBaseAPIs {
 extension PaytrailBaseAPIs {
     public static func validateCredentials(merchantId: String, secret: String, place: String = #function) -> Bool {
         guard !merchantId.isEmpty && !secret.isEmpty else {
-            PTLogger.log(message: "Merchant credentials not given, abort \(place) API call", level: .error)
+            PTLogger.log(message: "Merchant credentials not given, abort \(place) API call.", level: .error)
             return false
         }
+        
+        PTLogger.log(message: "Merchant credentials found, calling \(place) API.", level: .debug)
         return true
     }
 }

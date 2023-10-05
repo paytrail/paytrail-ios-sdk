@@ -34,7 +34,7 @@ public enum PaymentAuthorizationType: String {
     case charge
 }
 
-public class PaytrailCardTokenAPIs {
+public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     
     /// initiateCardTokenizationRequest API to create an add-card-form request
     /// - Parameters:
@@ -44,12 +44,16 @@ public class PaytrailCardTokenAPIs {
     ///   - callbackUrls: Callback Urls (optional) after add-card succeeded or failed
     ///   - language: The preferred language to load the add-card form, default EN
     /// - Returns: add-card-form URLRequest
-    public class func initiateCardTokenizationRequest(of merchantId: String,
-                                                secret: String,
+    public class func initiateCardTokenizationRequest(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                                                      secret: String = PaytrailMerchant.shared.secret,
                                                 redirectUrls: CallbackUrls,
                                                 callbackUrls: CallbackUrls? = nil,
                                                 language: Language = .en) -> URLRequest?
     {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return nil
+        }
         
         let addCardTokenEndpoint: String = ApiPaths.tokenization + ApiPaths.addCard
 
@@ -106,9 +110,15 @@ public class PaytrailCardTokenAPIs {
     ///   - merchantId: merchantId, i.e. account
     ///   - secret: merchant secret
     ///   - completion: Result<TokenizationRequestResponse, Error>
-    public class func getToken(of tokenizedId: String, merchantId: String, secret: String,  completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
+    public class func getToken(tokenizedId: String, 
+                               merchantId: String = PaytrailMerchant.shared.merchantId,
+                               secret: String = PaytrailMerchant.shared.secret,
+                               completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
         
-        // TODO: use another service
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
+        
         let networkService: NetworkService = NormalPaymentNetworkService()
         
         let headers = [
@@ -143,12 +153,16 @@ public class PaytrailCardTokenAPIs {
     ///   - transactionType: PaymentTransactionType, can be CIT or MIT
     ///   - authorizationType: PaymentAuthorizationType, can be 'authorizationHold' or 'charge'
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func createTokenPayment(of merchantId: String,
-                            secret: String,
+    public class func createTokenPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                            secret: String = PaytrailMerchant.shared.secret,
                             payload: PaymentRequestBody,
                             transactionType: PaymentTransactionType,
                             authorizationType: PaymentAuthorizationType,
                             completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
         
         let networkService: NetworkService = TokenPaymentNetworkService()
         
@@ -186,11 +200,16 @@ public class PaytrailCardTokenAPIs {
     ///   - transactionId: onhold transactionId
     ///   - payload: onhold payment payload which can be different than the original
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func commitAuthorizationHold(of merchantId: String,
-                                 secret: String,
+    public class func commitAuthorizationHold(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                                 secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  payload: PaymentRequestBody,
                                  completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
+        
         let networkService: NetworkService = TokenPaymentNetworkService()
         
         let path = ApiPaths.payments + "/\(transactionId)" + ApiPaths.tokenCommit
@@ -226,10 +245,14 @@ public class PaytrailCardTokenAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: onhold transactionId
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func revertAuthorizationHold(of merchantId: String,
-                                 secret: String,
+    public class func revertAuthorizationHold(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                                 secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
         
         let networkService: NetworkService = TokenPaymentNetworkService()
         
@@ -265,10 +288,15 @@ public class PaytrailCardTokenAPIs {
     ///   - secret: merchant secret
     ///   - payload: paylaod data, i.e. PaymentRequestBody
     ///   - completion: Result<PayAndAddCardRequestResponse, Error>) -> Void
-    public class func payAndAddCard(of merchantId: String,
-                       secret: String,
+    public class func payAndAddCard(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                       secret: String = PaytrailMerchant.shared.secret,
                        payload: PaymentRequestBody,
                        completion: @escaping (Result<PayAndAddCardRequestResponse, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
+        
         let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
