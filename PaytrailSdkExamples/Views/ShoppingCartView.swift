@@ -90,6 +90,7 @@ struct ShoppingCartView: View {
         }
         .onAppear {
             PTLogger.globalLevel = .debug
+            PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         }
     }
 }

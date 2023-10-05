@@ -46,6 +46,8 @@ public class PaytrailPaymentAPIs {
     /// - Parameters:
     ///   - url: Payment provider image url
     ///   - completion: Result<UIImage, Error>) -> Void
+    ///
+    // TODO: repalce this with AsyncImage
     public class func renderPaymentProviderImage(by url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
         let imageRequest = PaymentImageDataRequest(url: url)
         let networkService: NetworkService = DefaultNetworkService()

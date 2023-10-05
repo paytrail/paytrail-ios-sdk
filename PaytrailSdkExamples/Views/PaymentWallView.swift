@@ -30,7 +30,7 @@ struct PaymentWallView: View {
     @State private var groups: [PaymentMethodGroup] = []
     @State private var providerImages: [UIImage] = []
     @StateObject var viewModel = ViewModel()
-    private let merchant = PaytrailMerchant(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+    private let merchant = PaytrailMerchant.shared
     @State private var showPaymentResultView: Bool = false
     @State private var showProgressView: Bool = false
     
