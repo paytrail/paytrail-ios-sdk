@@ -8,15 +8,23 @@
 import Foundation
 import UIKit
 
-public class PaytrailPaymentAPIs {
-        
+public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
+    
     /// createPayment API to get payments
     /// - Parameters:
     ///   - merchantId: merchant ID, or aggregate merchant ID in shop-in-shops
     ///   - secret: merchant secret key, or aggregate merchant serect key in shop-in-shops
     ///   - payload: paylaod data,see PaymentRequestBody
     ///   - completion: Result<PaymentRequestResponse, Error>
-    public class func createPayment(of merchantId: String, secret: String, payload: PaymentRequestBody, completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+    public class func createPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+                                    secret: String = PaytrailMerchant.shared.secret,
+                                    payload: PaymentRequestBody,
+                                    completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+        
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
+        
         let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
@@ -106,6 +114,10 @@ public class PaytrailPaymentAPIs {
     ///   - language: Preferred language, default Language.en
     ///   - completion: Result<PaymentMethodGroupDataResponse, Error>
     public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
+                
+        guard validateCredentials(merchantId: merchantId, secret: secret) else {
+            return
+        }
         
         let networkService: NetworkService = NormalPaymentNetworkService()
         

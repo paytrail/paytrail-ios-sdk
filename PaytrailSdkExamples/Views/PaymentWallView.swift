@@ -258,7 +258,7 @@ struct PaymentWallView: View {
                             savedCards = viewModel.savedCards
                             
                             // Create a normal payment on view appearing
-                            PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
+                            PaytrailPaymentAPIs.createPayment(payload: createPayload(), completion: { result in
                                 switch result {
                                 case .success(let data):
                                     providers = data.providers ?? []

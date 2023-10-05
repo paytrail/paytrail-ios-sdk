@@ -191,6 +191,9 @@
 		DC501FCA2A263D3F004AD49D /* HMACCaculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FC92A263D3F004AD49D /* HMACCaculator.swift */; };
 		DC501FCB2A263D3F004AD49D /* HMACCaculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FC92A263D3F004AD49D /* HMACCaculator.swift */; };
 		DC501FCC2A263D3F004AD49D /* HMACCaculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501FC92A263D3F004AD49D /* HMACCaculator.swift */; };
+		DC5E92122ACEC601007BE013 /* PaytrailBaseAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5E92112ACEC601007BE013 /* PaytrailBaseAPIs.swift */; };
+		DC5E92132ACEC85D007BE013 /* PaytrailBaseAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5E92112ACEC601007BE013 /* PaytrailBaseAPIs.swift */; };
+		DC5E92142ACEC85D007BE013 /* PaytrailBaseAPIs.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC5E92112ACEC601007BE013 /* PaytrailBaseAPIs.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -287,6 +290,7 @@
 		DC501FB32A25FEE2004AD49D /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		DC501FC52A263249004AD49D /* PaymentErrorResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentErrorResponse.swift; sourceTree = "<group>"; };
 		DC501FC92A263D3F004AD49D /* HMACCaculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HMACCaculator.swift; sourceTree = "<group>"; };
+		DC5E92112ACEC601007BE013 /* PaytrailBaseAPIs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaytrailBaseAPIs.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -544,6 +548,7 @@
 				DC501F9E2A24E2EA004AD49D /* PaymentsAPIs */,
 				DC3689172A2E1DD800FB2D71 /* PaytrailMerchant.swift */,
 				DC3689622A43041800FB2D71 /* PaymentDelegate.swift */,
+				DC5E92112ACEC601007BE013 /* PaytrailBaseAPIs.swift */,
 			);
 			path = PublicAPIs;
 			sourceTree = "<group>";
@@ -779,6 +784,7 @@
 				DC36895F2A42FC2800FB2D71 /* DateHandler.swift in Sources */,
 				DC3689572A41BD8200FB2D71 /* PaytrailCardTokenAPIs.swift in Sources */,
 				DC3689932A4AD8EE00FB2D71 /* CreateTokenPaymentDataRequest.swift in Sources */,
+				DC5E92122ACEC601007BE013 /* PaytrailBaseAPIs.swift in Sources */,
 				DC501FC62A263249004AD49D /* PaymentErrorResponse.swift in Sources */,
 				DC3689982A4ADA0000FB2D71 /* TokenPaymentRequestResponse.swift in Sources */,
 				DC501F9C2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
@@ -851,6 +857,7 @@
 				DC3689752A431D8E00FB2D71 /* CardTokenizationRequest.swift in Sources */,
 				DC36894B2A3C9AE600FB2D71 /* Currency.swift in Sources */,
 				DC501F3D2A1FA3C1004AD49D /* NetworkService.swift in Sources */,
+				DC5E92132ACEC85D007BE013 /* PaytrailBaseAPIs.swift in Sources */,
 				DC3689992A4ADA0000FB2D71 /* TokenPaymentRequestResponse.swift in Sources */,
 				DC501FCB2A263D3F004AD49D /* HMACCaculator.swift in Sources */,
 				DC078A552AB1C62A004284FA /* PaymentProvidersVCView.swift in Sources */,
@@ -965,6 +972,7 @@
 				DC3689432A3C95A800FB2D71 /* GetPaymentAPI.swift in Sources */,
 				DC3689482A3C96B300FB2D71 /* Payment.swift in Sources */,
 				DC501FBE2A2606E3004AD49D /* CustomProvider.swift in Sources */,
+				DC5E92142ACEC85D007BE013 /* PaytrailBaseAPIs.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
