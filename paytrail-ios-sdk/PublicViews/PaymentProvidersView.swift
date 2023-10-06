@@ -14,17 +14,11 @@ import SwiftUI
 ///
 public struct PaymentProvidersView: View {
     
-    /// A PaymentMethodProvider with UIImage
-    struct ProviderWithImage: Hashable {
-        let provider: PaymentMethodProvider
-        let image: UIImage
-    }
-    
     /// PaytrailThemes - the current theme for the view, default .normal()
     public let themes: PaytrailThemes
     
-    /// Binding<[PaymentMethodProvider]> needed for the view
-    @Binding public var providers: [PaymentMethodProvider]
+    /// PaymentMethodProvider array needed for the view
+    public let providers: [PaymentMethodProvider]
     
     /// PaymentMethodGroup array needed for the view
     public let groups: [PaymentMethodGroup]
@@ -32,14 +26,19 @@ public struct PaymentProvidersView: View {
     /// Current selected payment Binding<URLRequest?> if any
     @Binding public var currentPaymentRequest: URLRequest?
     
-    /// ProviderWithImage array, loaded once the providers data is provided
-    @State private var providersWithImages: [ProviderWithImage] = []
+    /// PaymentProvidersVCViewDelegate taking care of payment provider selections, set it for UIViewController only
+    public let delegate: PaymentProvidersViewDelegate?
     
-    public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: Binding<[PaymentMethodProvider]>, groups: [PaymentMethodGroup], paymentRequest: Binding<URLRequest?>) {
+    public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()),
+                providers: [PaymentMethodProvider],
+                groups: [PaymentMethodGroup],
+                paymentRequest: Binding<URLRequest?>?,
+                delegate: PaymentProvidersViewDelegate? = nil) {
         self.themes = themes
-        self._providers = providers
+        self.providers = providers
         self.groups = groups
-        self._currentPaymentRequest = paymentRequest
+        self._currentPaymentRequest = paymentRequest ?? .constant(nil)
+        self.delegate = delegate
     }
     
     private struct Constants {
@@ -50,35 +49,25 @@ public struct PaymentProvidersView: View {
         static let providerImagePadding: CGFloat = 8
     }
     
-    private func loadImages() {
-        for provider in providers {
-            PaytrailPaymentAPIs.renderPaymentProviderImage(by: provider.icon ?? "") { result in
-                switch result {
-                case .success(let success):
-                    providersWithImages.append(ProviderWithImage(provider: provider, image: success))
-                case .failure(let failure):
-                    PTLogger.log(message: "Render image failure: \(failure.localizedDescription)", level: .warning)
-                    let defaultImage = UIImage(systemName: "exclamationmark.square") ?? UIImage()
-                    providersWithImages.append(ProviderWithImage(provider: provider, image: defaultImage))
-                }
-            }
-        }
-    }
-    
     public var body: some View {
         VStack(alignment: .leading, spacing: 30) {
             ForEach(groups, id: \.self) { group in
                 GroupedGridView(headerTitle: group.name ?? "", hasDivider: false, themes: themes) {
-                    ForEach(providersWithImages, id: \.self) { providerWithImage in
-                        if providerWithImage.provider.group == group.id {
+                    ForEach(providers, id: \.icon) { provider in
+                        if provider.group == group.id {
                             Button {
-                                guard let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: providerWithImage.provider) else { return }
+                                guard let request = PaytrailPaymentAPIs.initiatePaymentRequest(from: provider) else { return }
                                 currentPaymentRequest = request
+                                delegate?.onPaymentRequestSelected(of: request)
                             } label: {
-                                Image(uiImage: providerWithImage.image)
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fit)
-                                    .padding(Constants.providerImagePadding)
+                                AsyncImage(url: URL(string: provider.icon ?? ""), scale: 0.5) {
+                                    image in
+                                    image.resizable()
+                                } placeholder: {
+                                    ProgressView()
+                                }
+                                .aspectRatio(contentMode: .fit)
+                                .padding(Constants.providerImagePadding)
                             }
                             .frame(width: themes.itemSize, height: Constants.providerHeight)
                             .background(
@@ -98,15 +87,12 @@ public struct PaymentProvidersView: View {
             }
             
         }
-        .onChange(of: providers) { _ in
-            loadImages()
-        }
     }
 }
 
 struct PaymentProvidersView_Previews: PreviewProvider {
     static var previews: some View {
-        PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: .constant([]), groups: [], paymentRequest: .constant(nil))
+        PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal()), providers: [], groups: [], paymentRequest: .constant(nil))
     }
 }
 

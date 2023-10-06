@@ -35,9 +35,9 @@ extension UIViewController {
     ///   - groups: [PaymentMethodGroup]
     ///   - delegate: PaymentProvidersVCViewDelegate
     /// - Returns: A loaded payment providers UIView. Layout constraints need to be given in order to load it properly.
-    public func loadPaymentProvidersUIView(with themes: PaytrailThemes, providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate) -> UIView {
+    public func loadPaymentProvidersUIView(with themes: PaytrailThemes, providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersViewDelegate) -> UIView {
         
-        let providersController = UIHostingController(rootView: PaymentProvidersVCView(themes: themes, providers: providers, groups: groups, delegate: delegate))
+        let providersController = UIHostingController(rootView: PaymentProvidersView(themes: themes, providers: providers, groups: groups, paymentRequest: nil, delegate: delegate))
         let providerView = providersController.view!
         providerView.translatesAutoresizingMaskIntoConstraints = false
         self.addChild(providersController)

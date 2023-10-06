@@ -8,11 +8,11 @@
 import SwiftUI
 
 
-/// PaymentProvidersVCViewDelegate
+/// PaymentProvidersViewDelegate
 ///
 /// A public protocol for PaymentProvidersVCView handling subsequent payment request
 ///
-public protocol PaymentProvidersVCViewDelegate {
+public protocol PaymentProvidersViewDelegate {
     
     /// onPaymentRequestSelected
     /// - Parameter request: current selected payment provider URLRequest
@@ -41,12 +41,12 @@ struct PaymentProvidersVCView: View {
     let groups: [PaymentMethodGroup]
     
     /// PaymentProvidersVCViewDelegate taking care of payment provider selections
-    let delegate: PaymentProvidersVCViewDelegate? // View delegate for when used in an UIViewController
+    let delegate: PaymentProvidersViewDelegate? // View delegate for when used in an UIViewController
     
     /// ProviderWithImage array, loaded once the providers data is provided
     @State private var providersWithImages: [ProviderWithImage] = []
     
-    init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersVCViewDelegate?) {
+    init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()), providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersViewDelegate?) {
         self.themes = themes
         self.providers = providers
         self.groups = groups

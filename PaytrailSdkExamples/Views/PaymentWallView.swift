@@ -150,7 +150,7 @@ struct PaymentWallView: View {
                         
                         ScrollView(showsIndicators: false) {
                             VStack(alignment: .leading) {
-                                PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: PaytrailThemes.ItemSize.large),providers: $providers, groups: groups, paymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
+                                PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: PaytrailThemes.ItemSize.large),providers: providers, groups: groups, paymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
                                     viewModel.currentPaymentRequest = request
                                 }))
                             }
