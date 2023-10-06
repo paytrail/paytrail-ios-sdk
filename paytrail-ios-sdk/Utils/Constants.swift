@@ -22,6 +22,8 @@ public struct ParameterKeys {
     static let checkoutStatus = "checkout-status"
     static let language = "language"
     static let signature = "signature"
+    static let amount = "amount"
+    static let groups = "groups"
 }
 
 public struct CheckoutAlgorithm {

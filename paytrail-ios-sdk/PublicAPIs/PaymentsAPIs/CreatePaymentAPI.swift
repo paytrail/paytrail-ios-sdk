@@ -28,18 +28,12 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
         let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId
-        ]
+        let headers = getApiHeaders(merchantId, method: CheckoutMethod.post)
         
         let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        let signatureHeader = [ParameterKeys.signature: signature]
         
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
+        let dataRequest: CreatePaymentDataRequest = CreatePaymentDataRequest(headers: headers, body: body, specialHeader: signatureHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
@@ -120,26 +114,20 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
         }
         
         let networkService: NetworkService = NormalPaymentNetworkService()
-        
         let path = ApiPaths.getPaymentGroupedProviders
-        let headers = [
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.get,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutNonce: UUID().uuidString
-        ]
+        
+        let headers = getApiHeaders(merchantId, method: CheckoutMethod.get)
         
         let signature = hmacSignature(secret: secret, headers: headers, body: nil)
-        
+        let signatureHeader = [ParameterKeys.signature: signature]
+
         let queryItems = [
-            "amount": "\(amount)",
-            "groups": groups.map { $0.rawValue }.joined(separator: ","),
-            "language": language.rawValue
+            ParameterKeys.amount: "\(amount)",
+            ParameterKeys.groups: groups.map { $0.rawValue }.joined(separator: ","),
+            ParameterKeys.language: language.rawValue
         ]
         
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: GetGroupedPaymentProvidersRequest = GetGroupedPaymentProvidersRequest(queryItems: queryItems, path: path, headers: headers, specialHeader: speicalHeader)
+        let dataRequest: GetGroupedPaymentProvidersRequest = GetGroupedPaymentProvidersRequest(queryItems: queryItems, path: path, headers: headers, specialHeader: signatureHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):

@@ -25,21 +25,14 @@ public extension PaytrailPaymentAPIs {
         }
         
         let networkService: NetworkService = NormalPaymentNetworkService()
-        
         let path = "\(ApiPaths.payments)/\(transactionId)"
-        let headers = [
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.get,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutTransactionId: transactionId,
-            ParameterKeys.checkoutNonce: UUID().uuidString
-        ]
+        let uniqueFields = [ParameterKeys.checkoutTransactionId: transactionId]
+        let headers = getApiHeaders(merchantId, uniqueFields: uniqueFields, method: CheckoutMethod.get)
         
         let signature = hmacSignature(secret: secret, headers: headers, body: nil)
         
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: GetPaymentDataRequest = GetPaymentDataRequest(path: path, headers: headers, specialHeader: speicalHeader)
+        let signatureHeader = [ParameterKeys.signature: signature]
+        let dataRequest: GetPaymentDataRequest = GetPaymentDataRequest(path: path, headers: headers, specialHeader: signatureHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
