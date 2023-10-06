@@ -29,11 +29,11 @@ extension UIViewController {
     }
     
     
-    /// For loading a PaymentProvidersVCView (SwiftUI view) in an UIViewController
+    /// For loading a PaymentProvidersView (SwiftUI view) in an UIViewController
     /// - Parameters:
     ///   - providers: [PaymentMethodProvider]
     ///   - groups: [PaymentMethodGroup]
-    ///   - delegate: PaymentProvidersVCViewDelegate
+    ///   - delegate: PaymentProvidersViewDelegate
     /// - Returns: A loaded payment providers UIView. Layout constraints need to be given in order to load it properly.
     public func loadPaymentProvidersUIView(with themes: PaytrailThemes, providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersViewDelegate) -> UIView {
         

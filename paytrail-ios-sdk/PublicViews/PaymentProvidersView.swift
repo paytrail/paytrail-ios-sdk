@@ -26,7 +26,7 @@ public struct PaymentProvidersView: View {
     /// Current selected payment Binding<URLRequest?> if any
     @Binding public var currentPaymentRequest: URLRequest?
     
-    /// PaymentProvidersVCViewDelegate taking care of payment provider selections, set it for UIViewController only
+    /// PaymentProvidersViewDelegate taking care of payment provider selections, set it for UIViewController only
     public let delegate: PaymentProvidersViewDelegate?
     
     public init(themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()),
