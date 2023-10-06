@@ -10,7 +10,7 @@ import Foundation
 
 /// PaymentRequestResponse
 ///
-/// The response JSON object contains the transaction ID of the payment and list of provider data. MSDK Provide an API 'renderPaymentProviderImage(by:completion:)' for rendering the provider's image. The response also contains a HMAC verification headers and cof-request-id header. Storing or logging the request ID header is advised for possible debug needs.
+/// The response JSON object contains the transaction ID of the payment and list of provider data. The response also contains a HMAC verification headers and cof-request-id header. Storing or logging the request ID header is advised for possible debug needs.
 ///
 public struct PaymentRequestResponse: Codable {
     

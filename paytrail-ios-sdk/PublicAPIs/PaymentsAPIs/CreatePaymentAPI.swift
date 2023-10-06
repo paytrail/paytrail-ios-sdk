@@ -44,25 +44,6 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
         }
     }
     
-    /// renderPaymentProviderImage API to render a provider icon to UIImage
-    /// - Parameters:
-    ///   - url: Payment provider image url
-    ///   - completion: Result<UIImage, Error>) -> Void
-    ///
-    // TODO: repalce this with AsyncImage
-    public class func renderPaymentProviderImage(by url: String, completion: @escaping (Result<UIImage, Error>) -> Void) {
-        let imageRequest = PaymentImageDataRequest(url: url)
-        let networkService: NetworkService = DefaultNetworkService()
-        networkService.request(imageRequest) { result in
-            switch result {
-            case .success(let success):
-                completion(.success(success))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
-    }
-    
     /// initiatePaymentRequest API to create a payment provider URLRequest
     ///
     /// To be called to start a payment flow

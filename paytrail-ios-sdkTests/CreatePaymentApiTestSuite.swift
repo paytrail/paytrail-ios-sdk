@@ -129,43 +129,6 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     }
     
     
-    /// Test renderPaymentProviderImage API success with a valid url
-    func testRenderPaymentProviderImageSuccess() async {
-        let result = await renderPaymentProviderImageAsync(providerImageUrl)
-        switch result {
-        case .success(let success):
-            XCTAssertFalse(success.size.equalTo(CGSize.zero))
-        case .failure(let failure):
-            XCTFail("Render provider image failed: \(failure.localizedDescription)")
-        }
-    }
-    
-    /// Test renderPaymentProviderImage API with an invalid url
-    func testRenderPaymentProviderImageFailure() async {
-        let result = await renderPaymentProviderImageAsync(providerImageUrlInvalid)
-        switch result {
-        case .success(let success):
-            XCTAssertTrue(success.size.equalTo(CGSize.zero))
-        case .failure(let failure):
-            print(failure)
-            let paymentError = failure as? PaytrailGenericError
-            XCTAssert(paymentError?.payload?.code == -1002, "Unsupported URL")
-        }
-    }
-    
-    /// Test renderPaymentProviderImage API with an inaccessible url
-    func testRenderPaymentProviderImageDecodeFailure() async {
-        let result = await renderPaymentProviderImageAsync(providerImageUrlNotFound)
-        switch result {
-        case .success(let success):
-            XCTAssertTrue(success.size.equalTo(CGSize.zero))
-        case .failure(let failure):
-            print(failure)
-            let paymentError = failure as? PaytrailGenericError
-            XCTAssert(paymentError?.code == 403, "Invalid image json")
-        }
-    }
-    
     /// Test initiatePaymentRequest API with a valid URLRequest return
     func testInitiatePaymentRequestValid() {
         guard let provider = provider else {
@@ -191,14 +154,6 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, Error> {
         await withCheckedContinuation({ continuation in
             PaytrailPaymentAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
-                continuation.resume(returning: result)
-            }
-        })
-    }
-    
-    private func renderPaymentProviderImageAsync(_ url: String) async -> Result<UIImage, Error> {
-        await withCheckedContinuation({ continuation in
-            PaytrailPaymentAPIs.renderPaymentProviderImage(by: url) { result in
                 continuation.resume(returning: result)
             }
         })
