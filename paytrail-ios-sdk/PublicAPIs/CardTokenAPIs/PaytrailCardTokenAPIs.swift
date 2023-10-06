@@ -67,18 +67,15 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
             return nil
         }
         
-        var parameters: [String: String] = [
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
+        let uniqueFields = [
             ParameterKeys.checkoutRedirectSuccessUrl: redirectUrls.success,
             ParameterKeys.checkoutRedirectCancelUrl: redirectUrls.cancel,
             ParameterKeys.checkoutCallbackSuccessUrl: callbackUrls?.success ?? "",
             ParameterKeys.checkoutCallbackCancelUrl: callbackUrls?.cancel ?? "",
             ParameterKeys.language: language.rawValue
         ]
+        
+        var parameters = getApiHeaders(merchantId, uniqueFields: uniqueFields, method: CheckoutMethod.post)
         
         let signature = hmacSignature(secret: secret, headers: parameters, body: nil)
         parameters[ParameterKeys.signature] = signature
@@ -120,20 +117,15 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
         }
         
         let networkService: NetworkService = NormalPaymentNetworkService()
-        
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutTokenizationId: tokenizedId
-        ]
-        
-        let signature = hmacSignature(secret: secret, headers: headers, body: nil)
         let path = "\(ApiPaths.tokenization)/\(tokenizedId)"
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: CardTokenizationRequest = CardTokenizationRequest(path: path, headers: headers, specialHeader: speicalHeader)
+
+        let uniqueFields = [ParameterKeys.checkoutTokenizationId: tokenizedId]
+        let headers = getApiHeaders(merchantId, uniqueFields: uniqueFields, method: CheckoutMethod.post)
+                
+        let signature = hmacSignature(secret: secret, headers: headers, body: nil)
+        let signatureHeader = [ParameterKeys.signature: signature]
+        
+        let dataRequest: CardTokenizationRequest = CardTokenizationRequest(path: path, headers: headers, specialHeader: signatureHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
@@ -169,18 +161,12 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
         let path = ApiPaths.paymentsToken + "/\(transactionType.rawValue)/\(authorizationType.rawValue)"
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId
-        ]
+        let headers = getApiHeaders(merchantId, method: CheckoutMethod.post)
         
         let signature = hmacSignature(secret: secret, headers: headers, body: body)
+        let signatureHeader = [ParameterKeys.signature: signature]
         
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader, path: path)
+        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: signatureHeader, path: path)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
@@ -215,19 +201,12 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
         let path = ApiPaths.payments + "/\(transactionId)" + ApiPaths.tokenCommit
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutTransactionId: transactionId
-        ]
-        
+        let uniqueFields = [ParameterKeys.checkoutTransactionId: transactionId]
+        let headers = getApiHeaders(merchantId, uniqueFields: uniqueFields, method: CheckoutMethod.post)
+
         let signature = hmacSignature(secret: secret, headers: headers, body: body)
-        
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: speicalHeader, path: path)
+        let signatureHeader = [ParameterKeys.signature: signature]
+        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: body, specialHeader: signatureHeader, path: path)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
@@ -255,21 +234,15 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
         }
         
         let networkService: NetworkService = TokenPaymentNetworkService()
-        
         let path = ApiPaths.payments + "/\(transactionId)" + ApiPaths.tokenRevert
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId,
-            ParameterKeys.checkoutTransactionId: transactionId
-        ]
+        
+        let uniqueFields = [ParameterKeys.checkoutTransactionId: transactionId]
+        let headers = getApiHeaders(merchantId, uniqueFields: uniqueFields, method: CheckoutMethod.post)
         
         let signature = hmacSignature(secret: secret, headers: headers, body: nil)
+        let signatureHeader = [ParameterKeys.signature: signature]
         
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: nil, specialHeader: speicalHeader, path: path)
+        let dataRequest: CreateTokenPaymentDataRequest = CreateTokenPaymentDataRequest(headers: headers, body: nil, specialHeader: signatureHeader, path: path)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
@@ -300,18 +273,11 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
         let networkService: NetworkService = NormalPaymentNetworkService()
         let body = try? JSONSerialization.data(withJSONObject: jsonEncode(of: payload), options: .prettyPrinted)
         
-        let headers = [
-            ParameterKeys.checkoutAlgorithm: CheckoutAlgorithm.sha256,
-            ParameterKeys.checkoutMethod: CheckoutMethod.post,
-            ParameterKeys.checkoutNonce: UUID().uuidString,
-            ParameterKeys.checkoutTimestamp: getCurrentDateIsoString(),
-            ParameterKeys.checkoutAccount: merchantId
-        ]
+        let headers = getApiHeaders(merchantId, method: CheckoutMethod.post)
         
-        let signature = hmacSignature(secret: secret, headers: headers, body: body)
-        
-        let speicalHeader = [ParameterKeys.signature: signature]
-        let dataRequest: PayAndAddCardDataRequest = PayAndAddCardDataRequest(headers: headers, body: body, specialHeader: speicalHeader)
+        let signature = hmacSignature(secret: secret, headers: headers, body: body)        
+        let signatureHeader = [ParameterKeys.signature: signature]
+        let dataRequest: PayAndAddCardDataRequest = PayAndAddCardDataRequest(headers: headers, body: body, specialHeader: signatureHeader)
         networkService.request(dataRequest) { result in
             switch result {
             case .success(let success):
