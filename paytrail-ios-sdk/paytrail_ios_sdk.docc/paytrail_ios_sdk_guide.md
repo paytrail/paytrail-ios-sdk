@@ -309,8 +309,7 @@ if let request = viewModel.payAndAddCardRequest {
             .ignoresSafeArea()
             .navigationBarTitleDisplayMode(.inline)
                 ...
-            }
-    }
+        }
 }
 ```
 
@@ -328,8 +327,16 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 
 **PaytrailMerchant**
 
- A ``PaytrailMerchant`` with ``merchantId`` and ``secret`` is required for each API call. For *shop-in-shop payment*, a shop-in-shop ``merchantId`` is also required for each purchased item, check out data model ``Item``.
- 
+ A ``PaytrailMerchant`` with ``merchantId`` and ``secret`` is required for each API call. For *shop-in-shop payment*, a shop-in-shop ``merchantId`` is also required for each purchased item, check out data model ``Item`` for more details. It is recommended to create a shared ``PaytrailMerchant`` in the beginning when app launches, ideally in the ``AppDelegate``:
+
+```
+func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
+    ...
+    PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
+    return true
+}
+```
+
  **HMAC Signature**
 
 Each API call has a HMAC SHA256 ``signature`` field signing for autheticaiton, which is calculated from the rest of the HTTP header fields and HTTP request body. An API call will *only succeed* when the HMAC signature passes the verification on services.paytrail.com. 
