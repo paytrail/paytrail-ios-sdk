@@ -62,7 +62,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 ```
 
-### Examples
+## Examples
 
 [Paytrail SDK Examples](https://github.com/paytrail/paytrail-ios-sdk/tree/main/PaytrailSdkExamples) app provides the detailed examples for the usages of the SDK's APIs.
 
