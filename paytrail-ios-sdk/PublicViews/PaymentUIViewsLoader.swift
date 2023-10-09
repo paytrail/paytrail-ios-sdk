@@ -17,9 +17,9 @@ extension UIViewController {
     ///   - merchant: PaytrailMerchant
     ///   - delegate: PaymentDelegate who takes care of PaymentWebView callbacks
     /// - Returns: a loaded payment web UIView. Layout constraints need to be given in order to load it properly.
-    public func loadPaymentUIWebView(from request: URLRequest, merchant: PaytrailMerchant, delegate: PaymentDelegate) -> UIView {
+    public func loadPaymentUIWebView(from request: URLRequest, delegate: PaymentDelegate) -> UIView {
         
-        let paymentWebController = UIHostingController(rootView: PaymentWebView(request: request, delegate: delegate, merchant: merchant))
+        let paymentWebController = UIHostingController(rootView: PaymentWebView(request: request, delegate: delegate))
         let paymentWebview = paymentWebController.view!
         paymentWebview.translatesAutoresizingMaskIntoConstraints = false
         addChild(paymentWebController)

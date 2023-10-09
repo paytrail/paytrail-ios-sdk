@@ -23,9 +23,6 @@ public struct PaymentWebView: UIViewRepresentable {
     /// PaymentDelegate for handling payment reponses
     public let delegate: PaymentDelegate?
     
-    /// Current merchant needed for signature validation
-    public let merchant: PaytrailMerchant
-    
     /// ContentType - normalPayment or addCard for loading and handling each type of view accordingly
     public let contentType: ContentType
     
@@ -34,9 +31,10 @@ public struct PaymentWebView: UIViewRepresentable {
         case addCard
     }
     
-    public init(request: URLRequest, delegate: PaymentDelegate?, merchant: PaytrailMerchant, contentType: ContentType = .normalPayment) {
+    public init(request: URLRequest,
+                delegate: PaymentDelegate?,
+                contentType: ContentType = .normalPayment) {
         self.request = request
-        self.merchant = merchant
         self.delegate = delegate
         self.contentType = contentType
     }
@@ -52,19 +50,17 @@ public struct PaymentWebView: UIViewRepresentable {
     }
     
     public func makeCoordinator() -> WebViewCoordinator {
-        WebViewCoordinator(self, delegate: delegate, merchant: merchant, contentType: contentType)
+        WebViewCoordinator(self, delegate: delegate, contentType: contentType)
     }
     
     public class WebViewCoordinator: NSObject, WKNavigationDelegate {
         let parent: PaymentWebView
         let delegate: PaymentDelegate?
-        let merchant: PaytrailMerchant
         let contentType: ContentType
 
-        init(_ parent: PaymentWebView, delegate: PaymentDelegate?, merchant: PaytrailMerchant, contentType: ContentType) {
+        init(_ parent: PaymentWebView, delegate: PaymentDelegate?, contentType: ContentType) {
             self.parent = parent
             self.delegate = delegate
-            self.merchant = merchant
             self.contentType = contentType
         }
         
@@ -86,7 +82,7 @@ public struct PaymentWebView: UIViewRepresentable {
                         return
                     }
                     
-                    guard let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                    guard let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: PaytrailMerchant.shared.secret, headers: items, body: nil) else {
                         if let _ = items[ParameterKeys.checkoutStatus]  {
                             let result = TokenizationResult(tokenizationId: "", status: .fail, error: PaytrailTokenError(type: .invalidSignature, code: 404))
                             delegate?.onCardTokenizedIdReceived(result)
@@ -104,7 +100,7 @@ public struct PaymentWebView: UIViewRepresentable {
                     guard let status = items[ParameterKeys.checkoutStatus],
                             let transactionId = items[ParameterKeys.checkoutTransactionId],
                             let signature = items[ParameterKeys.signature],
-                            signature == hmacSignature(secret: merchant.secret, headers: items, body: nil) else {
+                          signature == hmacSignature(secret: PaytrailMerchant.shared.secret, headers: items, body: nil) else {
                         if let transactionId = items[ParameterKeys.checkoutTransactionId], let _ = items[ParameterKeys.checkoutStatus]  {
                             PTLogger.log(message: "Signature mismatch, failing payment", level: .error)
                             // Return payment status fail when signatures mismatch

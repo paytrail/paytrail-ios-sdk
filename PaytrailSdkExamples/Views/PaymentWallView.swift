@@ -169,7 +169,7 @@ struct PaymentWallView: View {
                                 if let request = viewModel.currentPaymentRequest {
                                     NavigationView {
                                         // Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling payment callbacks
-                                        PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+                                        PaymentWebView(request: request, delegate: viewModel)
                                             .ignoresSafeArea()
                                             .navigationBarTitleDisplayMode(.inline)
                                             .toolbar {
@@ -190,7 +190,7 @@ struct PaymentWallView: View {
                             if let request = viewModel.addCardRequest {
                                 NavigationView {
                                     // Create PaymentWebView with contentType addCard once addCardRequest is made
-                                    PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .addCard)
+                                    PaymentWebView(request: request, delegate: viewModel, contentType: .addCard)
                                         .ignoresSafeArea()
                                         .navigationBarTitleDisplayMode(.inline)
                                         .toolbar {
@@ -207,7 +207,7 @@ struct PaymentWallView: View {
                             if let request = viewModel.threeDSecureRequest {
                                 NavigationView {
                                     // Load PaymentWebView when there is threeDSecureRequest
-                                    PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+                                    PaymentWebView(request: request, delegate: viewModel)
                                         .ignoresSafeArea()
                                         .navigationBarTitleDisplayMode(.inline)
                                         .toolbar {
