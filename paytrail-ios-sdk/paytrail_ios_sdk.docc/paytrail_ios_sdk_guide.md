@@ -17,7 +17,7 @@
 
 **Payment Views and Components**
 - ``PaymentProvidersView``: a SwiftUI view component for showing the available ``PaymentMethodProvider`` by its representative icon, grouped by ``PaymentMethodGroup``. The view shows each provider in a grid which can be inserted into any SwiftUI view as a component. For the alternative counterpart for 'UIViewController', see ``loadPaymentProvidersUIView(with:groups:delegate:)``
-- ``PaymentWebView``: a SwiftUI view for showing and taking care of a payment web view with the request and responses. For the alternative counterpart for 'UIViewController', see ``loadPaymentUIWebView(from:merchant:delegate:)``
+- ``PaymentWebView``: a SwiftUI view for showing and taking care of a payment web view with the request and responses. For the alternative counterpart for 'UIViewController', see ``loadPaymentUIWebView(from:delegate:)``
 - ``PaytrailThemes``: it takes care of the theming of ``PaymentWebView``, providing the basic themes of the view's fore- and background color customization, group header font size, and provider icon size.
 
 ## Topics
@@ -26,7 +26,7 @@
 
 **Required APIs and Views**  
 
-``createPayment(of:secret:payload:completion:)`` | ``initiatePaymentRequest(from:)`` | ``PaymentProvidersView`` | ``loadPaymentProvidersUIView(with:groups:delegate:)`` | ``PaymentWebView`` | ``loadPaymentUIWebView(from:merchant:delegate:)``
+``createPayment(of:secret:payload:completion:)`` | ``initiatePaymentRequest(from:)`` | ``PaymentProvidersView`` | ``loadPaymentProvidersUIView(with:providers:groups:delegate:)`` | ``PaymentWebView`` | ``loadPaymentUIWebView(from:delegate:)``
 
 **Required Data Models**  
 
@@ -63,7 +63,7 @@ PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: Paytr
 // Load PaymentWebView by the URLRequest and pass a PaymentDelegate for handling a PaymentResult
 if let request = viewModel.currentPaymentRequest {
     NavigationView {
-        PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+        PaymentWebView(request: request, delegate: viewModel)
             .ignoresSafeArea()
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
@@ -193,7 +193,7 @@ ForEach(savedCards, id: \.self) { card in
 .fullScreenCover(isPresented: Binding(get: { viewModel.threeDSecureRequest != nil }, set: { _, _ in }), content: {
     if let request = viewModel.threeDSecureRequest {
         NavigationView {
-            PaymentWebView(request: request, delegate: viewModel, merchant: merchant)
+            PaymentWebView(request: request, delegate: viewModel)
                 .ignoresSafeArea()
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
@@ -305,7 +305,7 @@ Button {
 if let request = viewModel.payAndAddCardRequest {
     NavigationView {
         // Treat pay and add card as normal payment
-        PaymentWebView(request: request, delegate: viewModel, merchant: merchant, contentType: .normalPayment)
+        PaymentWebView(request: request, delegate: viewModel, contentType: .normalPayment)
             .ignoresSafeArea()
             .navigationBarTitleDisplayMode(.inline)
                 ...
@@ -369,12 +369,12 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 
 **Load Payment Providers UIView**
 
-API ``loadPaymentProvidersUIView(with:groups:delegate:)`` returns a grouped providers ``UIView`` which is the exact counterpart of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``: 
+API ``loadPaymentProvidersUIView(with:providers:groups:delegate:)`` returns a grouped providers ``UIView`` which is the exact counterpart of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``: 
 
 ```
 ...
 
-paymentProvidersView = loadPaymentProvidersUIView(with: providers, groups: groups, delegate: self)
+paymentProvidersView = loadPaymentProvidersUIView(providers: providers, groups: groups, delegate: self)
 
 NSLayoutConstraint.activate([
     paymentProvidersView.leftAnchor.constraint(equalTo: self.view.leftAnchor, constant: providersViewLeftConstraint),
@@ -386,12 +386,12 @@ NSLayoutConstraint.activate([
 
 **Load Payment Web View**
 
-API ``loadPaymentUIWebView(from:merchant:delegate:)`` returns a payment web view ``UIView`` which wraps the SwiftUI view of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``:
+API ``loadPaymentUIWebView(from:delegate:)`` returns a payment web view ``UIView`` which wraps the SwiftUI view of ``PaymentProvidersView``. To use it in an ``UIViewController``, a client app only needs to set view's ``NSLayoutConstraint``:
 
 ```
 ...
 
-paymentWebview = loadPaymentUIWebView(from: request, merchant: merchant, delegate: self)
+paymentWebview = loadPaymentUIWebView(from: request, delegate: self)
 
 // A web view by default takes the whole of its parent view
 NSLayoutConstraint.activate([

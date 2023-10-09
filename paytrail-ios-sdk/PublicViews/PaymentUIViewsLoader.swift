@@ -14,7 +14,6 @@ extension UIViewController {
     /// For loading a PaymentWebView (SwiftUI view) in an UIViewController.
     /// - Parameters:
     ///   - request: URLRequest of the PaymentWebView
-    ///   - merchant: PaytrailMerchant
     ///   - delegate: PaymentDelegate who takes care of PaymentWebView callbacks
     /// - Returns: a loaded payment web UIView. Layout constraints need to be given in order to load it properly.
     public func loadPaymentUIWebView(from request: URLRequest, delegate: PaymentDelegate) -> UIView {
@@ -31,11 +30,15 @@ extension UIViewController {
     
     /// For loading a PaymentProvidersView (SwiftUI view) in an UIViewController
     /// - Parameters:
+    ///   - themes: PaytrailThemes
     ///   - providers: [PaymentMethodProvider]
     ///   - groups: [PaymentMethodGroup]
     ///   - delegate: PaymentProvidersViewDelegate
     /// - Returns: A loaded payment providers UIView. Layout constraints need to be given in order to load it properly.
-    public func loadPaymentProvidersUIView(with themes: PaytrailThemes, providers: [PaymentMethodProvider], groups: [PaymentMethodGroup], delegate: PaymentProvidersViewDelegate) -> UIView {
+    public func loadPaymentProvidersUIView(with themes: PaytrailThemes = PaytrailThemes(viewMode: .normal()),
+                                           providers: [PaymentMethodProvider],
+                                           groups: [PaymentMethodGroup],
+                                           delegate: PaymentProvidersViewDelegate) -> UIView {
         
         let providersController = UIHostingController(rootView: PaymentProvidersView(themes: themes, providers: providers, groups: groups, paymentRequest: nil, delegate: delegate))
         let providerView = providersController.view!
