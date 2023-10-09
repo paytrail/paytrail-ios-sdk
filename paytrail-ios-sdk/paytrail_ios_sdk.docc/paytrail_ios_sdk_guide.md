@@ -40,7 +40,7 @@
 
 ```
 // Create a normal payment
-PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secret, payload: createPayload(), completion: { result in
+PaytrailPaymentAPIs.createPayment(payload: createPayload(), completion: { result in
     switch result {
     case .success(let data):
         // Save providers and groups data
@@ -54,7 +54,7 @@ PaytrailPaymentAPIs.createPayment(of: merchant.merchantId, secret: merchant.secr
 
 ```
 // Create a PaymentProvidersView with providers and group data
-PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: PaytrailThemes.ItemSize.large),providers: $providers, groups: groups, paymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
+PaymentProvidersView(themes: PaytrailThemes(viewMode: .normal(), itemSize: PaytrailThemes.ItemSize.large),providers: providers, groups: groups, paymentRequest: Binding(get: { viewModel.currentPaymentRequest }, set: { request in
     viewModel.currentPaymentRequest = request // Bind payment URLRequest
 }))
 ```
@@ -84,7 +84,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 ### Card Tokenization, aka Add Card
 **Required APIs and Views**  
 
-``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(of:merchantId:secret:completion:)`` | `` PaymentWebView``
+``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(tokenizedId:merchantId:secret:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 
@@ -101,7 +101,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 TextButton(text: "Add card", theme: .fill()) {
     viewModel.clean()
     // 1) Initiate add card request
-    viewModel.addCardRequest = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://client.com/success", cancel: "https://client.com/failure"))
+    viewModel.addCardRequest = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(redirectUrls: CallbackUrls(success: "https://client.com/success", cancel: "https://client.com/failure"))
 }
 ```
 
@@ -123,7 +123,7 @@ func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
 .onChange(of: viewModel.tokenizedId, perform: { newValue in
     guard let newValue = newValue else { return }
     showProgressView = true
-    PaytrailCardTokenAPIs.getToken(of: newValue, merchantId: merchant.merchantId, secret: merchant.secret) { result in
+    PaytrailCardTokenAPIs.getToken(tokenizedId: newValue) { result in
         showProgressView = false
         switch result {
         case .success(let tokenizedCard):
@@ -160,7 +160,7 @@ ForEach(savedCards, id: \.self) { card in
         showProgressView = true
         let payload = createPayload(from: card.token)
         let authType: PaymentAuthorizationType = .charge
-        PaytrailCardTokenAPIs.createTokenPayment(of: merchant.merchantId, secret: merchant.secret, payload: payload, transactionType: .cit, authorizationType: authType) { result in
+        PaytrailCardTokenAPIs.createTokenPayment(payload: payload, transactionType: .cit, authorizationType: authType) { result in
             showProgressView = false
             switch result {
             case .success(let success):
@@ -227,7 +227,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 // Button view to commit an onhold transaction/payment
 Button {
     guard let transacationOnHold = viewModel.transcationOnHold else { return }
-    PaytrailCardTokenAPIs.commitAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+    PaytrailCardTokenAPIs.commitAuthorizationHold(transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
         switch result {
         case .success(let success):
             // Handle commit-on-hold success
@@ -244,7 +244,7 @@ Button {
 // Button view to cancel an onhold transaction/payment
 Button {
     guard let transacationOnHold = viewModel.transcationOnHold else { return }
-    PaytrailCardTokenAPIs.revertAuthorizationHold(of: merchant.merchantId, secret: merchant.secret, transactionId: transacationOnHold.transcationId) { result in
+    PaytrailCardTokenAPIs.revertAuthorizationHold(transactionId: transacationOnHold.transcationId) { result in
         switch result {
         case .success(let success):
             // Handle cancel on-hold payment success
@@ -279,7 +279,7 @@ Button {
 // Button for triggering pay and add card
 Button {
     viewModel.clean()
-    PaytrailCardTokenAPIs.payAndAddCard(of: merchant.merchantId, secret: merchant.secret, payload: createPayload()) { result in
+    PaytrailCardTokenAPIs.payAndAddCard(payload: createPayload()) { result in
         switch result {
         case .success(let success):
             // Handle success here
