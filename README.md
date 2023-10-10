@@ -47,7 +47,7 @@ Branch main
 
 ## Get Started
 
-Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``, or in another place before any API is called. You can also turn on the SDK's debug logging for the ease of development.
+Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``, or the `main app` in a SwiftUI app before any API is called. You can also turn on the SDK's debug logging for the ease of development.
 
 ```
 import paytrail_ios_sdk
@@ -58,6 +58,25 @@ class AppDelegate: NSObject, UIApplicationDelegate {
         PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
         PTLogger.globalLevel = .debug
         return true
+    }
+}
+```
+
+```
+import SwiftUI
+import paytrail_ios_sdk
+
+@main
+struct PaytrailSdkExamplesApp: App {
+    var body: some Scene {
+        WindowGroup {
+            ShoppingCartView()
+                .preferredColorScheme(.light)
+                .onAppear {
+                    PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
+                    TLogger.globalLevel = .debug
+                }
+        }
     }
 }
 ```
