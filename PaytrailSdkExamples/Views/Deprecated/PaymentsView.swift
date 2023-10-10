@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+@available(*, deprecated, message: "Refer to ``ShoppingCartView`` instead")
 struct PaymentsView: View {
     @Environment(\.presentationMode) var mode: Binding<PresentationMode>
 
