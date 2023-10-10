@@ -8,7 +8,7 @@ Pod::Spec.new do |spec|
                    DESC
   spec.homepage     = "https://github.com/paytrail/paytrail-ios-sdk"
   spec.license      = { :type => "MIT", :file => "LICENSE" }
-  spec.author             = { "shiyuan" => "shiyuan.wang@qvik.fi" }
+  spec.author       = { "shiyuan" => "shiyuan.wang@qvik.fi" }
 
   spec.platform     = :ios
   spec.platform     = :ios, "15.0"
