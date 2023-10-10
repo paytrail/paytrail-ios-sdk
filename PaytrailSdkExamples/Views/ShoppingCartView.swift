@@ -88,10 +88,6 @@ struct ShoppingCartView: View {
             .background(Color("lightGray"))
             .navigationBarHidden(true)
         }
-        .onAppear {
-            PTLogger.globalLevel = .debug
-            PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
-        }
     }
 }
 

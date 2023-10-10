@@ -13,6 +13,10 @@ struct PaytrailSdkExamplesApp: App {
         WindowGroup {
             ShoppingCartView()
                 .preferredColorScheme(.light)
+                .onAppear {
+                    PTLogger.globalLevel = .debug
+                    PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+                }
         }
     }
 }
