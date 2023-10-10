@@ -27,7 +27,7 @@ pod 'paytrail-ios-sdk', git: 'https://github.com/paytrail/paytrail-ios-sdk.git'
 You can also *specify the branch* to install from
 
 ```
-pod 'paytrail-ios-sdk', :git => 'https://github.com/paytrail/paytrail-ios-sdk.git', :branch => 'feature/documentation'
+pod 'paytrail-ios-sdk', :git => 'https://github.com/paytrail/paytrail-ios-sdk.git', :branch => 'fixes/beta1'
 ```
 
 ### Swift Package Manager
@@ -47,25 +47,21 @@ Branch main
 
 ## Get Started
 
-Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``, or the `main app` in a SwiftUI app before any API is called. You can also turn on the SDK's debug logging for the ease of development.
+Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``: 
 
 ```
-import paytrail_ios_sdk
-
 class AppDelegate: NSObject, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         ...
         PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
-        PTLogger.globalLevel = .debug
+        PTLogger.globalLevel = .debug // Enable SDK debug logging
         return true
     }
 }
 ```
 
+Or in the *main app* in a SwiftUI app before any API is called: 
 ```
-import SwiftUI
-import paytrail_ios_sdk
-
 @main
 struct PaytrailSdkExamplesApp: App {
     var body: some Scene {
@@ -74,7 +70,7 @@ struct PaytrailSdkExamplesApp: App {
                 .preferredColorScheme(.light)
                 .onAppear {
                     PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
-                    TLogger.globalLevel = .debug
+                    TLogger.globalLevel = .debug // Enable SDK debug logging
                 }
         }
     }
