@@ -1,8 +1,8 @@
-# paytrail-ios-sdk
+# Paytrail iOS SDK
 
 ## Introduction
 
-Paytrail iOS SDK is basically made for the ease of any developer who wants to use the Paytrail [Web APIs](https://docs.paytrail.com/#/?id=paytrail-payment-api) in their native iOS project. The SDK encapsulates the major features of **create a normal payment**, **save a payment card token**, and **pay & add card**.
+The Paytrail iOS SDK is designed to streamline the integration of Paytrail payment service [Web APIs](https://docs.paytrail.com/#/?id=paytrail-payment-api) for developers working on native iOS projects. The SDK encapsulates the major features of **create a normal payment**, **save a payment card token**, and **pay & add card**.
 
 For the SDK's APIs guide, please check out [Paytrail iOS SDK Guide](paytrail-ios-sdk/paytrail_ios_sdk.docc/paytrail_ios_sdk_guide.md).
 
