@@ -1,4 +1,4 @@
-# ``paytrail_ios_sdk Guide [Draft 0.1]``
+# ``paytrail_ios_sdk Guide``
 
 **Paytrail_ios_sdk** is a framework created to incapsulate the Paytrail web APIs for the iOS mobile development so that developers can easily integrate the Paytrail payment solutions without the need of creating the incapsulation of their own.
 
