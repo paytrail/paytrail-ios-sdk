@@ -269,7 +269,7 @@ struct PaymentWallView: View {
                                     print(contentText)
                                 case .failure(let error):
                                     // TODO: handel creatPayment error
-                                    print(error)
+                                    print(error.description)
                                 }
                             })
                         }

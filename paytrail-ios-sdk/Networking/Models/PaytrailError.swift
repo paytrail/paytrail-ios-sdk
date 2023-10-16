@@ -29,9 +29,38 @@ public protocol PaytrailError: Error {
 }
 
 extension PaytrailError {
-    var description: String {
+    public var description: String {
         "PaytrailError: \(type.rawValue), code: \(String(code ?? 404))"
     }
+}
+
+public class PTError: Error {
+    public typealias T = Codable
+    public let type: PaytrialErrorType
+    public let code: Int?
+    public let message: String?
+    public let payload: T?
+    public var description: String {
+        "PaytrailError - type: \(type.rawValue), code: \(String(describing: code)), message: \(message ?? "")"
+    }
+    
+    public init(type: PaytrialErrorType, 
+                code: Int?,
+                message: String?,
+                payload: T? = nil) {
+        self.type = type
+        self.code = code
+        self.message = message
+        self.payload = payload
+    }
+}
+
+public class PTTokenError: PTError {
+    public typealias T = TokenPaymentThreeDsReponse
+}
+
+public class PTPaymentError: PTError {
+    public typealias T = PaymentErrorResponse
 }
 
 
@@ -57,7 +86,9 @@ public enum PaytrialErrorType: String {
 ///
 /// PaytrailGenericError data model, representing a generic error
 ///
-public struct PaytrailGenericError: PaytrailError {
+public struct PaytrailGenericError: PaytrailError, Error {
+    
+    
     public typealias Payload = NSError
     public var type: PaytrialErrorType
     public var code: Int?
@@ -73,7 +104,7 @@ public struct PaytrailGenericError: PaytrailError {
 ///
 /// PaytrailPaymentError data model, representing a payment error
 ///
-public struct PaytrailPaymentError: PaytrailError {
+public struct PaytrailPaymentError: PaytrailError, Error {
     public typealias Payload = PaymentErrorResponse
     public var type: PaytrialErrorType
     public var code: Int?
@@ -88,7 +119,7 @@ public struct PaytrailPaymentError: PaytrailError {
 ///
 /// PaytrailTokenError data model, representing a token payment error
 ///
-public struct PaytrailTokenError: PaytrailError {
+public struct PaytrailTokenError: PaytrailError, Error {
     public typealias Payload = TokenPaymentThreeDsReponse
     public var type: PaytrialErrorType
     public var code: Int?

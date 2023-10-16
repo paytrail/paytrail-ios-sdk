@@ -19,7 +19,7 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
     public class func createPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
                                     secret: String = PaytrailMerchant.shared.secret,
                                     payload: PaymentRequestBody,
-                                    completion: @escaping (Result<PaymentRequestResponse, Error>) -> Void) {
+                                    completion: @escaping (Result<PaymentRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return

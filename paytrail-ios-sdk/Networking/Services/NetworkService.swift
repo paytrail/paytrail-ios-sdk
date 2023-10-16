@@ -8,13 +8,14 @@
 import Foundation
 
 protocol NetworkService {
-    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void)
+    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PTError>) -> Void)
 }
 
 extension NetworkService {
-    func createUrlRequet<Request: DataRequest>(from request: Request) -> (URLRequest?, (any PaytrailError)?) {
+    func createUrlRequet<Request: DataRequest>(from request: Request) -> (URLRequest?, PTError?) {
         guard var urlComponent = URLComponents(string: request.url) else {
-            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
+            //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
+            let error = PTError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }
         
@@ -29,7 +30,8 @@ extension NetworkService {
         urlComponent.queryItems = queryItems
         
         guard let url = urlComponent.url else {
-            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
+            //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
+            let error = PTError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }
         
@@ -39,44 +41,5 @@ extension NetworkService {
         urlRequest.allHTTPHeaderFields = request.combinedHeaders
         
         return (urlRequest, nil)
-    }
-}
-
-final class DefaultNetworkService: NetworkService {
-    
-    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, Error>) -> Void) {
-        
-        guard let urlRequest = createUrlRequet(from: request).0 else {
-            let error = createUrlRequet(from: request).1 ?? PaytrailGenericError._default
-            return completion(.failure(error))
-        }
-                
-        URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
-            if let error = error {
-                return completion(.failure(PaytrailGenericError(type: .unknown, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: error as PaytrailGenericError.Payload)))
-            }
-            
-            guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
-            
-                guard let _ = data else {
-                    let error = PaytrailGenericError(type: .unknown, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: nil)
-                    return completion(.failure(error))
-                }
-                
-                return completion(.failure(PaytrailGenericError(type: .unknown, code: (response as? HTTPURLResponse)?.statusCode ?? nil, payload: nil)))
-                
-            }
-            
-            guard let data = data else {
-                return completion(.failure(PaytrailGenericError(type: .unknown, code: response.statusCode, payload: nil)))
-            }
-        
-            do {
-                try completion(.success(request.decode(data)))
-            } catch let error as NSError {
-                completion(.failure(PaytrailGenericError(type: .unknown, code: response.statusCode, payload: error)))
-            }
-        }
-        .resume()
     }
 }

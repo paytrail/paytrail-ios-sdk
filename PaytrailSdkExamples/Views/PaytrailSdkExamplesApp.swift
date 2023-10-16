@@ -15,7 +15,8 @@ struct PaytrailSdkExamplesApp: App {
                 .preferredColorScheme(.light)
                 .onAppear {
                     PTLogger.globalLevel = .debug
-                    PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
+                    // 375917
+                    PaytrailMerchant.create(merchantId: "11", secret: "SAIPPUAKAUPPIAS")
                 }
         }
     }
