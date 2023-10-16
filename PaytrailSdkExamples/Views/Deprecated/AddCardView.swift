@@ -109,13 +109,13 @@ struct AddCardView: View {
                                     case .failure(let failure):
                                         statusString = "Payment failure!\(failure)"
                                         print(failure)
-                                        if let failure = failure as? PaytrailTokenError,
-                                           let threeDSecureUrl = failure.payload?.threeDSecureUrl,
-                                           let url = URL(string: threeDSecureUrl) {
-                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
-                                            let request = URLRequest(url: url)
-                                            threeDSecureRequest = request
-                                        }
+                                        //                                        if let failure = failure as? PaytrailTokenError,
+                                        //                                           let threeDSecureUrl = failure.payload?.threeDSecureUrl,
+                                        //                                           let url = URL(string: threeDSecureUrl) {
+                                        //                                            statusString = "Redirecting to provider 3DS page to finish the payment.."
+                                        //                                            let request = URLRequest(url: url)
+                                        //                                            threeDSecureRequest = request
+                                        //                                        }
                                     }
                                 }
                             } label: {

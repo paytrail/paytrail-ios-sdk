@@ -320,7 +320,7 @@ extension PaymentWallView {
         }
         // Handle payment callbacks
         func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
-            print("payment status changed: \(paymentResult.status.rawValue)")
+            print("New payment result: \(paymentResult)")
             self.paymentResult = paymentResult
             currentPaymentRequest = nil // Exit payment
             threeDSecureRequest = nil

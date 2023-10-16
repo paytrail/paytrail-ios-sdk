@@ -74,7 +74,7 @@ public struct PaymentWebView: UIViewRepresentable {
                 case .addCard:
                     guard let tokenId = items[ParameterKeys.checkoutTokenizationId] else {
                         if let _ = items[ParameterKeys.checkoutStatus] {
-                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PaytrailTokenError(type: .invalidToken, code: 404))
+                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PTError(type: .invalidToken, code: nil, message: "Tokenization id is missing"))
                             delegate?.onCardTokenizedIdReceived(result)
                         }
 
@@ -84,7 +84,7 @@ public struct PaymentWebView: UIViewRepresentable {
                     
                     guard let signature = items[ParameterKeys.signature], signature == hmacSignature(secret: PaytrailMerchant.shared.secret, headers: items, body: nil) else {
                         if let _ = items[ParameterKeys.checkoutStatus]  {
-                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PaytrailTokenError(type: .invalidSignature, code: 404))
+                            let result = TokenizationResult(tokenizationId: "", status: .fail, error: PTError(type: .invalidSignature, code: nil, message: "Signatures mismatch"))
                             delegate?.onCardTokenizedIdReceived(result)
                         }
 
@@ -102,9 +102,9 @@ public struct PaymentWebView: UIViewRepresentable {
                             let signature = items[ParameterKeys.signature],
                           signature == hmacSignature(secret: PaytrailMerchant.shared.secret, headers: items, body: nil) else {
                         if let transactionId = items[ParameterKeys.checkoutTransactionId], let _ = items[ParameterKeys.checkoutStatus]  {
-                            PTLogger.log(message: "Signature mismatch, failing payment", level: .error)
+                            PTLogger.log(message: "Signatures mismatch, failing payment", level: .error)
                             // Return payment status fail when signatures mismatch
-                            let result = PaymentResult(transactionId: transactionId, status: .fail, error: PaytrailPaymentError(type: .invalidSignature, code: 404))
+                            let result = PaymentResult(transactionId: transactionId, status: .fail, error: PTError(type: .invalidSignature, code: nil, message: "Signatures mismatch"))
                             delegate?.onPaymentStatusChanged(result)
                         }
 

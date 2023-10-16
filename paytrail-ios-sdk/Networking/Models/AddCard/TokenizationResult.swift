@@ -21,9 +21,9 @@ public struct TokenizationResult: Equatable {
     public let status: PaymentStatus
     
     /// PaytrailTokenError if any
-    public let error: PaytrailTokenError?
+    public let error: PTError?
     
-    public init(tokenizationId: String, status: PaymentStatus, error: PaytrailTokenError? = nil) {
+    public init(tokenizationId: String, status: PaymentStatus, error: PTError? = nil) {
         self.tokenizationId = tokenizationId
         self.status = status
         self.error = error

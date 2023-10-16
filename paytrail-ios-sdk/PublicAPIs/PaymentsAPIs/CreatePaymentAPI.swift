@@ -88,7 +88,7 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
     ///   - groups: PaymentType of providers to be returned
     ///   - language: Preferred language, default Language.en
     ///   - completion: Result<PaymentMethodGroupDataResponse, Error>
-    public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, Error>) -> Void) {
+    public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, PTError>) -> Void) {
                 
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
