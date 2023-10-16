@@ -107,15 +107,18 @@ struct PaymentWallView: View {
                                                     }
                                                 }
                                             case .failure(let failure):
-                                                print(failure)
-                                                if let failure = failure as? PaytrailTokenError,
-                                                   let threeDSecureUrl = failure.payload?.threeDSecureUrl,
-                                                   let url = URL(string: threeDSecureUrl) {
-                                                    let request = URLRequest(url: url)
-                                                    DispatchQueue.main.async {
-                                                        viewModel.threeDSecureRequest = request
-                                                    }
+                                                switch failure.type {
+                                                case .threeDsPaymentSoftDecline:
+                                                    if let threeDSecureUrl = (failure.payload as? TokenPaymentThreeDsReponse)?.threeDSecureUrl,
+                                                       let url = URL(string: threeDSecureUrl) {
+                                                        let request = URLRequest(url: url)
+                                                        DispatchQueue.main.async {
+                                                            viewModel.threeDSecureRequest = request
+                                                        }}
+                                                default:
+                                                    print(failure.description)
                                                 }
+                                               
                                             }
                                         }
                                     }
@@ -239,7 +242,7 @@ struct PaymentWallView: View {
                                     let tokenizedCard = TokenizedCard(token: success.token, customer: TokenCustomer(networkAddress: success.customer?.networkAddress ?? "", countryCode: success.customer?.countryCode ?? ""), type: success.card?.type ?? "", partialPan: success.card?.partialPan ?? "", expireYear: success.card?.expireYear ?? "", expireMonth: success.card?.expireMonth ?? "", cvcRequired: success.card?.cvcRequired?.rawValue ?? "", bin: success.card?.bin ?? "", funding: success.card?.funding?.rawValue ?? "", countryCode: success.card?.countryCode ?? "", category: success.card?.category?.rawValue ?? "", cardFingerprint: success.card?.cardFingerprint ?? "", panFingerprint: success.card?.panFingerprint ?? "")
                                     viewModel.addCardToDb(tokenizedCard)
                                 case .failure(let failure):
-                                    print(failure)
+                                    print(failure.description)
                                     viewModel.isCardSaved = false
                                 }
                             }
@@ -268,7 +271,7 @@ struct PaymentWallView: View {
                                     "\n\nproviders: \(data.providers?.compactMap { $0.name }.description ?? "")"
                                     print(contentText)
                                 case .failure(let error):
-                                    // TODO: handel creatPayment error
+                                    // Handel creatPayment error if needed
                                     print(error.description)
                                 }
                             })

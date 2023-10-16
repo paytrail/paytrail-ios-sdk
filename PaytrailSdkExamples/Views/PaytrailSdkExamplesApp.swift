@@ -16,7 +16,7 @@ struct PaytrailSdkExamplesApp: App {
                 .onAppear {
                     PTLogger.globalLevel = .debug
                     // 375917
-                    PaytrailMerchant.create(merchantId: "11", secret: "SAIPPUAKAUPPIAS")
+                    PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
                 }
         }
     }

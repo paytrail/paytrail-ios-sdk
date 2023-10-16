@@ -110,7 +110,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     public class func getToken(tokenizedId: String, 
                                merchantId: String = PaytrailMerchant.shared.merchantId,
                                secret: String = PaytrailMerchant.shared.secret,
-                               completion: @escaping (Result<TokenizationRequestResponse, Error>) -> Void) {
+                               completion: @escaping (Result<TokenizationRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
@@ -150,7 +150,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
                             payload: PaymentRequestBody,
                             transactionType: PaymentTransactionType,
                             authorizationType: PaymentAuthorizationType,
-                            completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+                            completion: @escaping (Result<TokenPaymentRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
@@ -190,7 +190,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  payload: PaymentRequestBody,
-                                 completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+                                 completion: @escaping (Result<TokenPaymentRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
@@ -227,7 +227,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     public class func revertAuthorizationHold(of merchantId: String = PaytrailMerchant.shared.merchantId,
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
-                                 completion: @escaping (Result<TokenPaymentRequestResponse, Error>) -> Void) {
+                                 completion: @escaping (Result<TokenPaymentRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
@@ -264,7 +264,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     public class func payAndAddCard(of merchantId: String = PaytrailMerchant.shared.merchantId,
                        secret: String = PaytrailMerchant.shared.secret,
                        payload: PaymentRequestBody,
-                       completion: @escaping (Result<PayAndAddCardRequestResponse, Error>) -> Void) {
+                       completion: @escaping (Result<PayAndAddCardRequestResponse, PTError>) -> Void) {
         
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
