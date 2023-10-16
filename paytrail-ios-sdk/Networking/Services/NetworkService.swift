@@ -8,14 +8,14 @@
 import Foundation
 
 protocol NetworkService {
-    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PTError>) -> Void)
+    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PayTrailError>) -> Void)
 }
 
 extension NetworkService {
-    func createUrlRequet<Request: DataRequest>(from request: Request) -> (URLRequest?, PTError?) {
+    func createUrlRequet<Request: DataRequest>(from request: Request) -> (URLRequest?, PayTrailError?) {
         guard var urlComponent = URLComponents(string: request.url) else {
             //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
-            let error = PTError(type: .invalidEndpint, code: nil, message: nil)
+            let error = PayTrailError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }
         
@@ -31,7 +31,7 @@ extension NetworkService {
         
         guard let url = urlComponent.url else {
             //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
-            let error = PTError(type: .invalidEndpint, code: nil, message: nil)
+            let error = PayTrailError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }
         

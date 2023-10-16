@@ -10,7 +10,7 @@ import Foundation
 
 final class TokenPaymentNetworkService: NetworkService {
     
-    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PTError>) -> Void) {
+    func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PayTrailError>) -> Void) {
     
         //        guard let urlRequest = createUrlRequet(from: request).0 else {
         //            let error = createUrlRequet(from: request).1 ?? PaytrailGenericError._default
@@ -28,7 +28,7 @@ final class TokenPaymentNetworkService: NetworkService {
                 
         URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
             if let error = error {
-                return completion(.failure(PTError(type: .createTokenPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, message: error.localizedDescription)))
+                return completion(.failure(PayTrailError(type: .createTokenPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, message: error.localizedDescription)))
             }
             
             PTLogger.log(message: "Response: \(response.debugDescription)", level: .debug)
@@ -36,7 +36,7 @@ final class TokenPaymentNetworkService: NetworkService {
             guard let response = response as? HTTPURLResponse, 200..<300 ~= response.statusCode else {
                 
                 guard let error = data else {
-                    return completion(.failure(PTError(type: .createTokenPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, message: error?.localizedDescription)))
+                    return completion(.failure(PayTrailError(type: .createTokenPayment, code: (response as? HTTPURLResponse)?.statusCode ?? nil, message: error?.localizedDescription)))
                 }
             
                 do {
@@ -47,25 +47,25 @@ final class TokenPaymentNetworkService: NetworkService {
                     case 403:
                         // 403 - 3DS soft payment decline, the only place we need an error payload
                         let decodedError = try jsonDecode(of: TokenPaymentThreeDsReponse.self, data: error)
-                        return completion(.failure(PTError(type: .threeDsPaymentSoftDecline, code: statusCode, message: nil, payload: decodedError)))
+                        return completion(.failure(PayTrailError(type: .threeDsPaymentSoftDecline, code: statusCode, message: nil, payload: decodedError)))
                     default:
                         let decodedError = try jsonDecode(of: PaymentErrorResponse.self, data: error)
-                        return completion(.failure(PTError(type: .createTokenPayment, code: statusCode, message: decodedError.localizedDescription)))
+                        return completion(.failure(PayTrailError(type: .createTokenPayment, code: statusCode, message: decodedError.localizedDescription)))
                     }
                     
                 } catch let error as NSError {
-                    return completion(.failure(PTError(type: .jsonDecode, code: (response as? HTTPURLResponse)?.statusCode, message: error.localizedDescription)))
+                    return completion(.failure(PayTrailError(type: .jsonDecode, code: (response as? HTTPURLResponse)?.statusCode, message: error.localizedDescription)))
                 }
             }
             
             guard let data = data else {
-                return completion(.failure(PTError(type: .createTokenPayment, code: response.statusCode, message: error?.localizedDescription)))
+                return completion(.failure(PayTrailError(type: .createTokenPayment, code: response.statusCode, message: error?.localizedDescription)))
             }
         
             do {
                 try completion(.success(request.decode(data)))
             } catch let error as NSError {
-                completion(.failure(PTError(type: .jsonDecode, code: response.statusCode, message: error.localizedDescription)))
+                completion(.failure(PayTrailError(type: .jsonDecode, code: response.statusCode, message: error.localizedDescription)))
             }
         }
         .resume()

@@ -10,7 +10,7 @@ import Foundation
 
 /// PaytrailError
 ///
-public class PTError: Error {
+public class PayTrailError: Error {
     public typealias T = Codable
     public let type: PaytrialErrorType
     public let code: Int?

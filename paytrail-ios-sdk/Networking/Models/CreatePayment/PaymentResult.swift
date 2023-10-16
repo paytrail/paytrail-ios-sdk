@@ -21,9 +21,9 @@ public struct PaymentResult: Equatable {
     public let status: PaymentStatus
     
     /// Error of a payment if any
-    public let error: PTError?
+    public let error: PayTrailError?
     
-    public init(transactionId: String, status: PaymentStatus, error: PTError? = nil) {
+    public init(transactionId: String, status: PaymentStatus, error: PayTrailError? = nil) {
         self.transactionId = transactionId
         self.status = status
         self.error = error
