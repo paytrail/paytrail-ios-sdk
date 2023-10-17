@@ -107,9 +107,8 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             XCTAssert(success.transactionId == nil && success.providers == nil)
         case .failure(let failure):
             print(failure)
-            let paymentError = failure as? PaytrailPaymentError
-            let msg = paymentError?.payload?.message ?? ""
-            XCTAssert(paymentError?.code == 401 && msg.lowercased().contains("invalid merchant"))
+            let msg = failure.message ?? ""
+            XCTAssert(failure.code == 401 && msg.lowercased().contains("invalid merchant"))
         }
     }
     
@@ -122,9 +121,8 @@ final class CreatePaymentApiTestSuite: XCTestCase {
             XCTAssert(success.transactionId == nil && success.providers == nil)
         case .failure(let failure):
             print(failure)
-            let paymentError = failure as? PaytrailPaymentError
-            let msg = paymentError?.payload?.message ?? ""
-            XCTAssert(paymentError?.code == 400 && msg.lowercased().contains("validation failed"))
+            let msg = failure.message ?? ""
+            XCTAssert(failure.code == 400 && msg.lowercased().contains("validation failed"))
         }
     }
     
@@ -151,7 +149,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         XCTAssert(request == nil, "Request is nil due to invalid provider data")
     }
     
-    private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, Error> {
+    private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailPaymentAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)

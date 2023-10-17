@@ -47,12 +47,11 @@ final class GetPaymentApiTestSuite: XCTestCase {
             XCTAssert(success.transactionId == nil)
         case .failure(let failure):
             print(failure)
-            let paymentError = failure as? PaytrailPaymentError
-            XCTAssert(paymentError?.code == 404, "Invalid transaction id")
+            XCTAssert(failure.code == 404, "Invalid transaction id")
         }
     }
     
-    private func getPaymentAsync(_ transactionId: String) async -> Result<Payment, Error> {
+    private func getPaymentAsync(_ transactionId: String) async -> Result<Payment, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailPaymentAPIs.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)

@@ -67,8 +67,7 @@ final class CardTokenApiTestSuite: XCTestCase {
             XCTFail("Failing due to invalid tokenized id")
         case .failure(let failure):
             print(failure)
-            let paymentError = failure as? PaytrailPaymentError
-            XCTAssert(paymentError?.code == 400, "Invalid tokenized id")
+            XCTAssert(failure.code == 400, "Invalid tokenized id")
         }
     }
     
@@ -103,8 +102,7 @@ final class CardTokenApiTestSuite: XCTestCase {
             XCTFail("Invalid create token payment success with an invalid payload")
         case .failure(let failure):
             print(failure)
-            let paymentError = failure as? PaytrailPaymentError
-            XCTAssert(paymentError?.type == .createTokenPayment &&  paymentError?.code == 400)
+            XCTAssert(failure.category == .createTokenPayment &&  failure.code == 400)
         }
     }
     
@@ -120,9 +118,8 @@ final class CardTokenApiTestSuite: XCTestCase {
                 XCTFail("Invalid create token payment success with a 3DS token")
             case .failure(let failure):
                 print(failure)
-                let tokenError = failure as? PaytrailTokenError
-                let payload = tokenError?.payload as? TokenPaymentThreeDsReponse
-                XCTAssert(tokenError?.code == 403 && payload?.transactionId != nil && payload?.threeDSecureUrl != nil)
+                let payload = failure.payload as? TokenPaymentThreeDsReponse
+                XCTAssert(failure.code == 403 && payload?.transactionId != nil && payload?.threeDSecureUrl != nil)
             }
         case .failure(let failure):
             print(failure)
@@ -188,8 +185,7 @@ final class CardTokenApiTestSuite: XCTestCase {
                 XCTFail("Invalid success due to invalid transaction Id")
             case .failure(let failure):
                 print(failure)
-                let error = failure as? any PaytrailError
-                XCTAssert(error?.code == 400, "Trade is already cancelled, cannot commit.")
+                XCTAssert(failure.code == 400, "Trade is already cancelled, cannot commit.")
             }
         }
     }
@@ -229,8 +225,7 @@ final class CardTokenApiTestSuite: XCTestCase {
             XCTFail("Invalid success due to invalid (paid) transaction Id")
         case .failure(let failure):
             print(failure)
-            let error = failure as? PaytrailPaymentError
-            XCTAssert(error?.code == 404, "Transaction not found")
+            XCTAssert(failure.code == 404, "Transaction not found")
         }
     }
     
@@ -254,15 +249,14 @@ final class CardTokenApiTestSuite: XCTestCase {
             XCTFail("Invalid merchant account given")
         case .failure(let failure):
             print(failure)
-            let error = failure as? PaytrailPaymentError
-            XCTAssert(error?.code == 401, "Missing required value checkout-account")
+            XCTAssert(failure.code == 401, "Missing required value checkout-account")
         }
     }
     
     
     // MARK: - Private funcs
     
-    private func getTokenAsync(_ tokenizedId: String, merchantId: String, secret: String) async -> Result<TokenizationRequestResponse, Error> {
+    private func getTokenAsync(_ tokenizedId: String, merchantId: String, secret: String) async -> Result<TokenizationRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.getToken(tokenizedId: tokenizedId, merchantId: merchantId, secret: secret) { result in
                 continuation.resume(returning: result)
@@ -270,7 +264,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         })
     }
     
-    private func createTokenPaymentAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody, transactionType: PaymentTransactionType, authorizationType: PaymentAuthorizationType) async -> Result<TokenPaymentRequestResponse, Error> {
+    private func createTokenPaymentAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody, transactionType: PaymentTransactionType, authorizationType: PaymentAuthorizationType) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.createTokenPayment(of: merchantId, secret: secret, payload: payload, transactionType: transactionType, authorizationType: authorizationType) { result in
                 continuation.resume(returning: result)
@@ -306,7 +300,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    private func commitAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String, payload: PaymentRequestBody) async -> Result<TokenPaymentRequestResponse, Error> {
+    private func commitAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String, payload: PaymentRequestBody) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.commitAuthorizationHold(of: merchantId, secret: secret, transactionId: transactionId, payload: payload) { result in
                 continuation.resume(returning: result)
@@ -314,7 +308,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         })
     }
     
-    private func revertAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String) async -> Result<TokenPaymentRequestResponse, Error> {
+    private func revertAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.revertAuthorizationHold(of: merchantId, secret: secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)
@@ -322,7 +316,7 @@ final class CardTokenApiTestSuite: XCTestCase {
         })
     }
     
-    private func payAndAddCardAync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PayAndAddCardRequestResponse, Error> {
+    private func payAndAddCardAync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PayAndAddCardRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
             PaytrailCardTokenAPIs.payAndAddCard(of: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)
