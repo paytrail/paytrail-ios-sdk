@@ -172,14 +172,18 @@ ForEach(savedCards, id: \.self) { card in
                 }
             case .failure(let failure):
                 // Handle failure here
-                if let failure = failure as? PaytrailTokenError,
-                   let threeDSecureUrl = failure.payload?.threeDSecureUrl,
-                   let url = URL(string: threeDSecureUrl) { // Handle 3DS soft decline
+                switch failure.category {
+                case .threeDsPaymentSoftDecline:
+                    // Get 3DS redirect URL
+                    if let threeDSecureUrl = (failure.payload as? TokenPaymentThreeDsReponse)?.threeDSecureUrl,
+                       let url = URL(string: threeDSecureUrl) {
                         let request = URLRequest(url: url)
                         DispatchQueue.main.async {
                             // Save 3DS URLRequest, trigger PaymentWebView
                             viewModel.threeDSecureRequest = request
-                        }
+                        }}
+                default:
+                    print(failure.description)
                 }
             }
         }
