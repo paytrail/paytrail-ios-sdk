@@ -107,7 +107,7 @@ struct PaymentWallView: View {
                                                     }
                                                 }
                                             case .failure(let failure):
-                                                switch failure.type {
+                                                switch failure.category {
                                                 case .threeDsPaymentSoftDecline:
                                                     if let threeDSecureUrl = (failure.payload as? TokenPaymentThreeDsReponse)?.threeDSecureUrl,
                                                        let url = URL(string: threeDSecureUrl) {

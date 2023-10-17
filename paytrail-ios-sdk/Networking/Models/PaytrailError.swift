@@ -10,32 +10,43 @@ import Foundation
 
 /// PaytrailError
 ///
-public class PayTrailError: Error {
-    public typealias T = Codable
-    public let type: PaytrialErrorType
+/// PayTrailError conforms Error protocol and is used in the SDK's error handlings.
+///
+public struct PayTrailError: Error {
+    
+    // Category of an error
+    public let category: PaytrialErrorCategory
+    
+    // Error code if any
     public let code: Int?
+    
+    // Error message if any
     public let message: String?
-    public let payload: T?
+    
+    // Error payload in Codable if any, which should be coming from an API's call's result; when given, client is responsible for handling such a payload
+    public let payload: Codable?
+    
+    // Description of the error
     public var description: String {
-        "PaytrailError - type: \(type.rawValue), code: \(String(describing: code)), message: \(message ?? "")"
+        "PaytrailError - category: \(category.rawValue), code: \(String(describing: code)), message: \(message ?? "")"
     }
     
-    public init(type: PaytrialErrorType, 
+    public init(type: PaytrialErrorCategory, 
                 code: Int?,
                 message: String?,
-                payload: T? = nil) {
-        self.type = type
+                payload: Codable? = nil) {
+        self.category = type
         self.code = code
         self.message = message
         self.payload = payload
     }
 }
 
-/// PaytrialErrorType
+/// PaytrialErrorCategory
 ///
-/// PaytrialErrorType enum in string
+/// PaytrialErrorCategory enum in string
 ///
-public enum PaytrialErrorType: String {
+public enum PaytrialErrorCategory: String {
     case invalidEndpint
     case invalidSignature
     case createPayment
