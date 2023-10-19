@@ -14,7 +14,6 @@ protocol NetworkService {
 extension NetworkService {
     func createUrlRequet<Request: DataRequest>(from request: Request) -> (URLRequest?, PayTrailError?) {
         guard var urlComponent = URLComponents(string: request.url) else {
-            //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
             let error = PayTrailError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }
@@ -30,7 +29,6 @@ extension NetworkService {
         urlComponent.queryItems = queryItems
         
         guard let url = urlComponent.url else {
-            //            let error = PaytrailGenericError(type: .invalidEndpint, code: 404)
             let error = PayTrailError(type: .invalidEndpint, code: nil, message: nil)
             return (nil, error)
         }

@@ -11,12 +11,7 @@ import Foundation
 final class TokenPaymentNetworkService: NetworkService {
     
     func request<Request: DataRequest>(_ request: Request, completion: @escaping (Result<Request.Response, PayTrailError>) -> Void) {
-    
-        //        guard let urlRequest = createUrlRequet(from: request).0 else {
-        //            let error = createUrlRequet(from: request).1 ?? PaytrailGenericError._default
-        //            return completion(.failure(error))
-        //        }
-        
+            
         guard let urlRequest = createUrlRequet(from: request).0 else {
             if let error = createUrlRequet(from: request).1 {
                 return completion(.failure(error))
