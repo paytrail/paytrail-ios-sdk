@@ -1,19 +1,19 @@
-# ``paytrail_ios_sdk Guide``
+# ``paytrail_ios_sdk``
 
 **Paytrail_ios_sdk** is a framework created to incapsulate the Paytrail web APIs for the iOS mobile development so that developers can easily integrate the Paytrail payment solutions without the need of creating the incapsulation of their own.
 
 ## What does the framework contain? 
 **Payment APIs**
-- *Create payment* => ``createPayment(of:secret:payload:completion:)``: create a normal payment transcation
-- *Get payment* => ``getPayment(of:secret:transactionId:completion:)``: retrieve an exisiting payment
-- *Get grouped payment providers* => ``getGroupedPaymentProviders(of:secret:amount:groups:language:completion:)``: retrieve a set of grouped payment providers without the need of creating a payment in the first place
+- *Create payment* => ``createPayment(merchantId:secret:payload:completion:)``: create a normal payment transcation
+- *Get payment* => ``getPayment(merchantId:secret:transactionId:completion:)``: retrieve an exisiting payment
+- *Get grouped payment providers* => ``getGroupedPaymentProviders(merchantId:secret:amount:groups:language:completion:)``: retrieve a set of grouped payment providers without the need of creating a payment in the first place
 
 **Token Payment APIs**
-- *Get token* => ``getToken(of:merchantId:secret:completion:)``: retrieve the token of a payment card to be saved and used in token payment
-- *Create token payment* => ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)``: create a token payment transaction by the retrieved card token
-- *Commit a token authorization hold* => ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)``: commit a onhold token authorization
-- *Revert an token authorization hold* => ``revertAuthorizationHold(of:secret:transactionId:completion:)``: revert an onhold token authorization
-- *Pay and add card =>* ``payAndAddCard(of:secret:payload:completion:)``: create a transaction and pay while adding the payment card at the same time
+- *Get token* => ``getToken(tokenizedId:merchantId:secret:completion:)``: retrieve the token of a payment card to be saved and used in token payment
+- *Create token payment* => ``createTokenPayment(merchantId:secret:payload:transactionType:authorizationType:completion:)``: create a token payment transaction by the retrieved card token
+- *Commit a token authorization hold* => ``commitAuthorizationHold(merchantId:secret:transactionId:payload:completion:)``: commit a onhold token authorization
+- *Revert an token authorization hold* => ``revertAuthorizationHold(merchantId:secret:transactionId:completion:)``: revert an onhold token authorization
+- *Pay and add card =>* ``payAndAddCard(merchantId:secret:payload:completion:)``: create a transaction and pay while adding the payment card at the same time
 
 **Payment Views and Components**
 - ``PaymentProvidersView``: a SwiftUI view component for showing the available ``PaymentMethodProvider`` by its representative icon, grouped by ``PaymentMethodGroup``. The view shows each provider in a grid which can be inserted into any SwiftUI view as a component. For the alternative counterpart for 'UIViewController', see ``loadPaymentProvidersUIView(with:providers:groups:delegate:)``
@@ -26,7 +26,7 @@
 
 **Required APIs and Views**  
 
-``createPayment(of:secret:payload:completion:)`` | ``initiatePaymentRequest(from:)`` | ``PaymentProvidersView`` | ``loadPaymentProvidersUIView(with:providers:groups:delegate:)`` | ``PaymentWebView`` | ``loadPaymentUIWebView(from:delegate:)``
+``createPayment(merchantId:secret:payload:completion:)`` | ``initiatePaymentRequest(from:)`` | ``PaymentProvidersView`` | ``loadPaymentProvidersUIView(with:providers:groups:delegate:)`` | ``PaymentWebView`` | ``loadPaymentUIWebView(from:delegate:)``
 
 **Required Data Models**  
 
@@ -84,7 +84,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 ### Card Tokenization, aka Add Card
 **Required APIs and Views**  
 
-``initiateCardTokenizationRequest(of:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(tokenizedId:merchantId:secret:completion:)`` | `` PaymentWebView``
+``initiateCardTokenizationRequest(merchantId:secret:redirectUrls:callbackUrls:language:) `` | ``getToken(tokenizedId:merchantId:secret:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 
@@ -140,7 +140,7 @@ func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
 
 **Required APIs and Views**  
 
- ``createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(of:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(of:secret:transactionId:completion:)`` | `` PaymentWebView``
+ ``createTokenPayment(merchantId:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(merchantId:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(merchantId:secret:transactionId:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 
@@ -267,7 +267,7 @@ Button {
 
 **Required APIs and Views**  
 
-``payAndAddCard(of:secret:payload:completion:)`` | `` PaymentWebView``
+``payAndAddCard(merchantId:secret:payload:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 

@@ -134,7 +134,7 @@
 		DC368A102A9E2CF600FB2D71 /* AppCheckboxStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368A0D2A9E2CF600FB2D71 /* AppCheckboxStyle.swift */; };
 		DC368A142A9F7D6400FB2D71 /* PaymentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368A112A9F7D6400FB2D71 /* PaymentsView.swift */; };
 		DC368A1C2AA2206100FB2D71 /* PaymentResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC368A192AA2206100FB2D71 /* PaymentResultView.swift */; };
-		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */; };
+		DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk_guide.docc in Sources */ = {isa = PBXBuildFile; fileRef = DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk_guide.docc */; };
 		DC501F282A1F5DEF004AD49D /* paytrail_ios_sdk.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */; };
 		DC501F2D2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */; };
 		DC501F2E2A1F5DEF004AD49D /* paytrail_ios_sdk.h in Headers */ = {isa = PBXBuildFile; fileRef = DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -260,7 +260,7 @@
 		DC368A192AA2206100FB2D71 /* PaymentResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentResultView.swift; sourceTree = "<group>"; };
 		DC501F1D2A1F5DEF004AD49D /* paytrail_ios_sdk.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = paytrail_ios_sdk.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = paytrail_ios_sdk.h; sourceTree = "<group>"; };
-		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk.docc; sourceTree = "<group>"; };
+		DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk_guide.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = paytrail_ios_sdk_guide.docc; sourceTree = "<group>"; };
 		DC501F272A1F5DEF004AD49D /* paytrail-ios-sdkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "paytrail-ios-sdkTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC501F2C2A1F5DEF004AD49D /* CreatePaymentApiTestSuite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePaymentApiTestSuite.swift; sourceTree = "<group>"; };
 		DC501F382A1FA2DF004AD49D /* NetworkMethods.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMethods.swift; sourceTree = "<group>"; };
@@ -506,7 +506,7 @@
 				DC501F372A1FA152004AD49D /* Networking */,
 				DC501F3E2A20AB54004AD49D /* PublicAPIs */,
 				DC501F202A1F5DEF004AD49D /* paytrail_ios_sdk.h */,
-				DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk.docc */,
+				DC501F212A1F5DEF004AD49D /* paytrail_ios_sdk_guide.docc */,
 			);
 			path = "paytrail-ios-sdk";
 			sourceTree = "<group>";
@@ -779,7 +779,7 @@
 				DC501FC62A263249004AD49D /* PaymentErrorResponse.swift in Sources */,
 				DC3689982A4ADA0000FB2D71 /* TokenPaymentRequestResponse.swift in Sources */,
 				DC501F9C2A24E01B004AD49D /* CreatePaymentAPI.swift in Sources */,
-				DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk.docc in Sources */,
+				DC501F222A1F5DEF004AD49D /* paytrail_ios_sdk_guide.docc in Sources */,
 				DC3689682A430A9700FB2D71 /* TokenizationRequestResponse.swift in Sources */,
 				DC36894E2A3C9C7800FB2D71 /* GetPaymentDataRequest.swift in Sources */,
 				DC3689A02A4C61B300FB2D71 /* NormalPaymentNetworkService.swift in Sources */,
