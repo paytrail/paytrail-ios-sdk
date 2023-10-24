@@ -53,7 +53,7 @@ final class GetPaymentApiTestSuite: XCTestCase {
     
     private func getPaymentAsync(_ transactionId: String) async -> Result<Payment, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailPaymentAPIs.getPayment(of: merchant.merchantId, secret: merchant.secret, transactionId: transactionId) { result in
+            PaytrailPaymentAPIs.getPayment(merchantId: merchant.merchantId, secret: merchant.secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)
             }
         })

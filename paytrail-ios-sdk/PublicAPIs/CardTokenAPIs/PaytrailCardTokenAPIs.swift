@@ -44,7 +44,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     ///   - callbackUrls: Callback Urls (optional) after add-card succeeded or failed
     ///   - language: The preferred language to load the add-card form, default EN
     /// - Returns: add-card-form URLRequest
-    public class func initiateCardTokenizationRequest(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func initiateCardTokenizationRequest(merchantId: String = PaytrailMerchant.shared.merchantId,
                                                       secret: String = PaytrailMerchant.shared.secret,
                                                 redirectUrls: CallbackUrls,
                                                 callbackUrls: CallbackUrls? = nil,
@@ -145,7 +145,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     ///   - transactionType: PaymentTransactionType, can be CIT or MIT
     ///   - authorizationType: PaymentAuthorizationType, can be 'authorizationHold' or 'charge'
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func createTokenPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func createTokenPayment(merchantId: String = PaytrailMerchant.shared.merchantId,
                             secret: String = PaytrailMerchant.shared.secret,
                             payload: PaymentRequestBody,
                             transactionType: PaymentTransactionType,
@@ -186,7 +186,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     ///   - transactionId: onhold transactionId
     ///   - payload: onhold payment payload which can be different than the original
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func commitAuthorizationHold(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func commitAuthorizationHold(merchantId: String = PaytrailMerchant.shared.merchantId,
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  payload: PaymentRequestBody,
@@ -224,7 +224,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: onhold transactionId
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func revertAuthorizationHold(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func revertAuthorizationHold(merchantId: String = PaytrailMerchant.shared.merchantId,
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  completion: @escaping (Result<TokenPaymentRequestResponse, PayTrailError>) -> Void) {
@@ -261,7 +261,7 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     ///   - secret: merchant secret
     ///   - payload: paylaod data, i.e. PaymentRequestBody
     ///   - completion: Result<PayAndAddCardRequestResponse, Error>) -> Void
-    public class func payAndAddCard(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func payAndAddCard(merchantId: String = PaytrailMerchant.shared.merchantId,
                        secret: String = PaytrailMerchant.shared.secret,
                        payload: PaymentRequestBody,
                        completion: @escaping (Result<PayAndAddCardRequestResponse, PayTrailError>) -> Void) {

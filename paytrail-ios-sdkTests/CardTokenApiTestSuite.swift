@@ -37,13 +37,13 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     /// Test initiateCardTokenizationRequest API sucess with a valid redirectUrls
     func testInitiateCardTokenizationRequestSuccess() {
-        let result = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://paytrail.com/success", cancel: "https://paytrail.com/cancel"))
+        let result = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(merchantId: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "https://paytrail.com/success", cancel: "https://paytrail.com/cancel"))
         XCTAssert(result != nil && result?.httpBody != nil)
     }
     
     /// Test initiateCardTokenizationRequest API failure with an invalid redirectUrls
     func testInitiateCardTokenizationRequestFailure() {
-        let result = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(of: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "paytrail.com/success", cancel: "paytrail.com/cancel"))
+        let result = PaytrailCardTokenAPIs.initiateCardTokenizationRequest(merchantId: merchant.merchantId, secret: merchant.secret, redirectUrls: CallbackUrls(success: "paytrail.com/success", cancel: "paytrail.com/cancel"))
         XCTAssert(result == nil, "Error, invalid redicrect urls")
     }
     
@@ -266,7 +266,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func createTokenPaymentAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody, transactionType: PaymentTransactionType, authorizationType: PaymentAuthorizationType) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.createTokenPayment(of: merchantId, secret: secret, payload: payload, transactionType: transactionType, authorizationType: authorizationType) { result in
+            PaytrailCardTokenAPIs.createTokenPayment(merchantId: merchantId, secret: secret, payload: payload, transactionType: transactionType, authorizationType: authorizationType) { result in
                 continuation.resume(returning: result)
             }
         })
@@ -302,7 +302,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func commitAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String, payload: PaymentRequestBody) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.commitAuthorizationHold(of: merchantId, secret: secret, transactionId: transactionId, payload: payload) { result in
+            PaytrailCardTokenAPIs.commitAuthorizationHold(merchantId: merchantId, secret: secret, transactionId: transactionId, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })
@@ -310,7 +310,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func revertAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.revertAuthorizationHold(of: merchantId, secret: secret, transactionId: transactionId) { result in
+            PaytrailCardTokenAPIs.revertAuthorizationHold(merchantId: merchantId, secret: secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)
             }
         })
@@ -318,7 +318,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func payAndAddCardAync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PayAndAddCardRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.payAndAddCard(of: merchantId, secret: secret, payload: payload) { result in
+            PaytrailCardTokenAPIs.payAndAddCard(merchantId: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })

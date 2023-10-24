@@ -15,7 +15,7 @@ public extension PaytrailPaymentAPIs {
     ///   - secret: merchant secret
     ///   - transactionId: transactionId, the id of the transaction
     ///   - completion: Result<Payment, Error>
-    class func getPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    class func getPayment(merchantId: String = PaytrailMerchant.shared.merchantId,
                           secret: String = PaytrailMerchant.shared.secret,
                           transactionId: String,
                           completion: @escaping (Result<Payment, PayTrailError>) -> Void) {

@@ -151,7 +151,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     
     private func createPaymentsAsync(_ merchantId: String, secret: String, payload: PaymentRequestBody) async -> Result<PaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailPaymentAPIs.createPayment(of: merchantId, secret: secret, payload: payload) { result in
+            PaytrailPaymentAPIs.createPayment(merchantId: merchantId, secret: secret, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })

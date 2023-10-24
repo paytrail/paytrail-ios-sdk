@@ -16,7 +16,7 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
     ///   - secret: merchant secret key, or aggregate merchant serect key in shop-in-shops
     ///   - payload: paylaod data,see PaymentRequestBody
     ///   - completion: Result<PaymentRequestResponse, Error>
-    public class func createPayment(of merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func createPayment(merchantId: String = PaytrailMerchant.shared.merchantId,
                                     secret: String = PaytrailMerchant.shared.secret,
                                     payload: PaymentRequestBody,
                                     completion: @escaping (Result<PaymentRequestResponse, PayTrailError>) -> Void) {
@@ -88,7 +88,7 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
     ///   - groups: PaymentType of providers to be returned
     ///   - language: Preferred language, default Language.en
     ///   - completion: Result<PaymentMethodGroupDataResponse, Error>
-    public class func getGroupedPaymentProviders(of merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, PayTrailError>) -> Void) {
+    public class func getGroupedPaymentProviders(merchantId: String, secret: String, amount: Int, groups: [PaymentType] = [], language: Language = .en, completion: @escaping (Result<PaymentMethodGroupDataResponse, PayTrailError>) -> Void) {
                 
         guard validateCredentials(merchantId: merchantId, secret: secret) else {
             return
