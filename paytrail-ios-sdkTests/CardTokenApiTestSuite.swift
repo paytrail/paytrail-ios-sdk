@@ -191,8 +191,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    /// Test revertAuthorizationHold success case when an unpaid on-hold transaction is reverted
-    func testRevertAuthorizationHoldSuccess() async {
+    /// Test tokenRevert success case when an unpaid on-hold transaction is reverted
+    func testTokenRevertSuccess() async {
         
         let tokenResult = await getTokenAsync(tokenizedId, merchantId: merchant.merchantId, secret: merchant.secret)
         
@@ -215,8 +215,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    /// Test revertAuthorizationHold failure case when the transaction has already been committed/paid
-    func testRevertAuthorizationHoldFailure() async {
+    /// Test tokenRevert failure case when the transaction has already been committed/paid
+    func testTokenRevertFailure() async {
         let result = await revertAuthorizationHoldAsync(merchant.merchantId, secret: merchant.secret, transactionId: committedTransactionId)
         switch result {
         case .success(let success):
@@ -310,7 +310,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func revertAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.revertAuthorizationHold(merchantId: merchantId, secret: secret, transactionId: transactionId) { result in
+            PaytrailCardTokenAPIs.tokenRevert(merchantId: merchantId, secret: secret, transactionId: transactionId) { result in
                 continuation.resume(returning: result)
             }
         })

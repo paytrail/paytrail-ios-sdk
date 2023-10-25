@@ -182,8 +182,8 @@ struct AddCardView: View {
                     Button {
                         guard let transacationOnHold = viewModel.transcationOnHold else { return }
                         
-                        // Client initiating revertAuthorizationHold API
-                        PaytrailCardTokenAPIs.revertAuthorizationHold(transactionId: transacationOnHold.transcationId) { result in
+                        // Client initiating tokenRevert API
+                        PaytrailCardTokenAPIs.tokenRevert(transactionId: transacationOnHold.transcationId) { result in
                             switch result {
                             case .success(let success):
                                 DispatchQueue.main.async {

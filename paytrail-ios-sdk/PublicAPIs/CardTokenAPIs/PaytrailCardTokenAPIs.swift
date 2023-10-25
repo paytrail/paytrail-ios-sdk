@@ -218,13 +218,13 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     }
     
     
-    /// revertAuthorizationHold API for reverting an onhold transaction
+    /// tokenRevert API for reverting an onhold transaction
     /// - Parameters:
     ///   - merchantId: merchantId, i.e. acount
     ///   - secret: merchant secret
     ///   - transactionId: onhold transactionId
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func revertAuthorizationHold(merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func tokenRevert(merchantId: String = PaytrailMerchant.shared.merchantId,
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  completion: @escaping (Result<TokenPaymentRequestResponse, PayTrailError>) -> Void) {
