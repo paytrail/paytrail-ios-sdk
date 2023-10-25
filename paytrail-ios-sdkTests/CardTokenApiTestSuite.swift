@@ -150,8 +150,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    /// Test commitAuthorizationHold succcess case when an unpaid on-hold transaction is committed
-    func testCommitAuthorizationHoldSuccess() async {
+    /// Test tokenCommit succcess case when an unpaid on-hold transaction is committed
+    func testTokenCommitSuccess() async {
         let tokenResult = await getTokenAsync(tokenizedId, merchantId: merchant.merchantId, secret: merchant.secret)
         
         if case .success(let success) = tokenResult {
@@ -173,8 +173,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     }
     
     
-    /// Test commitAuthorizationHold failure case with a revertedTransactionId
-    func testCommitAuthorizationHoldFailure() async {
+    /// Test tokenCommit failure case with a revertedTransactionId
+    func testTokenCommitFailure() async {
         let tokenResult = await getTokenAsync(tokenizedId, merchantId: merchant.merchantId, secret: merchant.secret)
         if case .success(let success) = tokenResult {
             let payload = createPaymentPayload(with: success.token)
@@ -302,7 +302,7 @@ final class CardTokenApiTestSuite: XCTestCase {
     
     private func commitAuthorizationHoldAsync(_ merchantId: String, secret: String, transactionId: String, payload: PaymentRequestBody) async -> Result<TokenPaymentRequestResponse, PayTrailError> {
         await withCheckedContinuation({ continuation in
-            PaytrailCardTokenAPIs.commitAuthorizationHold(merchantId: merchantId, secret: secret, transactionId: transactionId, payload: payload) { result in
+            PaytrailCardTokenAPIs.tokenCommit(merchantId: merchantId, secret: secret, transactionId: transactionId, payload: payload) { result in
                 continuation.resume(returning: result)
             }
         })

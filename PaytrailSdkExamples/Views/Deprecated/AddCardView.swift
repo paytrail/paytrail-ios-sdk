@@ -143,8 +143,8 @@ struct AddCardView: View {
                             
                             guard let transacationOnHold = viewModel.transcationOnHold else { return }
                             
-                            // Client initiating commitAuthorizationHold API
-                            PaytrailCardTokenAPIs.commitAuthorizationHold(transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+                            // Client initiating tokenCommit API
+                            PaytrailCardTokenAPIs.tokenCommit(transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
                                 switch result {
                                 case .success(let success):
                                     DispatchQueue.main.async {

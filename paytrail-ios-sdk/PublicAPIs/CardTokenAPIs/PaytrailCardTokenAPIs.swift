@@ -179,14 +179,14 @@ public class PaytrailCardTokenAPIs: PaytrailBaseAPIs {
     }
     
     
-    /// commitAuthorizationHold API for commit any authorization-hold transaction
+    /// tokenCommit API for commit any authorization-hold transaction
     /// - Parameters:
     ///   - merchantId: merchantId, i.e. account
     ///   - secret: merchant secret
     ///   - transactionId: onhold transactionId
     ///   - payload: onhold payment payload which can be different than the original
     ///   - completion: Result<TokenPaymentRequestResponse, Error>
-    public class func commitAuthorizationHold(merchantId: String = PaytrailMerchant.shared.merchantId,
+    public class func tokenCommit(merchantId: String = PaytrailMerchant.shared.merchantId,
                                  secret: String = PaytrailMerchant.shared.secret,
                                  transactionId: String,
                                  payload: PaymentRequestBody,
