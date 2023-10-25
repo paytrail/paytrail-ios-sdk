@@ -11,7 +11,7 @@
 **Token Payment APIs**
 - *Get token* => ``getToken(tokenizedId:merchantId:secret:completion:)``: retrieve the token of a payment card to be saved and used in token payment
 - *Create token payment* => ``createTokenPayment(merchantId:secret:payload:transactionType:authorizationType:completion:)``: create a token payment transaction by the retrieved card token
-- *Commit a token authorization hold* => ``commitAuthorizationHold(merchantId:secret:transactionId:payload:completion:)``: commit a onhold token authorization
+- *Commit a token authorization hold* => ``tokenCommit(merchantId:secret:transactionId:payload:completion:)``: commit a onhold token authorization
 - *Revert an token authorization hold* => ``revertAuthorizationHold(merchantId:secret:transactionId:completion:)``: revert an onhold token authorization
 - *Pay and add card =>* ``payAndAddCard(merchantId:secret:payload:completion:)``: create a transaction and pay while adding the payment card at the same time
 
@@ -140,7 +140,7 @@ func onCardTokenizedIdReceived(_ tokenizationResult: TokenizationResult) {
 
 **Required APIs and Views**  
 
- ``createTokenPayment(merchantId:secret:payload:transactionType:authorizationType:completion:)`` | ``commitAuthorizationHold(merchantId:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(merchantId:secret:transactionId:completion:)`` | `` PaymentWebView``
+ ``createTokenPayment(merchantId:secret:payload:transactionType:authorizationType:completion:)`` | ``tokenCommit(merchantId:secret:transactionId:payload:completion:)`` | ``revertAuthorizationHold(merchantId:secret:transactionId:completion:)`` | `` PaymentWebView``
 
 **Required Data Models**  
 
@@ -231,7 +231,7 @@ func onPaymentStatusChanged(_ paymentResult: PaymentResult) {
 // Button view to commit an onhold transaction/payment
 Button {
     guard let transacationOnHold = viewModel.transcationOnHold else { return }
-    PaytrailCardTokenAPIs.commitAuthorizationHold(transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
+    PaytrailCardTokenAPIs.tokenCommit(transactionId: transacationOnHold.transcationId, payload: transacationOnHold.payload) { result in
         switch result {
         case .success(let success):
             // Handle commit-on-hold success
