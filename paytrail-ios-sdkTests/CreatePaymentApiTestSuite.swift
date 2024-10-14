@@ -29,20 +29,20 @@ final class CreatePaymentApiTestSuite: XCTestCase {
         //        merchantSIS = PaytrailMerchant(merchantId: "695861", secret: "MONISAIPPUAKAUPPIAS")
         payload = PaymentRequestBody(stamp: UUID().uuidString,
                                      reference: "3759170",
-                                     amount: 1525,
+                                     amount: 3050,
                                      currency: .eur,
                                      language: .fi,
-                                     items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", stamp: "2018-09-12")],
+                                     items: [Item(unitPrice: 1525, units: 1, vatPercentage: 14, productCode: "#1234", stamp: UUID().uuidString),Item(unitPrice: 1525, units: 1, vatPercentage: 25.5, productCode: "#1234", stamp: UUID().uuidString)],
                                      customer: Customer(email: "test.customer@example.com"),
                                      redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                      callbackUrls: nil)
         
         payloadSIS = PaymentRequestBody(stamp: UUID().uuidString,
                                         reference: "3759170",
-                                        amount: 1525,
+                                        amount: 3050,
                                         currency: .eur,
                                         language: .fi,
-                                        items: [Item(unitPrice: 1525, units: 1, vatPercentage: 24, productCode: "#1234", merchant: "695874", stamp: UUID().uuidString, reference: "3759170")],
+                                        items: [Item(unitPrice: 1525, units: 1, vatPercentage: 14, productCode: "#1234", merchant: "695874", stamp: UUID().uuidString, reference: "1234"),Item(unitPrice: 1525, units: 1, vatPercentage: 25.5, productCode: "#1234", merchant: "695874", stamp: UUID().uuidString, reference: "1234")],
                                         customer: Customer(email: "test.customer@example.com"),
                                         redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                         callbackUrls: nil)
