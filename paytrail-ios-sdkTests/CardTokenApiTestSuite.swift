@@ -22,8 +22,8 @@ final class CardTokenApiTestSuite: XCTestCase {
     override func setUpWithError() throws {
         PaytrailMerchant.create(merchantId: "375917", secret: "SAIPPUAKAUPPIAS")
         merchant = PaytrailMerchant.shared
-        tokenizedId = "96f32ab1-8c1f-42f1-9c11-cce40cb648ac"
-        tokenizedIdThreeDS = "17b8c4a0-9a2d-4bdd-8eb3-f2deacb96292"
+        tokenizedId = "9181d033-84f8-4962-beb5-91bbf92cf863"
+        tokenizedIdThreeDS = "65a3a59e-439a-4ac5-a1b1-c07c3776426d"
         transactionType = .cit
         authorizationType = .charge
         committedTransactionId = "526b728c-1a66-11ee-bdc7-f3592b2cbca7"

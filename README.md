@@ -47,7 +47,7 @@ minimumVersion = "1.0.0-beta1"
 
 ## Get Started
 
-Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``: 
+Before getting started with the SDK's APIs, a shared ``PaytrailMerchant`` should be created in the beginning when app launches in the, for example, ``AppDelegate``:
 
 ```
 class AppDelegate: NSObject, UIApplicationDelegate {
@@ -60,7 +60,7 @@ class AppDelegate: NSObject, UIApplicationDelegate {
 }
 ```
 
-Or in the *main app* in a SwiftUI app before any API is called: 
+Or in the *main app* in a SwiftUI app before any API is called:
 ```
 @main
 struct PaytrailSdkExamplesApp: App {
@@ -70,7 +70,7 @@ struct PaytrailSdkExamplesApp: App {
                 .preferredColorScheme(.light)
                 .onAppear {
                     PaytrailMerchant.create(merchantId: "YOUR_MERCHANT_ID", secret: "YOUR_MERCHANT_SECRET")
-                    TLogger.globalLevel = .debug // Enable SDK debug logging
+                    PTLogger.globalLevel = .debug // Enable SDK debug logging
                 }
         }
     }

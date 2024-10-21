@@ -9,7 +9,7 @@ import Foundation
 
 /// PaymentRequestBody
 ///
-/// PaymentRequestBody data model for APIs 'createPayment(of:secret:payload:completion:)' and 'createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)'. The latter API requires a car token.
+/// PaymentRequestBody data model for APIs 'createPayment(of:secret:payload:completion:)' and 'createTokenPayment(of:secret:payload:transactionType:authorizationType:completion:)'. The latter API requires a card token.
 ///
 public struct PaymentRequestBody : Codable {
     
@@ -147,8 +147,8 @@ public struct Item: Codable, Equatable {
     /// Quantity, how many items ordered. Negative values are not supported.
     public let units: Int
     
-    /// VAT percentage
-    public let vatPercentage: Int
+    /// VAT percentage. Values between 0 and 100 are allowed with one decimal place.
+    public let vatPercentage: Decimal
     
     /// Merchant product code. May appear on invoices of certain payment methods. Maximum of 100 characters
     public let productCode: String
@@ -177,7 +177,7 @@ public struct Item: Codable, Equatable {
     /// Shop-in-Shop commission. Do not use for normal payments.
     public let commission: Commission?
     
-    public init(unitPrice: Int, units: Int, vatPercentage: Int, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
+    public init(unitPrice: Int, units: Int, vatPercentage: Decimal, productCode: String, deliveryDate: String? = nil, description: String? = nil, category: String? = nil, merchant: String? = nil, stamp: String? = nil, reference: String? = nil, orderId: String? = nil, commission: Commission? = nil) {
         self.unitPrice = unitPrice
         self.units = units
         self.vatPercentage = vatPercentage
