@@ -71,7 +71,7 @@ public class PaytrailPaymentAPIs: PaytrailBaseAPIs {
         var request = URLRequest(url: url)
         request.httpMethod = HTTPMethod.post.rawValue
         request.allHTTPHeaderFields = ["content-type": "application/x-www-form-urlencoded"]
-        guard let body = urlComponent.query?.data(using: .utf8), !body.isEmpty else {
+        guard let body = urlComponent.percentEncodedQuery?.data(using: .utf8), !body.isEmpty else {
             PTLogger.log(message: "Failed initiate payment request, reason: empty request body.", level: .error)
             return nil
         }
