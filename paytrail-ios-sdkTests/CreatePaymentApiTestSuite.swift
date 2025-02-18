@@ -14,6 +14,7 @@ final class CreatePaymentApiTestSuite: XCTestCase {
 //    var merchantSIS: PaytrailMerchant! // Shop-in-shops merchant
     var payload: PaymentRequestBody!
     var payloadInvalid: PaymentRequestBody!
+    var payloadNoItems: PaymentRequestBody!
     var payloadSIS: PaymentRequestBody!
     var providerImageUrl: String!
     var providerImageUrlInvalid: String!
@@ -33,6 +34,15 @@ final class CreatePaymentApiTestSuite: XCTestCase {
                                      currency: .eur,
                                      language: .fi,
                                      items: [Item(unitPrice: 1525, units: 1, vatPercentage: 14, productCode: "#1234", stamp: UUID().uuidString),Item(unitPrice: 1525, units: 1, vatPercentage: 25.5, productCode: "#1234", stamp: UUID().uuidString)],
+                                     customer: Customer(email: "test.customer@example.com"),
+                                     redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
+                                     callbackUrls: nil)
+        
+        payloadNoItems = PaymentRequestBody(stamp: UUID().uuidString,
+                                     reference: "3759170",
+                                     amount: 3050,
+                                     currency: .eur,
+                                     language: .fi,
                                      customer: Customer(email: "test.customer@example.com"),
                                      redirectUrls: CallbackUrls(success: "google.com", cancel: "google.com"),
                                      callbackUrls: nil)
@@ -79,6 +89,17 @@ final class CreatePaymentApiTestSuite: XCTestCase {
     /// Test Success 200 - Payment create success with normal merchant credentials
     func testCreatePaymentSuccess() async {
         let result = await createPaymentsAsync(merchant.merchantId, secret: merchant.secret, payload: payload)
+        switch result {
+        case .success(let success):
+            XCTAssert(success.transactionId != nil && success.providers != nil)
+        case .failure(let failure):
+            XCTFail("Create payment failed: \(failure.localizedDescription)")
+        }
+    }
+    
+    /// Test Success 200 - Payment create success with normal merchant credentials without items
+    func testCreateNoItemsPaymentSuccess() async {
+        let result = await createPaymentsAsync(merchant.merchantId, secret: merchant.secret, payload: payloadNoItems)
         switch result {
         case .success(let success):
             XCTAssert(success.transactionId != nil && success.providers != nil)
