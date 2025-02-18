@@ -29,7 +29,7 @@ public struct PaymentRequestBody : Codable {
     public let language : Language
     
     /// Array of items. Always required for Shop-in-Shop payments. Required if VAT calculations are wanted in settlement reports.
-    public let items : [Item]
+    public let items : [Item]?
     
     /// Customer information, see Customer
     public let customer : Customer
@@ -69,7 +69,7 @@ public struct PaymentRequestBody : Codable {
          amount: Int,
          currency: Currency,
          language: Language,
-         items: [Item],
+         items: [Item]? = nil,
          customer: Customer,
          redirectUrls: CallbackUrls,
          callbackUrls: CallbackUrls? = nil,
